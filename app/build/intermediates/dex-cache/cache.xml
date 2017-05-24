@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/zoron/AndroidStudioProjects/Carbom/app/libs/jxl.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7faf62e0697f7a88954622dfe8c8de33ed142ac7">
+        <dex dex="/home/zoron/AndroidStudioProjects/Carbom/app/build/intermediates/pre-dexed/debug/jxl_63b2e9754081b210306c8d16b5d10b0e21d2320e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/zoron/AndroidStudioProjects/Carbom/app/libs/uhf.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ad377c72c9e4d6a81e1ed62fe2e510a7888f152c">
+        <dex dex="/home/zoron/AndroidStudioProjects/Carbom/app/build/intermediates/pre-dexed/debug/uhf_9b48a9e9cca6fdde14a8d93f66230aa6480a1878.jar" />
+    </item>
+
+</items>
