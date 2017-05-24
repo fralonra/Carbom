@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MyToolButton.qml</file>
+        <file>ToolBarSeparator.qml</file>
+        <file>image/close.png</file>
+        <file>image/find.png</file>
+        <file>image/first.png</file>
+        <file>image/last.png</file>
+        <file>image/next.png</file>
+        <file>image/open.png</file>
+        <file>image/prev.png</file>
+        <file>image/quit.png</file>
+        <file>DataArea.qml</file>
+        <file>DataSheet.qml</file>
+        <file>EntryText.qml</file>
+        <file>EntryDate.qml</file>
+        <file>DialogDate.qml</file>
+        <file>image/reset.png</file>
+        <file>image/outbound.png</file>
+        <file>image/inbound.png</file>
+        <file>EditSheet.qml</file>
+        <file>DialogEdit.qml</file>
+        <file>image/save.png</file>
+        <file>image/return.png</file>
+        <file>image/loan.png</file>
+        <file>DialogLoan.qml</file>
+        <file>DialogReturn.qml</file>
+    </qresource>
+</RCC>
