@@ -4,59 +4,77 @@
 <context>
     <name>DataArea</name>
     <message>
-        <location filename="../DataArea.qml" line="19"/>
+        <location filename="../DataArea.qml" line="45"/>
         <source>EPC</source>
         <translation type="unfinished">设备编号</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="32"/>
+        <location filename="../DataArea.qml" line="60"/>
         <source>Type</source>
         <translation type="unfinished">样机型号</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="38"/>
+        <location filename="../DataArea.qml" line="68"/>
         <source>Name</source>
         <translation type="unfinished">产品名称</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="44"/>
+        <location filename="../DataArea.qml" line="76"/>
         <source>Stage</source>
         <translation type="unfinished">样机阶段</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="50"/>
+        <location filename="../DataArea.qml" line="84"/>
         <source>Status</source>
         <translation type="unfinished">样机状态</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="56"/>
+        <location filename="../DataArea.qml" line="92"/>
         <source>Time</source>
         <translation type="unfinished">入库时间</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="62"/>
+        <location filename="../DataArea.qml" line="100"/>
         <source>Location</source>
         <translation type="unfinished">存放位置</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="68"/>
+        <location filename="../DataArea.qml" line="108"/>
         <source>Keeper</source>
         <translation type="unfinished">当前保管人</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="81"/>
+        <location filename="../DataArea.qml" line="123"/>
         <source>Loan Date</source>
         <translation type="unfinished">借用日期</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="87"/>
+        <location filename="../DataArea.qml" line="131"/>
         <source>Return Date</source>
         <translation type="unfinished">预计归还日期</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="93"/>
+        <location filename="../DataArea.qml" line="139"/>
         <source>Note</source>
         <translation type="unfinished">备注</translation>
+    </message>
+    <message>
+        <location filename="../DataArea.qml" line="151"/>
+        <source>Modify</source>
+        <translation type="unfinished">修改</translation>
+    </message>
+    <message>
+        <location filename="../DataArea.qml" line="173"/>
+        <source>Reset</source>
+        <translation type="unfinished">重置</translation>
+    </message>
+</context>
+<context>
+    <name>DataSheet</name>
+    <message>
+        <location filename="../DataSheet.qml" line="26"/>
+        <source>null</source>
+        <translation type="unfinished">空值</translation>
     </message>
 </context>
 <context>
@@ -140,22 +158,22 @@
         <translation type="unfinished">全选</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="75"/>
+        <location filename="../DialogLoan.qml" line="74"/>
         <source>Keeper</source>
         <translation type="unfinished">当前保管人</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="79"/>
+        <location filename="../DialogLoan.qml" line="78"/>
         <source>Loan Date</source>
         <translation type="unfinished">借用日期</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="83"/>
+        <location filename="../DialogLoan.qml" line="82"/>
         <source>Return Date</source>
         <translation type="unfinished">预计归还日期</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="87"/>
+        <location filename="../DialogLoan.qml" line="86"/>
         <source>Note</source>
         <translation type="unfinished">备注</translation>
     </message>
@@ -366,17 +384,17 @@
         <translation type="unfinished">预计归还日期</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="428"/>
+        <location filename="../main.qml" line="429"/>
         <source>Total: </source>
         <translation type="unfinished">合计</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="429"/>
+        <location filename="../main.qml" line="430"/>
         <source>		Current: </source>
         <translation type="unfinished">条记录		当前第</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="429"/>
+        <location filename="../main.qml" line="430"/>
         <source>note</source>
         <translation type="unfinished">条</translation>
     </message>

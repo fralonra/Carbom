@@ -17,47 +17,57 @@ Dialog {
         CheckBox {
             id: allselect
             text: qsTr("Select All")
+            onCheckedChanged: list.allselectMode = checked
         }
-        ListView {
-            id: list
-            Layout.fillHeight: true
-            width: 250
-            model: source
-            focus: true
-            delegate: Rectangle {
-                property bool selected: checkbox.checked
+        RowLayout {
+            anchors.top: allselect.bottom + 10
+            anchors.left: parent.left
+            anchors.right: parent.right
+            spacing: 10
+            ListView {
+                property bool allselectMode: false
+
+                id: list
+                Layout.fillHeight: true
                 width: 250
-                height: 20
-                color: ListView.isCurrentItem ? "transparent" : "white"
-                RowLayout {
-                    CheckBox {
-                        id: checkbox
-                        checked: allselect.checked
-                        onCheckedChanged: {
-                            if (checked)
-                                selection.push(index)
-                            else {
-                                var list = new Array
-                                for (var i = 0; i < selection.length; ++i) {
-                                    if (selection[i] !== index)
-                                        list.push(selection[i])
-                                    selection = list
+                model: source
+                focus: true
+                delegate: Rectangle {
+                    width: 250
+                    height: 20
+                    color: ListView.isCurrentItem ? "transparent" : "white"
+                    RowLayout {
+                        CheckBox {
+                            property bool allselectMode: list.allselectMode
+                            id: checkbox
+                            checked: allselect.checked
+                            onCheckedChanged: {
+                                if (checked)
+                                    selection.push(index)
+                                else {
+                                    var l = new Array
+                                    for (var i = 0; i < selection.length; ++i) {
+                                        if (selection[i] !== index)
+                                            l.push(selection[i])
+                                        selection = l
+                                    }
                                 }
+                            }
+                            onAllselectModeChanged: checked = allselect.checked
+                        }
+                        Text {
+                            text: modelData
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: list.currentIndex = index
                             }
                         }
                     }
-                    Text {
-                        text: modelData
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: list.currentIndex = index
-                        }
-                    }
                 }
-            }
-            highlight: Rectangle {
-                color: "lightsteelblue"
-                radius: 2
+                highlight: Rectangle {
+                    color: "lightsteelblue"
+                    radius: 2
+                }
             }
         }
     }

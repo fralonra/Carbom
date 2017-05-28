@@ -18,6 +18,7 @@ Dialog {
         CheckBox {
             id: allselect
             text: qsTr("Select All")
+            onCheckedChanged: list.allselectMode = checked
         }
         RowLayout {
             anchors.top: allselect.bottom + 10
@@ -25,33 +26,35 @@ Dialog {
             anchors.right: parent.right
             spacing: 10
             ListView {
+                property bool allselectMode: false
+
                 id: list
                 Layout.fillHeight: true
                 width: 250
                 model: source
                 focus: true
                 delegate: Rectangle {
-                    //property bool selected: checkbox.checked
                     width: 250
                     height: 20
                     color: ListView.isCurrentItem ? "transparent" : "white"
                     RowLayout {
                         CheckBox {
-                            //id: checkbox
-                            //checked: allselect.checked
+                            property bool allselectMode: list.allselectMode
+                            id: checkbox
+                            checked: allselect.checked
                             onCheckedChanged: {
                                 if (checked)
                                     selection.push(index)
                                 else {
-                                    var list = new Array
+                                    var l = new Array
                                     for (var i = 0; i < selection.length; ++i) {
                                         if (selection[i] !== index)
-                                            list.push(selection[i])
-                                        selection = list
+                                            l.push(selection[i])
+                                        selection = l
                                     }
                                 }
                             }
-                            checked: allselect.checked
+                            onAllselectModeChanged: checked = allselect.checked
                         }
                         Text {
                             text: modelData
@@ -93,7 +96,9 @@ Dialog {
     onAccepted: {
         if (keeper.text != "")
             entry = entry + "KEEPER:" + keeper.text + "&"
-        if (loanDate.text != "")
+        if (loanDate.text == "")
+            entry = entry + "LOAN_DATE:" + Qt.formatDate(new Date(), "yyyy-MM-dd") + "&"
+        else if (loanDate.text != "")
             entry = entry + "LOAN_DATE:" + loanDate.text + "&"
         if (returnDate.text != "")
             entry = entry + "RETURN_DATE:" + returnDate.text + "&"

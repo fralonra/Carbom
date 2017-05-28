@@ -64,10 +64,25 @@ void Data::setReturnList(const QStringList &arg)
 
 void Data::setTable(const QList<Entry> &arg) {
     m_table = arg;
-    if (modified)
-        m_allTable = m_table;
+    if (modified) {
+        if (allShown)
+            m_allTable = m_table;
+        /*else { // not all data showed
+            for (Entry entry : m_table) {
+                QString epc = entry.epc();
+                for (Entry e : m_allTable) {
+                    int i = m_allTable.indexOf(e);
+                    if (e.epc() == epc) {
+                        e = entry;
+                        m_allTable.replace(i, e);
+                        break;
+                    } else if (e == m_allTable.last()) // add entry
+                        m_allTable.append(entry);
+                }
+            }
+        }*/
+    }
     emit tableChanged();
-    //setModel(DataModel(m_table));
     m_list.clear();
     for (Entry entry : m_table)
         m_list.append(entry.epc());
@@ -79,12 +94,6 @@ void Data::setTable(const QList<Entry> &arg) {
     }
     setReturnList(m_returnList);
 }
-
-/*void Data::setModel(const DataModel &arg)
-{
-    m_model = arg;
-    emit modelChanged();
-}*/
 
 void Data::setText(const QString &arg) {
     QString temp(arg);
@@ -109,8 +118,8 @@ void Data::setPosition(const int &arg) {
         setType(entry.value(Entry::Type));
         setName(entry.value(Entry::Name));
         setStage(entry.value(Entry::Stage));
-        setStatus(entry.value(Entry::Time));
-        setTime(entry.value(Entry::Status));
+        setStatus(entry.value(Entry::Status));
+        setTime(entry.value(Entry::Time));
         setLocation(entry.value(Entry::Location));
         setKeeper(entry.value(Entry::Keeper));
         setNote(entry.value(Entry::Note));
@@ -240,6 +249,7 @@ void Data::find(const QString &arg) {
         }
         if (!m_result.isEmpty()) {
             setTable(m_result);
+            allShown = false;
         }
     }
 }
@@ -250,6 +260,7 @@ void Data::reset() {
         setList(m_allList);
         setData(m_allData);
         setTable(m_allTable);
+        allShown = true;
     }
 }
 
@@ -257,6 +268,8 @@ void Data::add(const QString &arg)
 {
     Entry entry(arg);
     m_table.append(entry);
+    if (!allShown)
+        m_allTable.append(entry);
     modified = true;
     setTable(m_table);
 }
@@ -264,8 +277,19 @@ void Data::add(const QString &arg)
 void Data::remove(const int index)
 {
     for (Entry entry : m_table) {
-        if (m_table.indexOf(entry) == index)
+        if (m_table.indexOf(entry) == index) {
             m_table.removeOne(entry);
+            if (!allShown) {
+                QString epc = entry.epc();
+                for (Entry e : m_allTable) {
+                    if (e.epc() == epc) {
+                        m_allTable.removeOne(e);
+                        break;
+                    }
+                }
+            }
+            break;
+        }
     }
     modified = true;
     setTable(m_table);
@@ -274,8 +298,26 @@ void Data::remove(const int index)
 void Data::remove(const QString &epc)
 {
     for (Entry entry : m_table) {
-        if (entry.epc() == epc)
+        if (entry.epc() == epc) {
             m_table.removeOne(entry);
+            if (!allShown)
+                m_allTable.removeOne(entry);
+            break;
+        }
+    }
+    modified = true;
+    setTable(m_table);
+}
+
+void Data::modify(const QString &epc, const QString &data)
+{
+    for (Entry entry : m_table) {
+        if (entry.epc() == epc) {
+            int i = m_table.indexOf(entry);
+            entry.modify(data);
+            m_table.replace(i, entry);
+            break;
+        }
     }
     modified = true;
     setTable(m_table);
@@ -284,16 +326,21 @@ void Data::remove(const QString &epc)
 void Data::loan(const QList<int> &list, const QString &data)
 {
     for (int i : list) {
+        if (i >= m_table.size())
+            break;
         Entry entry = m_table.at(i);
         entry.modify(data);
         m_table.replace(i, entry);
     }
+    modified = true;
     setTable(m_table);
 }
 
 void Data::returnBack(const QList<int> &list)
 {
     for (int index : list) {
+        if (index >= m_returnList.size())
+            break;
         QString epc = m_returnList.at(index);
         for (int i = 0; i < m_table.size(); ++i) {
             Entry entry = m_table.at(i);
@@ -304,6 +351,7 @@ void Data::returnBack(const QList<int> &list)
             }
         }
     }
+    modified = true;
     setTable(m_table);
 }
 

@@ -261,7 +261,7 @@ ApplicationWindow {
                 width: 30
                 horizontalAlignment: Text.AlignHCenter
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -273,7 +273,7 @@ ApplicationWindow {
                 title: qsTr("EPC")
                 width: 200
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -285,7 +285,7 @@ ApplicationWindow {
                 title: qsTr("Type")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -297,7 +297,7 @@ ApplicationWindow {
                 title: qsTr("Name")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -309,7 +309,7 @@ ApplicationWindow {
                 title: qsTr("Stage")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -321,7 +321,7 @@ ApplicationWindow {
                 title: qsTr("Status")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -333,7 +333,7 @@ ApplicationWindow {
                 title: qsTr("Time")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -345,7 +345,7 @@ ApplicationWindow {
                 title: qsTr("Location")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -357,7 +357,7 @@ ApplicationWindow {
                 title: qsTr("Keeper")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -369,7 +369,7 @@ ApplicationWindow {
                 title: qsTr("Note")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -381,7 +381,7 @@ ApplicationWindow {
                 title: qsTr("Loan Date")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -393,7 +393,7 @@ ApplicationWindow {
                 title: qsTr("Return Date")
                 width: 100
                 delegate: Rectangle {
-                    color: styleData.row - 1=== table.currentRow ? "lightsteelblue" : "transparent"
+                    color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {
                         text: styleData.value
                         color: "black"
@@ -417,6 +417,7 @@ ApplicationWindow {
             note: database.note
             loanDate: database.loanDate
             returnDate: database.returnDate
+            onModified: database.modify(epc, entry)
         }
     }
 
