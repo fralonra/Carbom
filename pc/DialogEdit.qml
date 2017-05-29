@@ -57,6 +57,7 @@ Dialog {
         }
     }
     onAccepted: {
+        entry = ""
         if (epc.text != "")
             entry = entry + "EPC:" + epc.text + "&"
         if (type.text != "")

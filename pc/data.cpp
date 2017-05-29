@@ -14,7 +14,6 @@ void Data::setFile(const QString &arg) {
         if (file.open(QIODevice::ReadOnly)) {
             QString data(file.readAll());
             setTitle(QFileInfo(file).fileName());
-            //setText(data);
 
             m_allData.clear();
             m_allList.clear();
@@ -34,7 +33,7 @@ void Data::setFile(const QString &arg) {
             setTable(m_table);
             setData(m_allData);
             setList(m_allList);
-            setCount(m_allList.length());
+            //setCount(m_allList.length());
 
             watcher.addPath(m_file);
         }
@@ -95,16 +94,8 @@ void Data::setTable(const QList<Entry> &arg) {
     setReturnList(m_returnList);
 }
 
-void Data::setText(const QString &arg) {
-    QString temp(arg);
-    temp = temp.replace(":", ":  ");
-    temp = temp.replace("&", "\n");
-    m_text = temp;
-    emit textChanged();
-}
-
 void Data::setCount(const int &arg) {
-    m_count = arg;
+    //m_count = arg;
     emit countChanged();
 }
 
@@ -380,7 +371,6 @@ void Data::clear()
     m_allTable.clear();
     m_table.clear();
     setTitle("");
-    //setText("");
     setData(m_allData);
     setList(m_allList);
     setTable(m_allTable);

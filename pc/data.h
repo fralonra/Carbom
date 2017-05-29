@@ -19,7 +19,6 @@ class Data : public QObject
     Q_PROPERTY(QStringList list READ list WRITE setList NOTIFY listChanged)
     Q_PROPERTY(QStringList returnList READ returnList WRITE setReturnList NOTIFY returnListChanged)
     Q_PROPERTY(QList<Entry> table READ table WRITE setTable NOTIFY tableChanged)
-    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
     Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
 
@@ -43,8 +42,7 @@ public:
     QStringList list() const {return m_list;}
     QStringList returnList() const {return m_returnList;}
     QList<Entry> table() const {return m_table;}
-    QString text() const {return m_text;}
-    int count() const {return m_count;}
+    int count() const {return m_table.size();}
     int position() const {return m_position;}
 
     QString epc() const {return m_epc;}
@@ -68,7 +66,6 @@ signals:
     void listChanged();
     void returnListChanged();
     void tableChanged();
-    void textChanged();
     void countChanged();
     void positionChanged();
 
@@ -90,7 +87,6 @@ public slots:
     void setList(const QStringList &arg);
     void setReturnList(const QStringList &arg);
     void setTable(const QList<Entry> &arg);
-    void setText(const QString &arg);
     void setCount(const int &arg);
     void setPosition(const int &arg);
 
@@ -139,7 +135,6 @@ private:
     QString m_title = "";
     QStringList m_list = {}; // Current epcs
     QList<Entry> m_table; // Current data
-    QString m_text = ""; // All text
     int m_count = 0;
     int m_position = -1;
 
