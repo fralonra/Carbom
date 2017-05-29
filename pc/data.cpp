@@ -337,6 +337,7 @@ void Data::returnBack(const QList<int> &list)
             Entry entry = m_table.at(i);
             if (entry.epc() == epc) {
                 entry.insert(Entry::Keeper, Entry::storedStr);
+                entry.insert(Entry::LoanDate, "");
                 m_table.replace(i, entry);
                 break;
             }
