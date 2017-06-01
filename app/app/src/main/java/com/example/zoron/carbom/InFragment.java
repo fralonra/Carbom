@@ -95,7 +95,7 @@ public class InFragment extends BaseFragment {
 
     private void updateData() {
         mapToWrite = new HashMap<>();
-        getInput(CsvReader.INDEX.ID, id);
+        getInput(CsvReader.INDEX.EPC, id);
         getInput(CsvReader.INDEX.TYPE, type);
         getInput(CsvReader.INDEX.NAME, name);
         getInput(CsvReader.INDEX.STAGE, stage);

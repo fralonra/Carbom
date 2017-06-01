@@ -159,7 +159,7 @@ public class BorrowFragment extends BaseFragment {
 
     protected void loan() {
         mapToWrite = new HashMap<>();
-        mapToWrite.put(CsvReader.INDEX.ID, epc);
+        mapToWrite.put(CsvReader.INDEX.EPC, epc);
         getInput(CsvReader.INDEX.KEEPER, loaner);
         getInput(CsvReader.INDEX.LOAN_DATE, loan_date);
         getInput(CsvReader.INDEX.EXPECTED_LOAN_BACK, expectedLoanBack);
@@ -171,7 +171,7 @@ public class BorrowFragment extends BaseFragment {
 
     protected void loanBack() {
         mapToWrite = new HashMap<>();
-        mapToWrite.put(CsvReader.INDEX.ID, epc);
+        mapToWrite.put(CsvReader.INDEX.EPC, epc);
         mapToWrite.put(CsvReader.INDEX.KEEPER, getResources().getString(R.string.stored));
         mapToWrite.put(CsvReader.INDEX.LOAN_DATE, "");
         mapToWrite.put(CsvReader.INDEX.EXPECTED_LOAN_BACK, "");

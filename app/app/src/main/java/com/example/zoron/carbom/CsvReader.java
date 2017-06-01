@@ -13,7 +13,7 @@ import java.util.Map;
 import android.os.Environment;
 import android.util.Log;
 
-import static com.example.zoron.carbom.CsvReader.INDEX.ID;
+import static com.example.zoron.carbom.CsvReader.INDEX.EPC;
 
 /**
  * Created by zoron on 17-4-14.
@@ -22,7 +22,7 @@ import static com.example.zoron.carbom.CsvReader.INDEX.ID;
 public class CsvReader {
     public static final String SAVE_FILE = "data.cbm";
 
-    public static final String INDEX_ID = "ID";
+    public static final String INDEX_EPC = "EPC";
     public static final String INDEX_TYPE = "TYPE";
     public static final String INDEX_NAME = "NAME";
     public static final String INDEX_STAGE = "STAGE";
@@ -35,7 +35,7 @@ public class CsvReader {
     public static final String INDEX_EXPECTED_LOAN_BACK = "RETURN_DATE";
 
     public enum INDEX {
-        ID,
+        EPC,
         TYPE,
         NAME,
         STAGE,
@@ -73,7 +73,7 @@ public class CsvReader {
             LineNumberReader content = new LineNumberReader(new FileReader(csv));
             String line;
             while ((line = content.readLine()) != null) {
-                if (getEntry(line, ID).equals(data.get(ID))) {
+                if (getEntry(line, EPC).equals(data.get(EPC))) {
                     return true;
                 }
             }
@@ -88,7 +88,7 @@ public class CsvReader {
             LineNumberReader content = new LineNumberReader(new FileReader(csv));
             String line;
             while ((line = content.readLine()) != null) {
-                if (getEntry(line, ID).equals(epc)) {
+                if (getEntry(line, EPC).equals(epc)) {
                     return true;
                 }
             }
@@ -104,7 +104,7 @@ public class CsvReader {
                 LineNumberReader content = new LineNumberReader(new FileReader(csv));
                 String line;
                 while ((line = content.readLine()) != null) {
-                    if (getEntry(line, ID).equals(epc)) {
+                    if (getEntry(line, EPC).equals(epc)) {
                         return line;
                     }
                 }
@@ -147,7 +147,7 @@ public class CsvReader {
             LineNumberReader content = new LineNumberReader(new FileReader(csv));
             String line;
             while ((line = content.readLine()) != null) {
-                String id = getEntry(line, ID);
+                String id = getEntry(line, EPC);
                 if (id.equals(epc)) {
                     return getEntry(line, key);
                 }
@@ -169,7 +169,7 @@ public class CsvReader {
             String all = null;
             String line;
             while ((line = content.readLine()) != null) {
-                if (!getEntry(line, ID).equals(epc)) {
+                if (!getEntry(line, EPC).equals(epc)) {
                     if (all == null) {
                         all = line + DATA_DIV;
                     } else {
@@ -189,13 +189,13 @@ public class CsvReader {
             String all = null;
             String line;
             while ((line = content.readLine()) != null) {
-                if (getEntry(line, ID).equals(data.get(ID))) {
+                if (getEntry(line, EPC).equals(data.get(EPC))) {
                     //Log.i("dsa", data.get(ID) + "  " + Integer.toString(data.size()));
                     Iterator it = data.entrySet().iterator();
                     while (it.hasNext()) {
                         Map.Entry pair = (Map.Entry) it.next();
                         INDEX key = (INDEX) pair.getKey();
-                        if (key != ID) {
+                        if (key != EPC) {
                             String value = pair.getValue().toString();
                             //Log.i("jg", value);
                             line = modifyEntry(line, key, value);
@@ -218,7 +218,7 @@ public class CsvReader {
     public void modify(ArrayList<String> list, Map<INDEX, String> data) {
         for (String epc : list) {
             Map<INDEX, String> d = new HashMap<>(data);
-            d.put(ID, epc);
+            d.put(EPC, epc);
             modify(d);
         }
     }
@@ -274,7 +274,7 @@ public class CsvReader {
             while ((line = content.readLine()) != null) {
                 for (int i = 0; i < list.size(); ++i) {
                     String epc = list.get(i);
-                    if (getEntry(line, ID).equals(epc)) {
+                    if (getEntry(line, EPC).equals(epc)) {
                         break;
                     } else if (i == (list.size() - 1)) {
                         results.add(line);
@@ -290,7 +290,7 @@ public class CsvReader {
     public ArrayList<String> filter(INDEX key, ArrayList<String> list) {
         ArrayList<String> result = new ArrayList<>();
         for (String line : list) {
-            String value = getEntryByEPC(getEntry(line, ID), key);
+            String value = getEntryByEPC(getEntry(line, EPC), key);
             if (!result.contains(line) && (!value.equals("")))
                 result.add(value);
         }
@@ -300,7 +300,7 @@ public class CsvReader {
     public ArrayList<String> getLinebyFilter(final ArrayList<String> data, INDEX key, final String filter) {
         ArrayList<String> result = new ArrayList<>();
         for (String line : data) {
-            String epc = getEntry(line, ID);
+            String epc = getEntry(line, EPC);
             if (filter.equals(getEntryByEPC(epc, key)))
                 result.add(line);
         }

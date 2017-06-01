@@ -213,8 +213,8 @@ void Data::first() {
 }
 
 void Data::last() {
-    if (m_position != m_count - 1) {
-        setPosition(m_count - 1);
+    if (m_position != m_table.size() - 1) {
+        setPosition(m_table.size() - 1);
     }
 }
 
@@ -359,6 +359,7 @@ void Data::saveData(const QString &fileName)
     if (file.exists()) {
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out << toString();
         }
     }
@@ -375,7 +376,7 @@ void Data::clear()
     setData(m_allData);
     setList(m_allList);
     setTable(m_allTable);
-    setCount(0);
+    //setCount(0);
     setPosition(-1);
     setEpc("");
     setType("");

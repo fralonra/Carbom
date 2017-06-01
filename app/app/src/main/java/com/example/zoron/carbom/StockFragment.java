@@ -248,7 +248,7 @@ public class StockFragment extends ScanFragment {
         if (way == BYTYPE) {
             for (String data : list) {
                 Map<String, String> map = new HashMap<>();
-                map.put("EPC", CsvReader.getEntry(data, CsvReader.INDEX.ID));
+                map.put("EPC", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
                 map.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
                 map.put("STATUS", getResources().getString(R.string.unstored));
                 listMap.add(map);
@@ -256,7 +256,7 @@ public class StockFragment extends ScanFragment {
         } else if (way == BYLOCATION) {
             for (String data : list) {
                 Map<String, String> map = new HashMap<>();
-                map.put("EPC", CsvReader.getEntry(data, CsvReader.INDEX.ID));
+                map.put("EPC", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
                 map.put("LOCATION", CsvReader.getEntry(data, CsvReader.INDEX.LOCATION));
                 map.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
                 map.put("STATUS", getResources().getString(R.string.unstored));

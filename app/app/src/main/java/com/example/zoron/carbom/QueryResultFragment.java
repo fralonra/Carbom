@@ -71,7 +71,7 @@ public class QueryResultFragment extends Fragment {
             for (String data : results) {
                 Map<String, String> resultMap = new HashMap<>();
                 resultMap.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
-                resultMap.put("ID", CsvReader.getEntry(data, CsvReader.INDEX.ID));
+                resultMap.put("ID", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
                 resultMap.put("LOCATION", CsvReader.getEntry(data, CsvReader.INDEX.LOCATION));
                 resultMap.put("KEEPER", CsvReader.getEntry(data, CsvReader.INDEX.KEEPER));
                 resultList.add(resultMap);
@@ -83,7 +83,7 @@ public class QueryResultFragment extends Fragment {
                 }
                 Map<String, String> resultMap = new HashMap<>();
                 resultMap.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
-                resultMap.put("ID", CsvReader.getEntry(data, CsvReader.INDEX.ID));
+                resultMap.put("ID", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
                 resultMap.put("LOANDATE", CsvReader.getEntry(data, CsvReader.INDEX.LOAN_DATE));
                 resultMap.put("BACKDATE", CsvReader.getEntry(data, CsvReader.INDEX.EXPECTED_LOAN_BACK));
                 resultList.add(resultMap);

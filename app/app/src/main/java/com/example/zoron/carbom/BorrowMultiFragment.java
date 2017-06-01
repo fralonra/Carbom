@@ -80,7 +80,7 @@ public class BorrowMultiFragment extends BorrowFragment {
 
     @Override
     protected void setText() {
-        id.setText(reader.getEntryByList(list, CsvReader.INDEX.ID));
+        id.setText(reader.getEntryByList(list, CsvReader.INDEX.EPC));
         type.setText(reader.getEntryByList(list, CsvReader.INDEX.TYPE));
         name.setText(reader.getEntryByList(list, CsvReader.INDEX.NAME));
         stage.setText(reader.getEntryByList(list, CsvReader.INDEX.STAGE));

@@ -137,7 +137,7 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
 
     private String csvIndexToString(CsvReader.INDEX key) {
         switch (key) {
-            case ID:
+            case EPC:
                 return getResources().getString(R.string.id);
             case TYPE:
                 return getResources().getString(R.string.type);
