@@ -10,6 +10,7 @@
 
 #include "entry.h"
 #include "datamodel.h"
+#include "xlsxdocument.h"
 
 class Data : public QObject
 {
@@ -103,6 +104,7 @@ public slots:
     void setReturnDate(const QString &arg);
 
     void open(const QString &file);
+    void importXls(const QString &file);
     void save();
     void saveAs(const QString &file);
     void close();

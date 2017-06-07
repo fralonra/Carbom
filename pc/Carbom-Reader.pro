@@ -40,3 +40,5 @@ HEADERS += \
     datamodel.h
 
 DISTFILES +=
+
+include(3rdparty/xlsx/src/xlsx/qtxlsx.pri)

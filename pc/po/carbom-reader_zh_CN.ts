@@ -64,7 +64,7 @@
         <translation type="unfinished">修改</translation>
     </message>
     <message>
-        <location filename="../DataArea.qml" line="173"/>
+        <location filename="../DataArea.qml" line="172"/>
         <source>Reset</source>
         <translation type="unfinished">重置</translation>
     </message>
@@ -72,7 +72,7 @@
 <context>
     <name>DataSheet</name>
     <message>
-        <location filename="../DataSheet.qml" line="26"/>
+        <location filename="../DataSheet.qml" line="29"/>
         <source>null</source>
         <translation type="unfinished">空值</translation>
     </message>
@@ -158,22 +158,22 @@
         <translation type="unfinished">全选</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="74"/>
+        <location filename="../DialogLoan.qml" line="79"/>
         <source>Keeper</source>
         <translation type="unfinished">当前保管人</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="78"/>
+        <location filename="../DialogLoan.qml" line="83"/>
         <source>Loan Date</source>
         <translation type="unfinished">借用日期</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="82"/>
+        <location filename="../DialogLoan.qml" line="87"/>
         <source>Return Date</source>
         <translation type="unfinished">预计归还日期</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="86"/>
+        <location filename="../DialogLoan.qml" line="91"/>
         <source>Note</source>
         <translation type="unfinished">备注</translation>
     </message>
@@ -245,156 +245,161 @@
         <translation type="unfinished">Carbom Reader</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="87"/>
+        <location filename="../main.qml" line="90"/>
         <source>Open</source>
         <translation type="unfinished">打开</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="94"/>
+        <location filename="../main.qml" line="97"/>
+        <source>Import</source>
+        <translation type="unfinished">导入</translation>
+    </message>
+    <message>
+        <location filename="../main.qml" line="104"/>
         <source>Save</source>
         <translation type="unfinished">保存</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="101"/>
+        <location filename="../main.qml" line="111"/>
         <source>Close</source>
         <translation type="unfinished">关闭</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="108"/>
-        <location filename="../main.qml" line="214"/>
+        <location filename="../main.qml" line="118"/>
+        <location filename="../main.qml" line="232"/>
         <source>Inbound</source>
         <translation type="unfinished">入库</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="115"/>
+        <location filename="../main.qml" line="125"/>
         <source>Outbound</source>
         <translation type="unfinished">出库</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="122"/>
-        <location filename="../main.qml" line="231"/>
+        <location filename="../main.qml" line="132"/>
+        <location filename="../main.qml" line="249"/>
         <source>Loan</source>
         <translation type="unfinished">借出</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="129"/>
-        <location filename="../main.qml" line="238"/>
+        <location filename="../main.qml" line="139"/>
+        <location filename="../main.qml" line="256"/>
         <source>Return</source>
         <translation type="unfinished">归还</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="136"/>
+        <location filename="../main.qml" line="146"/>
         <source>First</source>
         <translation type="unfinished">头部</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="146"/>
+        <location filename="../main.qml" line="156"/>
         <source>Next</source>
         <translation type="unfinished">下一条</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="157"/>
+        <location filename="../main.qml" line="167"/>
         <source>Prev</source>
         <translation type="unfinished">前一条</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="168"/>
+        <location filename="../main.qml" line="178"/>
         <source>Last</source>
         <translation type="unfinished">尾部</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="178"/>
-        <location filename="../main.qml" line="208"/>
+        <location filename="../main.qml" line="188"/>
+        <location filename="../main.qml" line="226"/>
         <source>Find</source>
         <translation type="unfinished">查找</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="185"/>
+        <location filename="../main.qml" line="195"/>
         <source>Reset</source>
         <translation type="unfinished">重置</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="192"/>
+        <location filename="../main.qml" line="202"/>
         <source>Quit</source>
         <translation type="unfinished">退出</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="221"/>
+        <location filename="../main.qml" line="239"/>
         <source>Please Comfirm</source>
         <translation type="unfinished">请确认</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="222"/>
+        <location filename="../main.qml" line="240"/>
         <source>Are you sure to outbound this item?</source>
         <translation type="unfinished">确定将此物品出库？</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="273"/>
+        <location filename="../main.qml" line="291"/>
         <source>EPC</source>
         <translation type="unfinished">设备编号</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="285"/>
+        <location filename="../main.qml" line="303"/>
         <source>Type</source>
         <translation type="unfinished">样机型号</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="297"/>
+        <location filename="../main.qml" line="315"/>
         <source>Name</source>
         <translation type="unfinished">产品名称</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="309"/>
+        <location filename="../main.qml" line="327"/>
         <source>Stage</source>
         <translation type="unfinished">样机阶段</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="321"/>
+        <location filename="../main.qml" line="339"/>
         <source>Status</source>
         <translation type="unfinished">样机状态</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="333"/>
+        <location filename="../main.qml" line="351"/>
         <source>Time</source>
         <translation type="unfinished">入库时间</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="345"/>
+        <location filename="../main.qml" line="363"/>
         <source>Location</source>
         <translation type="unfinished">存放位置</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="357"/>
+        <location filename="../main.qml" line="375"/>
         <source>Keeper</source>
         <translation type="unfinished">当前保管人</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="369"/>
+        <location filename="../main.qml" line="387"/>
         <source>Note</source>
         <translation type="unfinished">备注</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="381"/>
+        <location filename="../main.qml" line="399"/>
         <source>Loan Date</source>
         <translation type="unfinished">借用日期</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="393"/>
+        <location filename="../main.qml" line="411"/>
         <source>Return Date</source>
         <translation type="unfinished">预计归还日期</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="429"/>
+        <location filename="../main.qml" line="447"/>
         <source>Total: </source>
         <translation type="unfinished">合计</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="430"/>
+        <location filename="../main.qml" line="448"/>
         <source>		Current: </source>
         <translation type="unfinished">条记录		当前第</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="430"/>
+        <location filename="../main.qml" line="448"/>
         <source>note</source>
         <translation type="unfinished">条</translation>
     </message>

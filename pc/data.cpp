@@ -180,6 +180,29 @@ void Data::open(const QString &file)
     setFile(file);
 }
 
+void Data::importXls(const QString &file)
+{
+    QXlsx::Document xlsx(QQmlFile::urlToLocalFileOrQrc(file));
+    int maxRow = 1;
+    for (int row = 2; ; ++row) {
+        if (xlsx.read(row, 1).isNull()) {
+            maxRow = row - 1;
+            break;
+        }
+    }
+    for (int row = 2; row <= maxRow; ++row) {
+        QString data = "";
+        for (int col = 1; col <= Entry::IndexCount; ++col) {
+            QVariant cell = xlsx.read(row, col);
+            if (!cell.isNull())
+                data.append(Entry::indexText.value(static_cast<Entry::Index>(col - 1))
+                        + cell.toString() + Entry::entryDiv);
+        }
+        data.append(Entry::dataDiv);
+        add(data);
+    }
+}
+
 void Data::save()
 {
     saveData(m_file);

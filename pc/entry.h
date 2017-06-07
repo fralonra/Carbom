@@ -34,6 +34,9 @@ public:
         ReturnDate,
         IndexCount
     };
+    static const QMap<Index, QString> indexText;
+    static const QString entryDiv;
+    static const QString dataDiv;
     static const QString storedStr;
 
 public:
@@ -91,11 +94,6 @@ public slots:
     void setReturnDate(const QString &arg);
 
 private:
-    static const QString entryDiv;
-    static const QString dataDiv;
-
-    static const QMap<Index, QString> indexText;
-
     QMap<Index, QString> m_data;
 
 private:

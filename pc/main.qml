@@ -21,6 +21,9 @@ ApplicationWindow {
                 action: actOpen
             }
             MyToolButton {
+                action: actImport
+            }
+            MyToolButton {
                 action: actSave
             }
             MyToolButton {
@@ -88,6 +91,13 @@ ApplicationWindow {
         iconSource: "image/open.png"
         shortcut: "Ctrl+O"
         onTriggered: fileDialog.open()
+    }
+    Action {
+        id: actImport
+        text: qsTr("Import")
+        iconSource: "image/import.png"
+        shortcut: "Ctrl+E"
+        onTriggered: importDialog.open()
     }
     Action {
         id: actSave
@@ -200,6 +210,14 @@ ApplicationWindow {
         nameFilters: ["Data files (*.cbm)"]
         onAccepted: {
             database.file = fileUrl
+        }
+    }
+
+    FileDialog {
+        id: importDialog
+        nameFilters: ["Excel Files (*.xlsx)"]
+        onAccepted: {
+            database.importXls(fileUrl)
         }
     }
 
