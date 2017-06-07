@@ -45,6 +45,30 @@ public class Utils {
                 1);//回放速度，值在0.5-2.0之间，1为正常速度
     }
 
+    public static String asciiToString(String value)  {
+        StringBuilder sbu = new StringBuilder();
+        String[] chars = splitStringEvery(value, 2);
+        for (String aChar : chars) {
+            sbu.append((char) Integer.parseInt(aChar));
+        }
+        return sbu.toString();
+    }
+
+    public static String[] splitStringEvery(String s, int interval) {
+        int arrayLength = (int) Math.ceil(((s.length() / (double)interval)));
+        String[] result = new String[arrayLength];
+
+        int j = 0;
+        int lastIndex = result.length - 1;
+        for (int i = 0; i < lastIndex; i++) {
+            result[i] = s.substring(j, j + interval);
+            j += interval;
+        } //Add the last bit
+        result[lastIndex] = s.substring(j);
+
+        return result;
+    }
+
     public static byte[] hexStringToBytes(final String src) {
         int len = src.length();
         byte[] data = new byte[len / 2];
@@ -60,7 +84,7 @@ public class Utils {
         if (src == null) {
             Log.i("hex", "null");
         }
-        for (byte b : src) {
+        for (byte b : src != null ? src : new byte[0]) {
             builder.append(String.format("%02x", b));
         }
         return builder.toString();
