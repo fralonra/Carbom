@@ -2,6 +2,20 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="zh_CN">
 <context>
+    <name>Data</name>
+    <message>
+        <location filename="../data.cpp" line="305"/>
+        <source>Duplicated entry: </source>
+        <translation type="unfinished">有重复的记录：</translation>
+    </message>
+    <message>
+        <location filename="../data.cpp" line="305"/>
+        <source>.
+Are you sure to override this entry?</source>
+        <translation type="unfinished">确定要覆盖这条记录？</translation>
+    </message>
+</context>
+<context>
     <name>DataArea</name>
     <message>
         <location filename="../DataArea.qml" line="45"/>
@@ -82,6 +96,14 @@
     <message>
         <source>Choose a date</source>
         <translation type="obsolete">选择日期</translation>
+    </message>
+</context>
+<context>
+    <name>DialogAddComfirm</name>
+    <message>
+        <location filename="../DialogAddComfirm.qml" line="22"/>
+        <source>Please Comfirm</source>
+        <translation type="unfinished">请确认</translation>
     </message>
 </context>
 <context>

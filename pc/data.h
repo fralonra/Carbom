@@ -3,8 +3,10 @@
 #include <QDebug>
 #include <QFile>
 #include <QFileInfo>
+#include <QMessageBox>
 #include <QObject>
 #include <QQmlFile>
+#include <QtQuick>
 #include <QTextStream>
 #include <QFileSystemWatcher>
 

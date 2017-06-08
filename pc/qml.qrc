@@ -27,5 +27,6 @@
         <file>DialogLoan.qml</file>
         <file>DialogReturn.qml</file>
         <file>image/import.png</file>
+        <file>DialogAddComfirm.qml</file>
     </qresource>
 </RCC>

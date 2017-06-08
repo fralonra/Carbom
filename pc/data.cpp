@@ -201,6 +201,7 @@ void Data::importXls(const QString &file)
         data.append(Entry::dataDiv);
         add(data);
     }
+    save();// avoid can't reset after importing without saving
 }
 
 void Data::save()
@@ -253,7 +254,7 @@ void Data::find(const QString &arg) {
             QString key = entry.split(":").at(0) + ":";
             QString value = entry.split(":").at(1);
             for (Entry data : m_table) {
-                if (data.value(key) == value) {
+                if (data.value(key).contains(value)) {
                     if (!m_result.contains(data))
                         m_result.append(data);
                 } else if (m_result.contains(data)) {
@@ -281,7 +282,37 @@ void Data::reset() {
 void Data::add(const QString &arg)
 {
     Entry entry(arg);
-    m_table.append(entry);
+    for (Entry e : m_table) {
+        if (e == entry)
+            break;
+        else if (e.epc() == entry.epc()) {
+            /*QQmlEngine engine;
+            QQmlComponent component(&engine);
+            component.loadUrl(QUrl(QStringLiteral("qrc:/DialogAddComfirm.qml")));
+            QObject *object = component.create();
+            QObject *comfirm = object->findChild<QObject*>("comfirm");
+            engine.setObjectOwnership(comfirm, QQmlEngine::CppOwnership);
+            QVariant returnedValue;
+            QMetaObject::invokeMethod(object,
+                                      "comfirmAdd",
+                                      Q_RETURN_ARG(QVariant, returnedValue),
+                                      Q_ARG(QVariant, e.epc()));
+            if (returnedValue.toInt() == 1 ) {
+                m_table.replace(m_table.indexOf(e), entry);
+            }*/
+            QMessageBox box;
+            box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+            box.setText(tr("Duplicated entry: ") + e.epc() + tr(".\nAre you sure to override this entry?"));
+            int ret = box.exec();
+            if (ret == QMessageBox::Ok ) {
+                m_table.replace(m_table.indexOf(e), entry);
+            }
+            break;
+        } else if (m_table.indexOf(e) == (m_table.size() - 1)) {
+            m_table.append(entry);
+            break;
+        }
+    }
     if (!allShown)
         m_allTable.append(entry);
     modified = true;
