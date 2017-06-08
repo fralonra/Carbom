@@ -23,7 +23,7 @@ public class Utils {
     public static void initSoundPool(Context context) {
         Utils.context = context;
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
-        suondMap = new HashMap<Integer, Integer>();
+        suondMap = new HashMap<>();
         suondMap.put(1, sp.load(context, R.raw.msg, 1));
     }
 
@@ -44,6 +44,16 @@ public class Utils {
                 number, //循环次数，0无不循环，-1无永远循环
                 1);//回放速度，值在0.5-2.0之间，1为正常速度
     }
+
+    public static String hexToAscii(String value) {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < value.length(); i+=2) {
+            String str = value.substring(i, i+2);
+            output.append((char)Integer.parseInt(str, 16));
+        }
+        return output.toString();
+    }
+
 
     public static String asciiToString(String value)  {
         StringBuilder sbu = new StringBuilder();

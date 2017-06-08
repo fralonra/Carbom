@@ -134,7 +134,7 @@ public class ScanFragment extends Fragment {
                         //Log.i("epcid", Tools.Bytes2HexString(id, id.length));
                         for (byte[] epc : epcList) {
                             String epcStr = Tools.Bytes2HexString(epc, epc.length);
-                            epcStr = Utils.asciiToString(epcStr);
+                            epcStr = Utils.hexToAscii(epcStr);
                             addToList(listEPC, epcStr);
                         }
                     }
