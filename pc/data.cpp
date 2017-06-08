@@ -286,20 +286,6 @@ void Data::add(const QString &arg)
         if (e == entry)
             break;
         else if (e.epc() == entry.epc()) {
-            /*QQmlEngine engine;
-            QQmlComponent component(&engine);
-            component.loadUrl(QUrl(QStringLiteral("qrc:/DialogAddComfirm.qml")));
-            QObject *object = component.create();
-            QObject *comfirm = object->findChild<QObject*>("comfirm");
-            engine.setObjectOwnership(comfirm, QQmlEngine::CppOwnership);
-            QVariant returnedValue;
-            QMetaObject::invokeMethod(object,
-                                      "comfirmAdd",
-                                      Q_RETURN_ARG(QVariant, returnedValue),
-                                      Q_ARG(QVariant, e.epc()));
-            if (returnedValue.toInt() == 1 ) {
-                m_table.replace(m_table.indexOf(e), entry);
-            }*/
             QMessageBox box;
             box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
             box.setText(tr("Duplicated entry: ") + e.epc() + tr(".\nAre you sure to override this entry?"));
