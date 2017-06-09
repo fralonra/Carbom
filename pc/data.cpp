@@ -66,7 +66,7 @@ void Data::setTable(const QList<Entry> &arg) {
     if (modified) {
         if (allShown)
             m_allTable = m_table;
-        /*else { // not all data showed
+        else { // not all data showed
             for (Entry entry : m_table) {
                 QString epc = entry.epc();
                 for (Entry e : m_allTable) {
@@ -79,7 +79,8 @@ void Data::setTable(const QList<Entry> &arg) {
                         m_allTable.append(entry);
                 }
             }
-        }*/
+        }
+        modified = false;
     }
     emit tableChanged();
     m_list.clear();
@@ -244,27 +245,33 @@ void Data::last() {
 
 void Data::find(const QString &arg) {
     if (!arg.isEmpty()) {
-        QString temp = arg;
-        if (temp.at(0) == "")
-            temp = temp.remove(0, 1);
-        QStringList m_querylist = temp.split("&");
-        m_querylist.removeLast();
-        m_result.clear();
-        for (QString entry : m_querylist) {
-            QString key = entry.split(":").at(0) + ":";
-            QString value = entry.split(":").at(1);
-            for (Entry data : m_table) {
-                if (data.value(key).contains(value)) {
-                    if (!m_result.contains(data))
-                        m_result.append(data);
-                } else if (m_result.contains(data)) {
-                    m_result.removeOne(data);
+        if (allShown) {
+            QString temp = arg;
+            if (temp.at(0) == "")
+                temp = temp.remove(0, 1);
+            QStringList m_querylist = temp.split("&");
+            m_querylist.removeLast();
+            m_result.clear();
+            for (QString entry : m_querylist) {
+                QString key = entry.split(":").at(0) + ":";
+                QString value = entry.split(":").at(1);
+                for (Entry data : m_table) {
+                    if (data.value(key).contains(value)) {
+                        if (!m_result.contains(data))
+                            m_result.append(data);
+                    } else if (m_result.contains(data)) {
+                        m_result.removeOne(data);
+                    }
                 }
             }
-        }
-        if (!m_result.isEmpty()) {
-            setTable(m_result);
-            allShown = false;
+            if (!m_result.isEmpty()
+                    && m_result.size() != m_allTable.size()) {
+                setTable(m_result);
+                allShown = false;
+            }
+        } else {
+            reset();
+            find(arg);
         }
     }
 }
@@ -288,7 +295,7 @@ void Data::add(const QString &arg)
         else if (e.epc() == entry.epc()) {
             QMessageBox box;
             box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-            box.setText(tr("Duplicated entry: ") + e.epc() + tr(".\nAre you sure to override this entry?"));
+            box.setText(tr("Duplicated entry: ") + e.epc() + "\n" + tr("Are you sure to override this entry?"));
             int ret = box.exec();
             if (ret == QMessageBox::Ok ) {
                 m_table.replace(m_table.indexOf(e), entry);
@@ -299,8 +306,6 @@ void Data::add(const QString &arg)
             break;
         }
     }
-    if (!allShown)
-        m_allTable.append(entry);
     modified = true;
     setTable(m_table);
 }
@@ -384,6 +389,7 @@ void Data::returnBack(const QList<int> &list)
         }
     }
     modified = true;
+    //reset();
     setTable(m_table);
 }
 

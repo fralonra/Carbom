@@ -4,15 +4,19 @@
 <context>
     <name>Data</name>
     <message>
-        <location filename="../data.cpp" line="305"/>
+        <location filename="../data.cpp" line="298"/>
         <source>Duplicated entry: </source>
         <translation type="unfinished">有重复的记录：</translation>
     </message>
     <message>
-        <location filename="../data.cpp" line="305"/>
+        <location filename="../data.cpp" line="298"/>
+        <source>Are you sure to override this entry?</source>
+        <translation type="unfinished">确定要覆盖这条记录？</translation>
+    </message>
+    <message>
         <source>.
 Are you sure to override this entry?</source>
-        <translation type="unfinished">确定要覆盖这条记录？</translation>
+        <translation type="obsolete">确定要覆盖这条记录？</translation>
     </message>
 </context>
 <context>
@@ -101,9 +105,8 @@ Are you sure to override this entry?</source>
 <context>
     <name>DialogAddComfirm</name>
     <message>
-        <location filename="../DialogAddComfirm.qml" line="22"/>
         <source>Please Comfirm</source>
-        <translation type="unfinished">请确认</translation>
+        <translation type="obsolete">请确认</translation>
     </message>
 </context>
 <context>
@@ -175,27 +178,27 @@ Are you sure to override this entry?</source>
 <context>
     <name>DialogLoan</name>
     <message>
-        <location filename="../DialogLoan.qml" line="20"/>
+        <location filename="../DialogLoan.qml" line="21"/>
         <source>Select All</source>
         <translation type="unfinished">全选</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="79"/>
+        <location filename="../DialogLoan.qml" line="112"/>
         <source>Keeper</source>
         <translation type="unfinished">当前保管人</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="83"/>
+        <location filename="../DialogLoan.qml" line="116"/>
         <source>Loan Date</source>
         <translation type="unfinished">借用日期</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="87"/>
+        <location filename="../DialogLoan.qml" line="120"/>
         <source>Return Date</source>
         <translation type="unfinished">预计归还日期</translation>
     </message>
     <message>
-        <location filename="../DialogLoan.qml" line="91"/>
+        <location filename="../DialogLoan.qml" line="124"/>
         <source>Note</source>
         <translation type="unfinished">备注</translation>
     </message>

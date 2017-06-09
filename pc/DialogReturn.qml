@@ -15,9 +15,18 @@ Dialog {
         anchors.fill: parent
         spacing: 10
         CheckBox {
+            //property bool active: true
             id: allselect
             text: qsTr("Select All")
-            onCheckedChanged: list.allselectMode = checked
+            onClicked: {
+                //if (!active)
+                    //active = true;
+                list.allselectMode = checked;
+            }
+            onCheckedChanged: {
+                //if (active)
+                    //list.allselectMode = checked;
+            }
         }
         RowLayout {
             anchors.top: allselect.bottom + 10
@@ -40,9 +49,10 @@ Dialog {
                         CheckBox {
                             property bool allselectMode: list.allselectMode
                             id: checkbox
-                            checked: allselect.checked
-                            onCheckedChanged: {
-                                if (checked)
+                            //checked: allselect.checked
+                            onClicked: {
+                                //allselect.active = false;
+                                /*if (checked)
                                     selection.push(index)
                                 else {
                                     var l = new Array
@@ -51,9 +61,32 @@ Dialog {
                                             l.push(selection[i])
                                         selection = l
                                     }
-                                }
+                                }*/
+                                if (selection.length !== source.length)
+                                    allselect.checked = false;
+                                else
+                                    allselect.checked = true;
                             }
-                            onAllselectModeChanged: checked = allselect.checked
+                            onCheckedChanged: {
+                                //allselect.active = false;
+                                if (checked)
+                                    selection.push(index)
+                                else {
+                                    var l = new Array
+                                    for (var i = 0; i < selection.length; ++i) {
+                                        if (selection[i] !== index)
+                                            l.push(selection[i])
+                                    }
+                                    selection = l
+                                }
+                                /*if (selection.length !== source.length)
+                                    allselect.checked = false;
+                                else
+                                    allselect.checked = true;*/
+                            }
+                            onAllselectModeChanged: {
+                                checked = allselectMode
+                            }
                         }
                         Text {
                             text: modelData
