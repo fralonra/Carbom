@@ -248,14 +248,20 @@ ApplicationWindow {
         id: loanDialog
         title: qsTr("Loan")
         source: database.list
-        onAccepted: database.loan(selection, entry)
+        onAccepted: {
+            database.loan(selection, entry);
+            selection = new Array;
+        }
     }
 
     DialogReturn {
         id: returnDialog
         title: qsTr("Return")
         source: database.returnList
-        onAccepted: database.returnBack(selection)
+        onAccepted: {
+            database.returnBack(selection)
+            selection = new Array;
+        }
     }
 
     RowLayout {

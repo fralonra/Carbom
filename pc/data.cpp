@@ -389,7 +389,6 @@ void Data::returnBack(const QList<int> &list)
         }
     }
     modified = true;
-    //reset();
     setTable(m_table);
 }
 
