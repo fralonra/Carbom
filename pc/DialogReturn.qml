@@ -7,7 +7,7 @@ Dialog {
     property var source: []
     property var selection: new Array
 
-    width: 300
+    width: 500
     height: 440
     modality: Qt.WindowModal
     standardButtons: StandardButton.Ok | StandardButton.Cancel
@@ -31,11 +31,10 @@ Dialog {
 
                 id: list
                 Layout.fillHeight: true
-                width: 250
                 model: source
                 focus: true
                 delegate: Rectangle {
-                    width: 250
+                    width: 450
                     height: 20
                     color: ListView.isCurrentItem ? "transparent" : "white"
                     RowLayout {

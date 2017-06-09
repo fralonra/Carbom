@@ -249,8 +249,10 @@ ApplicationWindow {
         title: qsTr("Loan")
         source: database.list
         onAccepted: {
-            database.loan(selection, entry);
-            selection = new Array;
+            database.loan(table.selection, entry);
+            table.selection = new Array;
+            table.allselectMode = false;
+            allselect.checked = false;
         }
     }
 
@@ -272,6 +274,11 @@ ApplicationWindow {
         anchors.margins: 10
         spacing: 40
         TableView {
+            property string entry
+            property var source: []
+            property var selection: new Array
+            property bool allselectMode: false
+
             id: table
             anchors.left: parent.left
             Layout.fillWidth: true
@@ -280,6 +287,42 @@ ApplicationWindow {
             selectionMode: SelectionMode.NoSelection
             currentRow: database.position
             onCurrentRowChanged: database.setPosition(currentRow)
+
+            CheckBox {
+                id: allselect
+                onClicked: {
+                    table.allselectMode = checked;
+                }
+            }
+            TableViewColumn {
+                width: 30
+                horizontalAlignment: Text.AlignHCenter
+                delegate: CheckBox {
+                    property bool allselectMode: table.allselectMode
+                    id: checkbox
+                    onClicked: {
+                        if (table.selection.length !== source.length)
+                            allselect.checked = false;
+                        else
+                            allselect.checked = true;
+                    }
+                    onCheckedChanged: {
+                        if (checked)
+                            table.selection.push(styleData.row - 1)
+                        else {
+                            var l = new Array
+                            for (var i = 0; i < table.selection.length; ++i) {
+                                if (table.selection[i] !== styleData.row - 1)
+                                    l.push(table.selection[i])
+                            }
+                            table.selection = l
+                        }
+                    }
+                    onAllselectModeChanged: {
+                        checked = allselectMode
+                    }
+                }
+            }
             TableViewColumn {
                 role: "index"
                 width: 30
