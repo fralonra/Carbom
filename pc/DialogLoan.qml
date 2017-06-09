@@ -5,8 +5,6 @@ import QtQuick.Layouts 1.3
 
 Dialog {
     property string entry
-    property var source: []
-    property var selection: new Array
 
     width: 400
     height: 240

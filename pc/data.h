@@ -11,7 +11,6 @@
 #include <QFileSystemWatcher>
 
 #include "entry.h"
-#include "datamodel.h"
 #include "xlsxdocument.h"
 
 class Data : public QObject
@@ -20,7 +19,7 @@ class Data : public QObject
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QStringList list READ list WRITE setList NOTIFY listChanged)
-    Q_PROPERTY(QStringList returnList READ returnList WRITE setReturnList NOTIFY returnListChanged)
+    Q_PROPERTY(QList<Entry> returnList READ returnList WRITE setReturnList NOTIFY returnListChanged)
     Q_PROPERTY(QList<Entry> table READ table WRITE setTable NOTIFY tableChanged)
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
     Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
@@ -43,7 +42,7 @@ public:
     QString file() const {return m_file;}
     QString title() const {return m_title;}
     QStringList list() const {return m_list;}
-    QStringList returnList() const {return m_returnList;}
+    QList<Entry> returnList() const {return m_returnList;}
     QList<Entry> table() const {return m_table;}
     int count() const {return m_table.size();}
     int position() const {return m_position;}
@@ -88,7 +87,8 @@ public slots:
     void setFile(const QString &arg);
     void setTitle(const QString &arg);
     void setList(const QStringList &arg);
-    void setReturnList(const QStringList &arg);
+    void setReturnList(const QList<Entry> &arg);
+    //void setReturnList();
     void setTable(const QList<Entry> &arg);
     void setCount(const int &arg);
     void setPosition(const int &arg);
@@ -131,8 +131,8 @@ private:
     QStringList m_data = {}; // Current text by lines
     QStringList m_allData = {}; // All text in file by lines
     QStringList m_allList = {}; // All epcs in file
-    QStringList m_returnList = {};
-    QList<Entry>m_allTable = {}; // All data
+    QList<Entry> m_returnList = {};
+    QList<Entry> m_allTable = {}; // All data
     QList<Entry> m_result = {}; // Data of search result
 
     QString m_file = "";

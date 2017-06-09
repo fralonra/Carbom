@@ -247,7 +247,6 @@ ApplicationWindow {
     DialogLoan {
         id: loanDialog
         title: qsTr("Loan")
-        source: database.list
         onAccepted: {
             database.loan(table.selection, entry);
             table.selection = new Array;
@@ -259,7 +258,7 @@ ApplicationWindow {
     DialogReturn {
         id: returnDialog
         title: qsTr("Return")
-        source: database.returnList
+        list: database.returnList
         onAccepted: {
             database.returnBack(selection)
             selection = new Array;
@@ -274,7 +273,6 @@ ApplicationWindow {
         anchors.margins: 10
         spacing: 40
         TableView {
-            property string entry
             property var source: []
             property var selection: new Array
             property bool allselectMode: false
@@ -362,7 +360,7 @@ ApplicationWindow {
             TableViewColumn {
                 role: "name"
                 title: qsTr("Name")
-                width: 100
+                width: 250
                 delegate: Rectangle {
                     color: styleData.row - 1 == table.currentRow ? "lightsteelblue" : "transparent"
                     Text {

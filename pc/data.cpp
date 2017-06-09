@@ -32,7 +32,7 @@ void Data::setFile(const QString &arg) {
             m_allTable = m_table;
             setTable(m_table);
             setData(m_allData);
-            setList(m_allList);
+            //setList(m_allList);
             //setCount(m_allList.length());
 
             watcher.addPath(m_file);
@@ -55,8 +55,7 @@ void Data::setList(const QStringList &arg) {
     emit listChanged();
 }
 
-void Data::setReturnList(const QStringList &arg)
-{
+void Data::setReturnList(const QList<Entry> &arg) {
     m_returnList = arg;
     emit returnListChanged();
 }
@@ -88,9 +87,9 @@ void Data::setTable(const QList<Entry> &arg) {
         m_list.append(entry.epc());
     setList(m_list);
     m_returnList.clear();
-    for (Entry entry : m_table) {
+    for (Entry entry : m_allTable) {
         if (!entry.isStored())
-            m_returnList.append(entry.value(Entry::Epc));
+            m_returnList.append(entry);
     }
     setReturnList(m_returnList);
 }
@@ -377,7 +376,7 @@ void Data::returnBack(const QList<int> &list)
     for (int index : list) {
         if (index >= m_returnList.size())
             break;
-        QString epc = m_returnList.at(index);
+        QString epc = m_returnList.at(index).epc();
         for (int i = 0; i < m_table.size(); ++i) {
             Entry entry = m_table.at(i);
             if (entry.epc() == epc) {
