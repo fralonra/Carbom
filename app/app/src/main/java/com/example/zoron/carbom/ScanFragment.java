@@ -131,7 +131,7 @@ public class ScanFragment extends Fragment {
                     epcList = reader.inventoryRealTime(); //实时盘存
                     if (epcList != null && !epcList.isEmpty()) {
                         //byte[] id = reader.readFrom6C(1, 0, 30, Tools.HexString2Bytes(keyword));
-                        //Log.i("epcid", Tools.Bytes2HexString(id, id.length));
+                        //Log.d("epcid", Tools.Bytes2HexString(id, id.length));
                         for (byte[] epc : epcList) {
                             String epcStr = Tools.Bytes2HexString(epc, epc.length);
                             epcStr = Utils.hexToAscii(epcStr);

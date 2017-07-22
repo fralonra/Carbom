@@ -81,7 +81,6 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
                             @Override
                             public void onChosenDir(String chosenDir) {
                                 exportPath = chosenDir;
-                                Log.i("path", exportPath);
                                 exportToXls();
                             }
                         });

@@ -58,7 +58,6 @@ public class CsvReader {
     public CsvReader(final String file) {
         csv = new File(Environment.getExternalStorageDirectory(), file);
         //csv = new File("/mnt/sdcard/Document/", file);
-        Log.i("dir", csv.getAbsolutePath());
         if (!csv.exists()) {
             try {
                 csv.createNewFile();
@@ -190,14 +189,14 @@ public class CsvReader {
             String line;
             while ((line = content.readLine()) != null) {
                 if (getEntry(line, EPC).equals(data.get(EPC))) {
-                    //Log.i("dsa", data.get(ID) + "  " + Integer.toString(data.size()));
+                    //Log.d("dsa", data.get(ID) + "  " + Integer.toString(data.size()));
                     Iterator it = data.entrySet().iterator();
                     while (it.hasNext()) {
                         Map.Entry pair = (Map.Entry) it.next();
                         INDEX key = (INDEX) pair.getKey();
                         if (key != EPC) {
                             String value = pair.getValue().toString();
-                            //Log.i("jg", value);
+                            //Log.d("jg", value);
                             line = modifyEntry(line, key, value);
                         }
                         it.remove(); // avoids a ConcurrentModificationException
@@ -230,8 +229,8 @@ public class CsvReader {
             String line;
             while ((line = content.readLine()) != null) {
                 if (getEntry(line, key).contains(value)) {
-                    //Log.i("get", getEntry(line, key));
-                    //Log.i("line key", line + " " + key + " " + value);
+                    //Log.d("get", getEntry(line, key));
+                    //Log.d("line key", line + " " + key + " " + value);
                     results.add(line);
                 }
             }
@@ -321,7 +320,7 @@ public class CsvReader {
     private String modifyEntry(String data, INDEX key, String value) {
         //if (hasEntry(data, key)) {
         String div = key.toString() + KEY_VALUE_DIV;
-        //Log.i("aaa", div + "  " + Boolean.toString(data.contains(div)));
+        //Log.d("aaa", div + "  " + Boolean.toString(data.contains(div)));
         if (data.contains(div)) {
             String old1 = div + data.split(div)[1];
             String old = old1.split(ENTRY_DIV)[0];

@@ -99,7 +99,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             if (mapToWrite != null) {
                 mapToWrite.put(index, editText.getText().toString().trim());
             } else {
-                Log.i("mapToWrite", "mapToWrite is null");
+                Log.d("mapToWrite", "mapToWrite is null");
             }
         }
     }

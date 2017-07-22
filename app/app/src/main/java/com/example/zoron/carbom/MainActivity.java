@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements UncaughtException
 
     @Override
     public void uncaughtException(Thread arg0, Throwable arg1) {
-        Log.i("AAA", "uncaughtException   " + arg1);
+        Log.d("AAA", "uncaughtException   " + arg1);
     }
 
     @Override

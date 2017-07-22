@@ -21,7 +21,6 @@ public class BorrowMultiFragment extends BorrowFragment {
     public void init(ArrayList<Map<String, String>> epcs) {
         for (Map<String, String> map : epcs) {
             String epc = map.get("EPC");
-            Log.i("dsa", epc);
             list.add(epc);
         }
     }
