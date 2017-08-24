@@ -18,6 +18,7 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by zoron on 17-3-22.
@@ -52,6 +53,7 @@ public class QueryFragment extends Fragment {
         locationQuery = (SearchView) view.findViewById(R.id.location_query);
         keeperQuery = (SearchView) view.findViewById(R.id.keeper_query);
         Button query = (Button) view.findViewById(R.id.query);
+        Button all = (Button) view.findViewById(R.id.all);
 
         typeQuery.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -80,6 +82,10 @@ public class QueryFragment extends Fragment {
         locationQuery.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                if (query.equals("在库")) {
+                    search(CsvReader.INDEX.KEEPER, locationQuery.getQuery().toString());
+                    return false;
+                }
                 search(CsvReader.INDEX.LOCATION, locationQuery.getQuery().toString());
                 return false;
             }
@@ -105,6 +111,12 @@ public class QueryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 multiSearch();
+            }
+        });
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showall();
             }
         });
 
@@ -145,8 +157,21 @@ public class QueryFragment extends Fragment {
             queries.put(CsvReader.INDEX.KEEPER, keeperQuery.getQuery().toString());
         }
         ArrayList<String> results = reader.search(queries);
+        showResult(results);
+    }
+
+    private boolean searchViewhasQuery(SearchView sv) {
+        return sv.getQuery().toString().trim().length() > 0;
+    }
+
+    private void showall() {
+        ArrayList<String> results = reader.all();
+        showResult(results);
+    }
+
+    private void showResult(ArrayList<String> results) {
         if (results == null) {
-            Toast toast = Toast.makeText(getContext(), "无搜索结果", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getContext(), "无结果", Toast.LENGTH_SHORT);
             toast.show();
         } else {
             QueryResultFragment queryResultFragment = new QueryResultFragment();
@@ -154,9 +179,5 @@ public class QueryFragment extends Fragment {
             MainActivity.replaceFragment(getActivity().getSupportFragmentManager(),
                     R.id.container, queryResultFragment);
         }
-    }
-
-    private boolean searchViewhasQuery(SearchView sv) {
-        return sv.getQuery().toString().trim().length() > 0;
     }
 }

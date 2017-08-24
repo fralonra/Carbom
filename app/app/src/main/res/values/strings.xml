@@ -40,6 +40,7 @@
     <string name="msg_no_update">无更新记录</string>
     <string name="msg_not_in">无库内记录</string>
     <string name="multi_query">多条件查询</string>
+    <string name="all">查看全部</string>
     <string name="stored">在库</string>
     <string name="stocked">已盘</string>
     <string name="unstored">未盘到</string>

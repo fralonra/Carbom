@@ -222,6 +222,20 @@ public class CsvReader {
         }
     }
 
+    public ArrayList<String> all() {
+        ArrayList<String> results = new ArrayList<>();
+        try {
+            LineNumberReader content = new LineNumberReader(new FileReader(csv));
+            String line;
+            while ((line = content.readLine()) != null) {
+                results.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+
     public ArrayList<String> search(INDEX key, String value) {
         ArrayList<String> results = new ArrayList<>();
         try {
