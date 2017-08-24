@@ -4,11 +4,12 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by zoron on 17-4-11.
@@ -45,7 +46,28 @@ public class Utils {
                 1);//回放速度，值在0.5-2.0之间，1为正常速度
     }
 
-    public static String hexToAscii(String value) {
+    public static int binarySearch(final List<String> list, final String epc) {
+        int sn = epcToNumber(epc);
+        int low = 0;
+        int high = list.size() - 1;
+        while(low <= high) {
+            int middle = (low + high) / 2;
+            if ((epc.equals(list.get(middle)))) {
+                return middle;
+            } else if (sn < epcToNumber(list.get(middle))){
+                high = middle - 1;
+            } else {
+                low = middle + 1;
+            }
+        }
+        return -1;
+    }
+
+    public static int epcToNumber(final String epc) {
+        return Integer.parseInt(epc.split(".*-0*")[1]);
+    }
+
+    public static String hexToAscii(final String value) {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < value.length(); i+=2) {
             String str = value.substring(i, i+2);
@@ -55,7 +77,7 @@ public class Utils {
     }
 
 
-    public static String asciiToString(String value)  {
+    public static String asciiToString(final String value)  {
         StringBuilder sbu = new StringBuilder();
         String[] chars = splitStringEvery(value, 2);
         for (String aChar : chars) {
@@ -64,7 +86,7 @@ public class Utils {
         return sbu.toString();
     }
 
-    public static String[] splitStringEvery(String s, int interval) {
+    public static String[] splitStringEvery(final String s, final int interval) {
         int arrayLength = (int) Math.ceil(((s.length() / (double)interval)));
         String[] result = new String[arrayLength];
 
@@ -108,13 +130,13 @@ public class Utils {
         return builder.toString();
     }
 
-    public static Map<Object, Object> mergeMaps(Map<Object, Object> old, Map<Object, Object> update) {
+    public static Map<Object, Object> mergeMaps(final Map<Object, Object> old, final Map<Object, Object> update) {
         Map<Object, Object> map = new HashMap<>(old);
         old.putAll(update);
         return map;
     }
 
-    public static boolean isTextViewEmpty(TextView textView) {
+    public static boolean isTextViewEmpty(final TextView textView) {
         return textView.getText().toString().trim().length() <= 0;
     }
 }

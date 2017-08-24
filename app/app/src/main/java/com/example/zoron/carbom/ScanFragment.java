@@ -19,12 +19,13 @@ import com.android.hdhe.uhf.reader.UhfReader;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import jxl.biff.ByteArray;
+import static com.example.zoron.carbom.Utils.binarySearch;
 
 /**
  * Created by zoron on 17-4-12.
@@ -135,7 +136,9 @@ public class ScanFragment extends Fragment {
                         for (byte[] epc : epcList) {
                             String epcStr = Tools.Bytes2HexString(epc, epc.length);
                             epcStr = Utils.hexToAscii(epcStr);
-                            addToList(listEPC, epcStr);
+                            if (epcStr.matches(".*-\\d{5}$")) {
+                                addToList(listEPC, epcStr);
+                            }
                         }
                     }
                     epcList = null;
@@ -164,16 +167,11 @@ public class ScanFragment extends Fragment {
                     list.add(epc);
                     needUpdate = true;
                 } else {
-                    for (int i = 0; i < list.size(); ++i) {
-                        String mEPC = list.get(i);
-                        //list中有此EPC
-                        if (epc.equals(mEPC)) {
-                            break;
-                        } else if (i == (list.size() - 1)) {
-                            Utils.play(1, 0);
-                            list.add(epc);
-                            needUpdate = true;
-                        }
+                    int pos = binarySearch(list, epc);
+                    if (pos != -1) {
+                        Utils.play(1, 0);
+                        list.add(pos, epc);
+                        needUpdate = true;
                     }
                 }
                 if (needUpdate) {
@@ -212,6 +210,7 @@ public class ScanFragment extends Fragment {
                     new String[]{"ID", "EPC"},
                     new int[]{R.id.textView_id, R.id.textView_epc});
             listViewData.setAdapter(adapter);
+            listViewData.setSelection(listViewData.getCount() - 1);
         }
     }
 
