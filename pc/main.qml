@@ -51,12 +51,28 @@ ApplicationWindow {
             ToolBarSeparator {
             }
             MyToolButton {
+                action: actDelete
+                enabled: !database.isEmpty()
+            }
+            MyToolButton {
+                action: actClear
+                enabled: database.isEmpty()
+            }
+            ToolBarSeparator {
+            }
+            MyToolButton {
                 action: actFind
                 enabled: !database.isEmpty()
             }
             MyToolButton {
                 action: actReset
                 enabled: database.isFound()
+            }
+            ToolBarSeparator {
+            }
+            MyToolButton {
+                action: actSort
+                enabled: !database.isEmpty()
             }
             ToolBarSeparator {
             }
@@ -142,6 +158,26 @@ ApplicationWindow {
         onTriggered: returnDialog.open()
     }
     Action {
+        id: actDelete
+        text: qsTr("Delete")
+        iconSource: "image/delete.png"
+        shortcut: "Ctrl+D"
+        onTriggered: deleteComfirm.open()
+    }
+    Action {
+        id: actClear
+        text: qsTr("Clear")
+        iconSource: "image/clear.png"
+        shortcut: "Ctrl+C"
+        onTriggered: clearComfirm.open()
+    }
+    Action {
+        id: actSort
+        text: qsTr("Sort")
+        iconSource: "image/sort.png"
+        onTriggered: database.sort()
+    }
+    Action {
         id: actFirst
         text: qsTr("First")
         iconSource: "image/first.png"
@@ -212,7 +248,6 @@ ApplicationWindow {
             database.file = fileUrl
         }
     }
-
     FileDialog {
         id: importDialog
         nameFilters: ["Excel Files (*.xlsx)"]
@@ -220,30 +255,44 @@ ApplicationWindow {
             database.importXls(fileUrl)
         }
     }
-
     DialogEdit {
         id: findDialog
         title: qsTr("Find")
         onAccepted: database.find(entry)
     }
-
     DialogEdit {
         id: inboundDialog
         title: qsTr("Inbound")
         mode: "inbound"
         onAccepted: database.add(entry)
     }
-
     MessageDialog {
         id: outboundComfirm
         title: qsTr("Please Comfirm")
         text: qsTr("Are you sure to outbound this item?")
         standardButtons: StandardButton.Ok | StandardButton.Cancel
         onAccepted: {
-            database.remove(table.currentRow)
+            remove()
         }
     }
-
+    MessageDialog {
+        id: deleteComfirm
+        title: qsTr("Please Comfirm")
+        text: qsTr("Are you sure to delete this item?")
+        standardButtons: StandardButton.Ok | StandardButton.Cancel
+        onAccepted: {
+            remove()
+        }
+    }
+    MessageDialog {
+        id: clearComfirm
+        title: qsTr("Please Comfirm")
+        text: qsTr("Are you sure to clear the database?")
+        standardButtons: StandardButton.Ok | StandardButton.Cancel
+        onAccepted: {
+            database.clear()
+        }
+    }
     DialogLoan {
         id: loanDialog
         title: qsTr("Loan")
@@ -254,7 +303,6 @@ ApplicationWindow {
             allselect.checked = false;
         }
     }
-
     DialogReturn {
         id: returnDialog
         title: qsTr("Return")
@@ -264,7 +312,6 @@ ApplicationWindow {
             selection = new Array;
         }
     }
-
     RowLayout {
         anchors.top: toolBar.bottom
         anchors.left: parent.left
@@ -305,8 +352,10 @@ ApplicationWindow {
                             allselect.checked = true;
                     }
                     onCheckedChanged: {
-                        if (checked)
+                        if (checked) {
                             table.selection.push(styleData.row - 1)
+                            //console.log(styleData.row - 1)
+                        }
                         else {
                             var l = new Array
                             for (var i = 0; i < table.selection.length; ++i) {
@@ -503,5 +552,16 @@ ApplicationWindow {
     DataModel {
         id: datamodel
         source: database.table
+    }
+
+    function remove() {
+        if (table.selection.length == 0)
+            database.remove(table.currentRow)
+        else {
+            database.remove(table.selection)
+            table.selection = new Array;
+            table.allselectMode = false;
+            allselect.checked = false;
+        }
     }
 }

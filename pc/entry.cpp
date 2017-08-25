@@ -104,6 +104,11 @@ bool Entry::isStored() const
     return (m_data.value(Keeper) == storedStr);
 }
 
+int Entry::sn() const
+{
+    return m_data.value(Epc).split(QRegularExpression(".*-0*"))[1].toInt();
+}
+
 void Entry::setEpc(const QString &arg) {
     m_data.insert(Epc, arg);
     emit epcChanged();

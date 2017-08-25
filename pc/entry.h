@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMap>
+#include <QRegularExpression>
 
 class Entry : public QObject
 {
@@ -66,6 +67,7 @@ public:
     QString note() const {return value(Note);}
     QString loanDate() const {return value(LoanDate);}
     QString returnDate() const {return value(ReturnDate);}
+    int sn() const;
 
 signals:
     void epcChanged();

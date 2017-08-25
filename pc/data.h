@@ -119,6 +119,9 @@ public slots:
     void add(const QString &arg);
     void remove(const int index);
     void remove(const QString &epc);
+    void remove(const QList<int> &list);
+    void clear();
+    void sort();
     void modify(const QString &epc, const QString &data);
     void loan(const QList<int> &list, const QString &data);
     void returnBack(const QList<int> &list);
@@ -130,7 +133,7 @@ private:
 
     QStringList m_data = {}; // Current text by lines
     QStringList m_allData = {}; // All text in file by lines
-    QStringList m_allList = {}; // All epcs in file
+    QStringList m_allEpc = {}; // All epcs in file
     QList<Entry> m_returnList = {};
     QList<Entry> m_allTable = {}; // All data
     QList<Entry> m_result = {}; // Data of search result
@@ -156,7 +159,6 @@ private:
 
     void setData(const QStringList &arg);
     void saveData(const QString &fileName);
-    void clear();
     const QString toString();
 };
 

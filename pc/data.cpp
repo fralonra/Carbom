@@ -16,7 +16,7 @@ void Data::setFile(const QString &arg) {
             setTitle(QFileInfo(file).fileName());
 
             m_allData.clear();
-            m_allList.clear();
+            m_allEpc.clear();
             m_allTable.clear();
 
             modified = false;
@@ -26,14 +26,14 @@ void Data::setFile(const QString &arg) {
                     m_table.clear();
             for (QString line : m_allData) {
                 Entry entry(line);
-                m_allList.append(entry.value(Entry::Epc));
+                m_allEpc.append(entry.value(Entry::Epc));
                 m_table.append(entry);
             }
             m_allTable = m_table;
             setTable(m_table);
             setData(m_allData);
-            //setList(m_allList);
-            //setCount(m_allList.length());
+            //setList(m_allEpc);
+            //setCount(m_allEpc.length());
 
             watcher.addPath(m_file);
         }
@@ -278,9 +278,9 @@ void Data::find(const QString &arg) {
 void Data::reset() {
     if (!m_result.isEmpty()) {
         m_result.clear();
-        setList(m_allList);
-        setData(m_allData);
         setTable(m_allTable);
+        //setData(m_allData);
+        setPosition(0);
         allShown = true;
     }
 }
@@ -342,6 +342,70 @@ void Data::remove(const QString &epc)
     }
     modified = true;
     setTable(m_table);
+}
+
+void Data::remove(const QList<int> &list)
+{
+    QStringList epcs;
+    for (int i : list) {
+        epcs.append(m_table.at(i).epc());
+    }
+    for (QString epc : epcs)
+        remove(epc);
+    modified = true;
+    setTable(m_table);
+}
+
+void Data::clear()
+{
+    m_allData.clear();
+    m_allEpc.clear();
+    m_allTable.clear();
+    m_table.clear();
+    setTitle("");
+    setData(m_allData);
+    setList(m_allEpc);
+    setTable(m_allTable);
+    //setCount(0);
+    setPosition(-1);
+    setEpc("");
+    setType("");
+    setName("");
+    setStage("");
+    setStatus("");
+    setTime("");
+    setLocation("");
+    setKeeper("");
+    setNote("");
+    setLoanDate("");
+    setReturnDate("");
+}
+
+void Data::sort()
+{
+    if (m_result.isEmpty()) {
+        QList<int> sn_list;
+        QList<Entry> sorted_table;
+        for (Entry entry : m_table) {
+            //QPair<int, int> pair;
+            int sn = entry.sn();
+            //int index = m_table.indexOf(entry);
+            //pair.first = entry.sn();
+            //pair.second = m_table.indexOf(entry);
+            sn_list.append(entry.sn());
+        }
+        qSort(sn_list);
+        for (int sn : sn_list) {
+            for (Entry entry : m_table) {
+                if (entry.sn() == sn) {
+                    sorted_table.append(entry);
+                    break;
+                }
+            }
+        }
+        modified = true;
+        setTable(sorted_table);
+    }
 }
 
 void Data::modify(const QString &epc, const QString &data)
@@ -408,31 +472,6 @@ void Data::saveData(const QString &fileName)
         }
     }
     file.close();
-}
-
-void Data::clear()
-{
-    m_allData.clear();
-    m_allList.clear();
-    m_allTable.clear();
-    m_table.clear();
-    setTitle("");
-    setData(m_allData);
-    setList(m_allList);
-    setTable(m_allTable);
-    //setCount(0);
-    setPosition(-1);
-    setEpc("");
-    setType("");
-    setName("");
-    setStage("");
-    setStatus("");
-    setTime("");
-    setLocation("");
-    setKeeper("");
-    setNote("");
-    setLoanDate("");
-    setReturnDate("");
 }
 
 const QString Data::toString()
