@@ -354,7 +354,7 @@ ApplicationWindow {
                     onCheckedChanged: {
                         if (checked) {
                             table.selection.push(styleData.row - 1)
-                            //console.log(styleData.row - 1)
+                            console.log(styleData.row - 1)
                         }
                         else {
                             var l = new Array
@@ -559,6 +559,9 @@ ApplicationWindow {
             database.remove(table.currentRow)
         else {
             database.remove(table.selection)
+            for (var i = 0; i < table.selection.length; ++i) {
+                //console.log(table.selection[i]);
+            }
             table.selection = new Array;
             table.allselectMode = false;
             allselect.checked = false;

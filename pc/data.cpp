@@ -190,17 +190,19 @@ void Data::importXls(const QString &file)
             break;
         }
     }
+    QStringList data;
     for (int row = 2; row <= maxRow; ++row) {
-        QString data = "";
+        QString entry;
         for (int col = 1; col <= Entry::IndexCount; ++col) {
             QVariant cell = xlsx.read(row, col);
             if (!cell.isNull())
-                data.append(Entry::indexText.value(static_cast<Entry::Index>(col - 1))
+                entry.append(Entry::indexText.value(static_cast<Entry::Index>(col - 1))
                         + cell.toString() + Entry::entryDiv);
         }
-        data.append(Entry::dataDiv);
-        add(data);
+        entry.append(Entry::dataDiv);
+        data.append(entry);
     }
+    add(data);
     save();// avoid can't reset after importing without saving
 }
 
@@ -285,7 +287,7 @@ void Data::reset() {
     }
 }
 
-void Data::add(const QString &arg)
+void Data::add(const QString &arg, bool multi)
 {
     Entry entry(arg);
     for (Entry e : m_table) {
@@ -305,11 +307,22 @@ void Data::add(const QString &arg)
             break;
         }
     }
+    if (!multi) {
+        modified = true;
+        setTable(m_table);
+    }
+}
+
+void Data::add(const QStringList &arg)
+{
+    for (QString entry : arg) {
+        add(entry, true);
+    }
     modified = true;
     setTable(m_table);
 }
 
-void Data::remove(const int index)
+void Data::remove(const int index, bool multi)
 {
     for (Entry entry : m_table) {
         if (m_table.indexOf(entry) == index) {
@@ -326,11 +339,13 @@ void Data::remove(const int index)
             break;
         }
     }
-    modified = true;
-    setTable(m_table);
+    if (!multi) {
+        modified = true;
+        setTable(m_table);
+    }
 }
 
-void Data::remove(const QString &epc)
+void Data::remove(const QString &epc, bool multi)
 {
     for (Entry entry : m_table) {
         if (entry.epc() == epc) {
@@ -340,8 +355,10 @@ void Data::remove(const QString &epc)
             break;
         }
     }
-    modified = true;
-    setTable(m_table);
+    if (!multi) {
+        modified = true;
+        setTable(m_table);
+    }
 }
 
 void Data::remove(const QList<int> &list)
@@ -351,7 +368,7 @@ void Data::remove(const QList<int> &list)
         epcs.append(m_table.at(i).epc());
     }
     for (QString epc : epcs)
-        remove(epc);
+        remove(epc, true);
     modified = true;
     setTable(m_table);
 }
@@ -387,11 +404,6 @@ void Data::sort()
         QList<int> sn_list;
         QList<Entry> sorted_table;
         for (Entry entry : m_table) {
-            //QPair<int, int> pair;
-            int sn = entry.sn();
-            //int index = m_table.indexOf(entry);
-            //pair.first = entry.sn();
-            //pair.second = m_table.indexOf(entry);
             sn_list.append(entry.sn());
         }
         qSort(sn_list);
