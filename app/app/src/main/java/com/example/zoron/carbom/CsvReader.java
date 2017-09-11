@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import static com.example.zoron.carbom.CsvReader.INDEX.EPC;
+import static com.example.zoron.carbom.Utils.binarySearch;
 
 /**
  * Created by zoron on 17-4-14.
@@ -57,7 +58,6 @@ public class CsvReader {
 
     public CsvReader(final String file) {
         csv = new File(Environment.getExternalStorageDirectory(), file);
-        //csv = new File("/mnt/sdcard/Document/", file);
         if (!csv.exists()) {
             try {
                 csv.createNewFile();
@@ -236,6 +236,31 @@ public class CsvReader {
         return results;
     }
 
+    public ArrayList<String> allBySort() {
+        ArrayList<String> results = new ArrayList<>();
+        ArrayList<String> epcs = new ArrayList<>();
+        try {
+            LineNumberReader content = new LineNumberReader(new FileReader(csv));
+            String line;
+            while ((line = content.readLine()) != null) {
+                String epc = getEntry(line, EPC);
+                if (results.isEmpty()) {
+                    results.add(line);
+                    epcs.add(epc);
+                } else {
+                    int pos = binarySearch(epcs, epc);
+                    if (pos != -1) {
+                        results.add(pos, line);
+                        epcs.add(pos, epc);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+
     public ArrayList<String> search(INDEX key, String value) {
         ArrayList<String> results = new ArrayList<>();
         try {
@@ -304,7 +329,7 @@ public class CsvReader {
         ArrayList<String> result = new ArrayList<>();
         for (String line : list) {
             String value = getEntryByEPC(getEntry(line, EPC), key);
-            if (!result.contains(line) && (!value.equals("")))
+            if (!result.contains(value) && (!value.equals("")))
                 result.add(value);
         }
         return result;

@@ -16,7 +16,7 @@ public class OutActivity extends BaseActivity {
     @Override
     protected void newFragment(final int i) {
         OutFragment fragment = new OutFragment();
-        fragment.init(listMap.get(i).get("EPC").toString(), i);
+        fragment.init(listMap.get(i).get("EPC"), i);
         MainActivity.replaceFragment(getSupportFragmentManager(),
                 R.id.container, fragment);
     }

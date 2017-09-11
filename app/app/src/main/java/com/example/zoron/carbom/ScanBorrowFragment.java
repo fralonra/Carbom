@@ -104,6 +104,7 @@ public class ScanBorrowFragment extends ScanFragment {
                 }
                 };
             listViewData.setAdapter(adapter);
+            listViewData.setSelection(listViewData.getCount() - 1);
         }
     }
 }

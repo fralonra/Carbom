@@ -13,15 +13,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.android.hdhe.uhf.entity.EPC;
 import com.android.hdhe.uhf.reader.Tools;
 import com.android.hdhe.uhf.reader.UhfReader;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,11 +32,11 @@ public class ScanFragment extends Fragment {
     protected InventoryThread thread;
     protected SimpleAdapter adapter;
     protected UhfReader reader;
+    protected CsvReader csv;
     protected ArrayList<String> listEPC;
     protected ArrayList<Map<String, String>> listMap;
 
     protected boolean stocking = false;
-    protected boolean needUpdate = false;
     protected boolean multiChoice = false;
 
     protected TextView msg;
@@ -66,6 +62,7 @@ public class ScanFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        csv = new CsvReader(CsvReader.SAVE_FILE);
 
         reader = UhfReader.getInstance();
         listEPC = new ArrayList<>();
@@ -77,6 +74,15 @@ public class ScanFragment extends Fragment {
         }
         thread.start();
     }
+
+    @Override
+    public void onDestroy() {
+        if (reader != null) {
+            reader.close();
+        }
+        super.onDestroy();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -157,61 +163,57 @@ public class ScanFragment extends Fragment {
         msg.setText(R.string.msg_not_in);
     }
 
-    protected void addToList(final List<String> list, final String epc) {
+    protected void addToList(final ArrayList<String> list, final String epc) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //第一次读入数据
                 if (list.isEmpty()) {
-                    Utils.play(1, 0);
-                    list.add(epc);
-                    needUpdate = true;
+                    addData(0, epc);
                 } else {
                     int pos = binarySearch(list, epc);
                     if (pos != -1) {
-                        Utils.play(1, 0);
-                        list.add(pos, epc);
-                        needUpdate = true;
+                        addData(pos, epc);
                     }
-                }
-                if (needUpdate) {
-                    addData(list);
-                    needUpdate = false;
                 }
             }
         });
     }
 
-    protected void addData(List<String> list) {
-        listMap.clear();
-        int idcount = 1;
-        for (String epc : list) {
-            if (hasEPC(epc)) {
-                Map<String, String> map = new HashMap<>();
-                map.put("ID", Integer.toString(idcount));
-                map.put("EPC", epc);
-                idcount++;
-                listMap.add(map);
-            }
+    protected void addData(final int pos, final String epc) {
+        if (hasEPC(epc)) {
+            Map<String, String> map = new HashMap<>();
+            map.put("ID", "");
+            map.put("EPC", epc);
+            listEPC.add(pos, epc);
+            listMap.add(pos, map);
+            Utils.play(1, 0);
+            setListView();
         }
-        setListView();
     }
 
     protected boolean hasEPC(String epc) {
-        CsvReader reader = new CsvReader(CsvReader.SAVE_FILE);
-        return reader.hasData(epc);
+        return csv.hasData(epc);
     }
 
     protected void setListView() {
         if (!listMap.isEmpty()) {
             msg.setVisibility(View.GONE);
             listViewData.setVisibility(View.VISIBLE);
+            for (Map<String, String> m : listMap) {
+                m.put("ID", Integer.toString(listMap.indexOf(m) + 1));
+            }
             adapter = new SimpleAdapter(getContext(), listMap, R.layout.listview_item,
                     new String[]{"ID", "EPC"},
                     new int[]{R.id.textView_id, R.id.textView_epc});
             listViewData.setAdapter(adapter);
             listViewData.setSelection(listViewData.getCount() - 1);
         }
+    }
+
+    protected void clearList() {
+        listEPC.clear();
+        listMap.clear();
     }
 
     protected void setButtonClickable(Button button, boolean flag) {

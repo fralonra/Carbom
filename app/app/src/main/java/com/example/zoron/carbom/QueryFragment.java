@@ -165,15 +165,18 @@ public class QueryFragment extends Fragment {
     }
 
     private void showall() {
-        ArrayList<String> results = reader.all();
-        showResult(results);
+        ArrayList<String> results = reader.allBySort();
+        if (!results.isEmpty())
+            showResult(results);
+        else
+            Toast.makeText(getContext(), "数据库为空，或找不到文件", Toast.LENGTH_LONG).show();
     }
 
     private void showResult(ArrayList<String> results) {
         if (results == null) {
-            Toast toast = Toast.makeText(getContext(), "无结果", Toast.LENGTH_SHORT);
-            toast.show();
+            Toast.makeText(getContext(), "无结果", Toast.LENGTH_SHORT).show();
         } else {
+            Toast.makeText(getContext(), "读取成功", Toast.LENGTH_LONG).show();
             QueryResultFragment queryResultFragment = new QueryResultFragment();
             queryResultFragment.setResult(results, NORMAL);
             MainActivity.replaceFragment(getActivity().getSupportFragmentManager(),

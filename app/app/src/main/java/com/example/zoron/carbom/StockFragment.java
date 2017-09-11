@@ -1,7 +1,6 @@
 package com.example.zoron.carbom;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +27,7 @@ import java.util.Map;
 public class StockFragment extends ScanFragment {
     private OnExport parentActivity;
     private ArrayList<String> unstockList;
+    private ArrayList<String> stockFilterResult;
 
     private static final int BYTYPE = 0;
     private static final int BYLOCATION = 1;
@@ -37,10 +36,14 @@ public class StockFragment extends ScanFragment {
     private int way = DEFAULTWAY;
     private CsvReader.INDEX filterIndex;
     private int filterValue = 0;
+    private Boolean stockDone = false;
 
     private TextView location;
     private Button filter;
     private Button export;
+    private AlertDialog stockWayDialog;
+    private AlertDialog stockFilterDialog;
+    private Spinner stockSpinner;
 
     public StockFragment() {
     }
@@ -63,6 +66,7 @@ public class StockFragment extends ScanFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         unstockList = new ArrayList<>();
+        stockFilterResult = new ArrayList<>();
 
         View view = inflater.inflate(R.layout.fragment_stock, container, false);
         listViewData = (ListView) view.findViewById(R.id.listView_data);
@@ -76,52 +80,91 @@ public class StockFragment extends ScanFragment {
         setButtonClickable(filter, false);
         setButtonClickable(export, false);
 
+        // Stockway Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View layout = getActivity().getLayoutInflater().inflate(R.layout.dialog_stock_way, null);
+        Button byType = (Button) layout.findViewById(R.id.by_type);
+        Button byLocation = (Button) layout.findViewById(R.id.by_location);
+        Button cancel = (Button) layout.findViewById(R.id.cancel);
+
+        builder.setCancelable(false);
+        builder.setTitle("选择盘点方式").setView(layout);
+        stockWayDialog = builder.create();
+        byType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stock(BYTYPE);
+                stockWayDialog.dismiss();
+            }
+        });
+        byLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stock(BYLOCATION);
+                stockWayDialog.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stockWayDialog.dismiss();
+            }
+        });
+
+        // Filter
+        AlertDialog.Builder builderF = new AlertDialog.Builder(getContext());
+        View layoutF = getActivity().getLayoutInflater().inflate(R.layout.dialog_stock_filter, null);
+        stockSpinner = (Spinner) layoutF.findViewById(R.id.stock_spinner);
+        Button filterApply = (Button) layoutF.findViewById(R.id.filter_apply);
+        Button filterCancel = (Button) layoutF.findViewById(R.id.filter_cancel);
+
+        builder.setCancelable(false);
+        builderF.setTitle("请选择过滤条件").setView(layoutF);
+        stockFilterDialog = builderF.create();
+        stockSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                filterValue = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        filterApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (filterValue == 0) {
+                    listStock(unstockList);
+                } else if (!stockFilterResult.get(filterValue).equals("")) {
+                    listStock(csv.getLinebyFilter(unstockList, filterIndex, stockFilterResult.get(filterValue)));
+                }
+                stockFilterDialog.dismiss();
+            }
+        });
+        filterCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stockFilterDialog.dismiss();
+            }
+        });
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!unstockList.isEmpty()) {
-                    final CsvReader reader = new CsvReader(CsvReader.SAVE_FILE);
                     if (way == BYTYPE) {
                         filterIndex = CsvReader.INDEX.TYPE;
                     } else if (way == BYLOCATION) {
                         filterIndex = CsvReader.INDEX.LOCATION;
                     }
-                    final ArrayList<String> result = reader.filter(filterIndex, unstockList);
-                    result.add(0, "无过滤");
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    Spinner spinner = new Spinner(getContext());
-                    spinner.setAdapter(new ArrayAdapter<>(getContext(),
+                    if (stockFilterResult.isEmpty()) {
+                        stockFilterResult = csv.filter(filterIndex, unstockList);
+                        stockFilterResult.add(0, "无过滤");
+                    }
+                    stockSpinner.setAdapter(new ArrayAdapter<>(getContext(),
                             android.R.layout.simple_spinner_item,
-                            result));
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            filterValue = position;
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                        }
-                    });
-                    builder.setTitle("请选择过滤条件").setView(spinner)
-                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (filterValue == 0) {
-                                        listStock(unstockList);
-                                    } else if (!result.get(filterValue).equals("")) {
-                                        listStock(reader.getLinebyFilter(unstockList, filterIndex, result.get(filterValue)));
-                                    }
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    builder.create().show();
+                            stockFilterResult));
+                    stockFilterDialog.show();
                 }
             }
         });
@@ -130,6 +173,13 @@ public class StockFragment extends ScanFragment {
             public void onClick(View v) {
                 stocking = !stocking;
                 if (stocking) {
+                    if (location.getVisibility() == View.VISIBLE) {
+                        location.setVisibility(View.GONE);
+                    }
+                    if (stockDone) {
+                        stockDone = false;
+                        clearList();
+                    }
                     scan.setText(R.string.stop_scan);
                     if (export.isClickable()) {
                         setButtonClickable(filter, false);
@@ -137,7 +187,7 @@ public class StockFragment extends ScanFragment {
                     }
                 } else {
                     if (!listMap.isEmpty()) {
-                        stockWayDialog();
+                        stockWayDialog.show();
                     }
                     scan.setText(R.string.start_scan);
                 }
@@ -166,20 +216,67 @@ public class StockFragment extends ScanFragment {
     }
 
     @Override
-    protected void addData(List<String> list) {
-        listMap.clear();
-        for (String epc : list) {
+    protected void addData(final int pos, final String epc) {
+        if (hasEPC(epc)) {
             Map<String, String> map = new HashMap<>();
             map.put("EPC", epc);
-            map.put("TYPE", new CsvReader(CsvReader.SAVE_FILE).getEntryByEPC(epc, CsvReader.INDEX.TYPE));
+            map.put("TYPE", csv.getEntryByEPC(epc, CsvReader.INDEX.TYPE));
             map.put("STATUS", getResources().getText(R.string.stocked).toString());
-            listMap.add(map);
+            listEPC.add(pos, epc);
+            listMap.add(pos, map);
+            Utils.play(1, 0);
+            setListView();
         }
-        setListView();
     }
 
     @Override
     protected void setListView() {
+        if (!listMap.isEmpty()) {
+            msg.setVisibility(View.GONE);
+            listViewData.setVisibility(View.VISIBLE);
+            location.setVisibility(View.GONE);
+            adapter = new SimpleAdapter(getContext(), listMap, R.layout.listview_stock,
+                    new String[]{"EPC", "TYPE", "STATUS"},
+                    new int[]{R.id.textView_epc, R.id.textView_type, R.id.textView_status});
+            listViewData.setAdapter(adapter);
+            listViewData.setSelection(listViewData.getCount() - 1);
+        }
+    }
+
+    private void stock(final int way) {
+        this.way = way;
+        if (!listMap.isEmpty()) {
+            setButtonClickable(filter, true);
+            setButtonClickable(export, true);
+        }
+        unstockList = csv.stock(listEPC);
+        if (unstockList.isEmpty()) {
+            msg.setText("全部已盘");
+            msg.setVisibility(View.VISIBLE);
+            listViewData.setVisibility(View.GONE);
+        } else {
+            listStock(unstockList);
+        }
+        stockFilterResult.clear();
+        stockDone = true;
+    }
+
+    private void listStock(final ArrayList<String> list) {
+        listMap.clear();
+        for (String data : list) {
+            Map<String, String> map = new HashMap<>();
+            map.put("EPC", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
+            if (way == BYLOCATION) {
+                map.put("LOCATION", CsvReader.getEntry(data, CsvReader.INDEX.LOCATION));
+            }
+            map.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
+            map.put("STATUS", getResources().getString(R.string.unstored));
+            listMap.add(map);
+        }
+        setStockListView();
+    }
+
+    private void setStockListView() {
         if (!listMap.isEmpty()) {
             msg.setVisibility(View.GONE);
             listViewData.setVisibility(View.VISIBLE);
@@ -197,73 +294,8 @@ public class StockFragment extends ScanFragment {
                         new int[]{R.id.textView_epc, R.id.textView_location, R.id.textView_type, R.id.textView_status});
             }
             listViewData.setAdapter(adapter);
+            listViewData.setSelection(listViewData.getCount() - 1);
         }
-    }
-
-    private void stockWayDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View layout = getActivity().getLayoutInflater().inflate(R.layout.dialog_stock_way, null);
-        Button byType = (Button) layout.findViewById(R.id.by_type);
-        Button byLocation = (Button) layout.findViewById(R.id.by_location);
-
-        builder.setCancelable(false);
-        builder.setTitle("选择盘点方式").setView(layout);
-        final AlertDialog dialog = builder.create();
-        byType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stock(BYTYPE);
-                dialog.dismiss();
-            }
-        });
-        byLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stock(BYLOCATION);
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-
-    private void stock(final int way) {
-        CsvReader reader = new CsvReader(CsvReader.SAVE_FILE);
-        this.way = way;
-        if (!listMap.isEmpty()) {
-            setButtonClickable(filter, true);
-            setButtonClickable(export, true);
-        }
-        unstockList = reader.stock(listEPC);
-        if (unstockList.isEmpty()) {
-            msg.setText("全部已盘");
-            msg.setVisibility(View.VISIBLE);
-            listViewData.setVisibility(View.GONE);
-        } else {
-            listStock(unstockList);
-        }
-    }
-
-    private void listStock(final ArrayList<String> list) {
-        listMap.clear();
-        if (way == BYTYPE) {
-            for (String data : list) {
-                Map<String, String> map = new HashMap<>();
-                map.put("EPC", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
-                map.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
-                map.put("STATUS", getResources().getString(R.string.unstored));
-                listMap.add(map);
-            }
-        } else if (way == BYLOCATION) {
-            for (String data : list) {
-                Map<String, String> map = new HashMap<>();
-                map.put("EPC", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
-                map.put("LOCATION", CsvReader.getEntry(data, CsvReader.INDEX.LOCATION));
-                map.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
-                map.put("STATUS", getResources().getString(R.string.unstored));
-                listMap.add(map);
-            }
-        }
-        setListView();
     }
 
     private class MapComparator implements Comparator<Map<String, String>> {

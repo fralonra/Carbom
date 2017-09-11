@@ -9,7 +9,6 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by zoron on 17-4-11.
@@ -50,17 +49,21 @@ public class Utils {
         int sn = epcToNumber(epc);
         int low = 0;
         int high = list.size() - 1;
+        int middle = -1;
         while(low <= high) {
-            int middle = (low + high) / 2;
-            if ((epc.equals(list.get(middle)))) {
-                return middle;
+            middle = (low + high) / 2;
+            if ((sn == epcToNumber(list.get(middle)))) {
+                return -1;
             } else if (sn < epcToNumber(list.get(middle))){
                 high = middle - 1;
             } else {
                 low = middle + 1;
             }
         }
-        return -1;
+        if (low - high == 1) {
+            middle = low;
+        }
+        return middle;
     }
 
     public static int epcToNumber(final String epc) {
@@ -77,7 +80,7 @@ public class Utils {
     }
 
 
-    public static String asciiToString(final String value)  {
+    public static String asciiToString(final String value) {
         StringBuilder sbu = new StringBuilder();
         String[] chars = splitStringEvery(value, 2);
         for (String aChar : chars) {
