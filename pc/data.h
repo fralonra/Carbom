@@ -107,6 +107,7 @@ public slots:
 
     void open(const QString &file);
     void importXls(const QString &file);
+    void exportXls(const QString &file);
     void save();
     void saveAs(const QString &file);
     void close();

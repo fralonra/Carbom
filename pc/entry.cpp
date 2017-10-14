@@ -17,6 +17,19 @@ const QMap<Entry::Index, QString> Entry::indexText =
  {Entry::LoanDate, "LOAN_DATE:"},
  {Entry::ReturnDate, "RETURN_DATE:"}};
 
+const QStringList Entry::xlsxHeader =
+{"设备编号",
+ "样机型号",
+ "产品名称",
+ "样机阶段",
+ "样机状态",
+ "入库时间",
+ "存放位置",
+ "当前保管人",
+ "备注",
+ "借用日期",
+ "预计归还日期"};
+
 Entry::Entry(QObject *parent) : QObject(parent)
 {
 }

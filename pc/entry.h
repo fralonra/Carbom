@@ -35,6 +35,7 @@ public:
         ReturnDate,
         IndexCount
     };
+    static const QStringList xlsxHeader;
     static const QMap<Index, QString> indexText;
     static const QString entryDiv;
     static const QString dataDiv;

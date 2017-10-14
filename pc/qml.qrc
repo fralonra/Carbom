@@ -30,5 +30,6 @@
         <file>image/delete.png</file>
         <file>image/clear.png</file>
         <file>image/sort.png</file>
+        <file>image/export.png</file>
     </qresource>
 </RCC>

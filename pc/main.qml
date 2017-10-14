@@ -24,6 +24,9 @@ ApplicationWindow {
                 action: actImport
             }
             MyToolButton {
+                action: actExport
+            }
+            MyToolButton {
                 action: actSave
             }
             MyToolButton {
@@ -112,8 +115,15 @@ ApplicationWindow {
         id: actImport
         text: qsTr("Import")
         iconSource: "image/import.png"
-        shortcut: "Ctrl+E"
+        shortcut: "Ctrl+I"
         onTriggered: importDialog.open()
+    }
+    Action {
+        id: actExport
+        text: qsTr("Export")
+        iconSource: "image/export.png"
+        shortcut: "Ctrl+E"
+        onTriggered: exportDialog.open()
     }
     Action {
         id: actSave
@@ -133,14 +143,14 @@ ApplicationWindow {
         id: actInbound
         text: qsTr("Inbound")
         iconSource: "image/inbound.png"
-        shortcut: "Ctrl+I"
+        shortcut: "Ctrl+Shift+I"
         onTriggered: inboundDialog.open()
     }
     Action {
         id: actOutbound
         text: qsTr("Outbound")
         iconSource: "image/outbound.png"
-        shortcut: "Ctrl+U"
+        shortcut: "Ctrl+Shift+O"
         onTriggered: outboundComfirm.open()
     }
     Action {
@@ -250,9 +260,20 @@ ApplicationWindow {
     }
     FileDialog {
         id: importDialog
+        folder: shortcuts.documents
         nameFilters: ["Excel Files (*.xlsx)"]
         onAccepted: {
             database.importXls(fileUrl)
+        }
+    }
+    FileDialog {
+        id: exportDialog
+        title: qsTr("Export data as ...")
+        folder: shortcuts.documents
+        nameFilters: ["Excel Files (*.xlsx)"]
+        selectExisting: false
+        onAccepted: {
+            database.exportXls(fileUrl)
         }
     }
     DialogEdit {

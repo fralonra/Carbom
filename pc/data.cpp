@@ -206,6 +206,21 @@ void Data::importXls(const QString &file)
     save();// avoid can't reset after importing without saving
 }
 
+void Data::exportXls(const QString &file)
+{
+    QXlsx::Document xlsx(QQmlFile::urlToLocalFileOrQrc(file));
+    for (int col = 1; col <= Entry::xlsxHeader.length(); ++col) {
+        xlsx.write(1, col, Entry::xlsxHeader.at(col - 1));
+    }
+    for (Entry e : m_allTable) {
+        int row = m_allTable.indexOf(e);
+        for (int col = 1; col <= Entry::IndexCount; ++col) {
+            xlsx.write(row + 2, col, e.value(static_cast<Entry::Index>(col - 1)));
+        }
+    }
+    xlsx.save();
+}
+
 void Data::save()
 {
     saveData(m_file);
