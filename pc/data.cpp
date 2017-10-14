@@ -287,19 +287,33 @@ void Data::reset() {
     }
 }
 
-void Data::add(const QString &arg, bool multi)
+int Data::add(const QString &arg, int mode)
 {
     Entry entry(arg);
     for (Entry e : m_table) {
         if (e == entry)
             break;
         else if (e.epc() == entry.epc()) {
+            if (mode == 1) { // All Ok
+                m_table.replace(m_table.indexOf(e), entry);
+                break;
+            }
+            if (mode == 2) { // All Cancel
+                break;
+            }
             QMessageBox box;
-            box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+            box.setStandardButtons(QMessageBox::YesToAll | QMessageBox::Ok | QMessageBox::Cancel | QMessageBox::NoToAll);
             box.setText(tr("Duplicated entry: ") + e.epc() + "\n" + tr("Are you sure to override this entry?"));
             int ret = box.exec();
-            if (ret == QMessageBox::Ok ) {
+            if (ret == QMessageBox::YesToAll) {
                 m_table.replace(m_table.indexOf(e), entry);
+                mode = 1;
+            }
+            else if (ret == QMessageBox::Ok ) {
+                m_table.replace(m_table.indexOf(e), entry);
+            }
+            else if (ret == QMessageBox::NoToAll) {
+                mode = 2;
             }
             break;
         } else if (m_table.indexOf(e) == (m_table.size() - 1)) {
@@ -307,16 +321,14 @@ void Data::add(const QString &arg, bool multi)
             break;
         }
     }
-    if (!multi) {
-        modified = true;
-        setTable(m_table);
-    }
+    return mode;
 }
 
 void Data::add(const QStringList &arg)
 {
+    int mode = 0;
     for (QString entry : arg) {
-        add(entry, true);
+        mode = add(entry, mode);
     }
     modified = true;
     setTable(m_table);

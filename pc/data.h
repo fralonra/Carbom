@@ -116,7 +116,7 @@ public slots:
     void last();
     void find(const QString &arg);
     void reset();
-    void add(const QString &arg, bool multi = false);
+    int add(const QString &arg, int mode = 0);
     void add(const QStringList &arg);
     void remove(const int index, bool multi = false);
     void remove(const QString &epc, bool multi = false);
