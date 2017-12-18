@@ -43,7 +43,7 @@ public class BorrowActivity extends BaseActivity {
                 public void run() {
                     finish();
                 }
-            }, 3500);
+            }, 500);
         }
     }
 

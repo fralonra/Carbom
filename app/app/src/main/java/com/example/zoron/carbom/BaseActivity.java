@@ -19,6 +19,7 @@ import java.util.Map;
 
 public abstract class BaseActivity extends AppCompatActivity implements ScanFragment.OnScanFinishedListener,
         BaseFragment.OnClickListener {
+    protected static CsvReader reader = MainActivity.reader;
     protected ArrayList<Map<String, String>> listMap;
     protected int index = 0;
 
@@ -91,7 +92,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ScanFrag
                 public void run() {
                     finish();
                 }
-            }, 2500);
+            }, 500);
         }
     }
 

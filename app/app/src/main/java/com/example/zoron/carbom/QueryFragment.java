@@ -28,7 +28,7 @@ public class QueryFragment extends Fragment {
     public static final int NORMAL = 0;
     public static final int BYKEEPER = 1;
 
-    private CsvReader reader;
+    private CsvReader reader = MainActivity.reader;
 
     private SearchView idQuery;
     private SearchView typeQuery;
@@ -42,7 +42,6 @@ public class QueryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        reader = new CsvReader(CsvReader.SAVE_FILE);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class QueryFragment extends Fragment {
         idQuery.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                search(CsvReader.INDEX.EPC, idQuery.getQuery().toString());
+                search(Entry.INDEX.EPC, idQuery.getQuery().toString());
                 return false;
             }
 
@@ -72,7 +71,7 @@ public class QueryFragment extends Fragment {
         typeQuery.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                search(CsvReader.INDEX.TYPE, typeQuery.getQuery().toString());
+                search(Entry.INDEX.TYPE, typeQuery.getQuery().toString());
                 return false;
             }
 
@@ -84,7 +83,7 @@ public class QueryFragment extends Fragment {
         statusQuery.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                search(CsvReader.INDEX.STATUS, statusQuery.getQuery().toString());
+                search(Entry.INDEX.STATUS, statusQuery.getQuery().toString());
                 return false;
             }
 
@@ -97,10 +96,10 @@ public class QueryFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query.equals("在库")) {
-                    search(CsvReader.INDEX.KEEPER, locationQuery.getQuery().toString());
+                    search(Entry.INDEX.KEEPER, locationQuery.getQuery().toString());
                     return false;
                 }
-                search(CsvReader.INDEX.LOCATION, locationQuery.getQuery().toString());
+                search(Entry.INDEX.LOCATION, locationQuery.getQuery().toString());
                 return false;
             }
 
@@ -112,7 +111,7 @@ public class QueryFragment extends Fragment {
         keeperQuery.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                search(CsvReader.INDEX.KEEPER, keeperQuery.getQuery().toString());
+                search(Entry.INDEX.KEEPER, keeperQuery.getQuery().toString());
                 return false;
             }
 
@@ -137,15 +136,15 @@ public class QueryFragment extends Fragment {
         return view;
     }
 
-    private void search(CsvReader.INDEX key, String value) {
+    private void search(Entry.INDEX key, String value) {
         if (!value.isEmpty()) {
-            ArrayList<String> results = reader.search(key, value);
+            ArrayList<Entry> results = reader.search(key, value);
             if (results.isEmpty()) {
                 Toast toast = Toast.makeText(getContext(), "无搜索结果", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
                 QueryResultFragment queryResultFragment = new QueryResultFragment();
-                if (key == CsvReader.INDEX.KEEPER) {
+                if (key == Entry.INDEX.KEEPER) {
                     queryResultFragment.setResult(results, BYKEEPER);
                 } else {
                     queryResultFragment.setResult(results, NORMAL);
@@ -157,23 +156,23 @@ public class QueryFragment extends Fragment {
     }
 
     private void multiSearch() {
-        Map<CsvReader.INDEX, String> queries = new HashMap<>();
+        Map<Entry.INDEX, String> queries = new HashMap<>();
         if (searchViewhasQuery(idQuery)) {
-            queries.put(CsvReader.INDEX.EPC, idQuery.getQuery().toString());
+            queries.put(Entry.INDEX.EPC, idQuery.getQuery().toString());
         }
         if (searchViewhasQuery(typeQuery)) {
-            queries.put(CsvReader.INDEX.TYPE, typeQuery.getQuery().toString());
+            queries.put(Entry.INDEX.TYPE, typeQuery.getQuery().toString());
         }
         if (searchViewhasQuery(statusQuery)) {
-            queries.put(CsvReader.INDEX.STATUS, statusQuery.getQuery().toString());
+            queries.put(Entry.INDEX.STATUS, statusQuery.getQuery().toString());
         }
         if (searchViewhasQuery(locationQuery)) {
-            queries.put(CsvReader.INDEX.LOCATION, locationQuery.getQuery().toString());
+            queries.put(Entry.INDEX.LOCATION, locationQuery.getQuery().toString());
         }
         if (searchViewhasQuery(keeperQuery)) {
-            queries.put(CsvReader.INDEX.KEEPER, keeperQuery.getQuery().toString());
+            queries.put(Entry.INDEX.KEEPER, keeperQuery.getQuery().toString());
         }
-        ArrayList<String> results = reader.search(queries);
+        ArrayList<Entry> results = reader.search(queries);
         showResult(results);
     }
 
@@ -182,14 +181,14 @@ public class QueryFragment extends Fragment {
     }
 
     private void showall() {
-        ArrayList<String> results = reader.allBySort();
+        ArrayList<Entry> results = reader.allBySort();
         if (!results.isEmpty())
             showResult(results);
         else
             Toast.makeText(getContext(), "数据库为空，或找不到文件", Toast.LENGTH_LONG).show();
     }
 
-    private void showResult(ArrayList<String> results) {
+    private void showResult(ArrayList<Entry> results) {
         if (results == null) {
             Toast.makeText(getContext(), "无结果", Toast.LENGTH_SHORT).show();
         } else {

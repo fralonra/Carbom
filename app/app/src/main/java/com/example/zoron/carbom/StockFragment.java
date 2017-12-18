@@ -21,12 +21,16 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.zoron.carbom.Entry.INDEX.EPC;
+import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
+import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+
 /**
  * A placeholder fragment containing a simple view.
  */
 public class StockFragment extends ScanFragment {
     private OnExport parentActivity;
-    private ArrayList<String> unstockList;
+    private ArrayList<Entry> unstockList;
     private ArrayList<String> stockFilterResult;
 
     private static final int BYTYPE = 0;
@@ -34,7 +38,7 @@ public class StockFragment extends ScanFragment {
     private static final int DEFAULTWAY = BYTYPE;
 
     private int way = DEFAULTWAY;
-    private CsvReader.INDEX filterIndex;
+    private Entry.INDEX filterIndex;
     private int filterValue = 0;
     private Boolean stockDone = false;
 
@@ -137,7 +141,7 @@ public class StockFragment extends ScanFragment {
                 if (filterValue == 0) {
                     listStock(unstockList);
                 } else if (!stockFilterResult.get(filterValue).equals("")) {
-                    listStock(csv.getLinebyFilter(unstockList, filterIndex, stockFilterResult.get(filterValue)));
+                    listStock(csv.getEntrybyFilter(unstockList, filterIndex, stockFilterResult.get(filterValue)));
                 }
                 stockFilterDialog.dismiss();
             }
@@ -153,9 +157,9 @@ public class StockFragment extends ScanFragment {
             public void onClick(View v) {
                 if (!unstockList.isEmpty()) {
                     if (way == BYTYPE) {
-                        filterIndex = CsvReader.INDEX.TYPE;
+                        filterIndex = TYPE;
                     } else if (way == BYLOCATION) {
-                        filterIndex = CsvReader.INDEX.LOCATION;
+                        filterIndex = LOCATION;
                     }
                     if (stockFilterResult.isEmpty()) {
                         stockFilterResult = csv.filter(filterIndex, unstockList);
@@ -207,7 +211,7 @@ public class StockFragment extends ScanFragment {
     }
 
     public interface OnExport {
-        public void export(ArrayList<String> data);
+        public void export(ArrayList<Entry> data);
     }
 
     @Override
@@ -220,7 +224,7 @@ public class StockFragment extends ScanFragment {
         if (hasEPC(epc)) {
             Map<String, String> map = new HashMap<>();
             map.put("EPC", epc);
-            map.put("TYPE", csv.getEntryByEPC(epc, CsvReader.INDEX.TYPE));
+            map.put("TYPE", csv.getValueByEpc(epc, TYPE));
             map.put("STATUS", getResources().getText(R.string.stocked).toString());
             listEPC.add(pos, epc);
             listMap.add(pos, map);
@@ -261,15 +265,15 @@ public class StockFragment extends ScanFragment {
         stockDone = true;
     }
 
-    private void listStock(final ArrayList<String> list) {
+    private void listStock(final ArrayList<Entry> list) {
         listMap.clear();
-        for (String data : list) {
+        for (Entry e : list) {
             Map<String, String> map = new HashMap<>();
-            map.put("EPC", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
+            map.put("EPC", e.get(EPC));
             if (way == BYLOCATION) {
-                map.put("LOCATION", CsvReader.getEntry(data, CsvReader.INDEX.LOCATION));
+                map.put("LOCATION", e.get(LOCATION));
             }
-            map.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
+            map.put("TYPE", e.get(TYPE));
             map.put("STATUS", getResources().getString(R.string.unstored));
             listMap.add(map);
         }

@@ -24,6 +24,17 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import static android.text.InputType.TYPE_NULL;
+import static com.example.zoron.carbom.Entry.INDEX.EPC;
+import static com.example.zoron.carbom.Entry.INDEX.RETURN_DATE;
+import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
+import static com.example.zoron.carbom.Entry.INDEX.LOAN_DATE;
+import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
+import static com.example.zoron.carbom.Entry.INDEX.NAME;
+import static com.example.zoron.carbom.Entry.INDEX.NOTE;
+import static com.example.zoron.carbom.Entry.INDEX.STAGE;
+import static com.example.zoron.carbom.Entry.INDEX.STATUS;
+import static com.example.zoron.carbom.Entry.INDEX.TIME;
+import static com.example.zoron.carbom.Entry.INDEX.TYPE;
 
 /**
  * Created by zoron on 17-3-22.
@@ -154,36 +165,36 @@ public class BorrowFragment extends BaseFragment {
 
     protected void setText() {
         id.setText(epc);
-        type.setText(CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
-        name.setText(CsvReader.getEntry(data, CsvReader.INDEX.NAME));
-        stage.setText(CsvReader.getEntry(data, CsvReader.INDEX.STAGE));
-        status.setText(CsvReader.getEntry(data, CsvReader.INDEX.STATUS));
-        time.setText(CsvReader.getEntry(data, CsvReader.INDEX.TIME));
-        location.setText(CsvReader.getEntry(data, CsvReader.INDEX.LOCATION));
-        keeper.setText(CsvReader.getEntry(data, CsvReader.INDEX.KEEPER));
+        type.setText(reader.getValueByEpc(epc, TYPE));
+        name.setText(reader.getValueByEpc(epc, NAME));
+        stage.setText(reader.getValueByEpc(epc, STAGE));
+        status.setText(reader.getValueByEpc(epc, STATUS));
+        time.setText(reader.getValueByEpc(epc, TIME));
+        location.setText(reader.getValueByEpc(epc, LOCATION));
+        keeper.setText(reader.getValueByEpc(epc, KEEPER));
     }
 
     protected void loan() {
         mapToWrite = new HashMap<>();
-        mapToWrite.put(CsvReader.INDEX.EPC, epc);
-        getInput(CsvReader.INDEX.KEEPER, loaner);
-        getInput(CsvReader.INDEX.LOAN_DATE, loan_date);
-        getInput(CsvReader.INDEX.EXPECTED_LOAN_BACK, expectedLoanBack);
-        getInput(CsvReader.INDEX.NOTE, note);
-        if (reader.hasData(mapToWrite)) {
+        mapToWrite.put(EPC, epc);
+        getInput(KEEPER, loaner);
+        getInput(LOAN_DATE, loan_date);
+        getInput(RETURN_DATE, expectedLoanBack);
+        getInput(NOTE, note);
+        if (reader.hasEntry(mapToWrite)) {
             reader.modify(mapToWrite);
         }
     }
 
     protected void loanBack(String status, String note) {
         mapToWrite = new HashMap<>();
-        mapToWrite.put(CsvReader.INDEX.EPC, epc);
-        mapToWrite.put(CsvReader.INDEX.KEEPER, getResources().getString(R.string.stored));
-        mapToWrite.put(CsvReader.INDEX.LOAN_DATE, "");
-        mapToWrite.put(CsvReader.INDEX.EXPECTED_LOAN_BACK, "");
-        mapToWrite.put(CsvReader.INDEX.STATUS, status);
-        mapToWrite.put(CsvReader.INDEX.NOTE, note);
-        if (reader.hasData(mapToWrite)) {
+        mapToWrite.put(EPC, epc);
+        mapToWrite.put(KEEPER, getResources().getString(R.string.stored));
+        mapToWrite.put(LOAN_DATE, "");
+        mapToWrite.put(RETURN_DATE, "");
+        mapToWrite.put(STATUS, status);
+        mapToWrite.put(NOTE, note);
+        if (reader.hasEntry(mapToWrite)) {
             reader.modify(mapToWrite);
         }
     }
@@ -202,6 +213,8 @@ public class BorrowFragment extends BaseFragment {
         View layout = getActivity().getLayoutInflater().inflate(R.layout.dialog_loanback_state, null);
         final EditText status = (EditText) layout.findViewById(R.id.loanback_status);
         final EditText note = (EditText) layout.findViewById(R.id.loanback_note);
+        status.setText(data.get(STATUS));
+        note.setText(data.get(NOTE));
         builder.setMessage("请填写设备状态").setView(layout)
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override

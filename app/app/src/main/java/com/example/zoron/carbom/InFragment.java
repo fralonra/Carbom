@@ -17,6 +17,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.example.zoron.carbom.Entry.INDEX.EPC;
+import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
+import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
+import static com.example.zoron.carbom.Entry.INDEX.NAME;
+import static com.example.zoron.carbom.Entry.INDEX.NOTE;
+import static com.example.zoron.carbom.Entry.INDEX.STAGE;
+import static com.example.zoron.carbom.Entry.INDEX.STATUS;
+import static com.example.zoron.carbom.Entry.INDEX.TIME;
+import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+
 /**
  * Created by zoron on 17-3-21.
  */
@@ -95,16 +105,16 @@ public class InFragment extends BaseFragment {
 
     private void updateData() {
         mapToWrite = new HashMap<>();
-        getInput(CsvReader.INDEX.EPC, id);
-        getInput(CsvReader.INDEX.TYPE, type);
-        getInput(CsvReader.INDEX.NAME, name);
-        getInput(CsvReader.INDEX.STAGE, stage);
-        getInput(CsvReader.INDEX.STATUS, status);
-        getInput(CsvReader.INDEX.TIME, time);
-        getInput(CsvReader.INDEX.LOCATION, location);
-        getInput(CsvReader.INDEX.KEEPER, keeper);
-        getInput(CsvReader.INDEX.NOTE, note);
-        if (!reader.hasData(mapToWrite)) {
+        getInput(EPC, id);
+        getInput(TYPE, type);
+        getInput(NAME, name);
+        getInput(STAGE, stage);
+        getInput(STATUS, status);
+        getInput(TIME, time);
+        getInput(LOCATION, location);
+        getInput(KEEPER, keeper);
+        getInput(NOTE, note);
+        if (!reader.hasEntry(mapToWrite)) {
             reader.append(mapToWrite);
         }
     }

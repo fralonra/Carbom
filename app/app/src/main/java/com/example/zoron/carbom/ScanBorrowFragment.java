@@ -32,9 +32,6 @@ public class ScanBorrowFragment extends ScanFragment {
         if (multiChoice)
             listMap = multiListMap;
         parentActivity.scanFinish(listMap, multiChoice);
-        for (Map<String, String> m : listMap) {
-            Log.d("xxtt", m.toString());
-        }
     }
 
     protected void setAdapter() {

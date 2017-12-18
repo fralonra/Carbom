@@ -62,7 +62,7 @@ public class ScanFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        csv = new CsvReader(CsvReader.SAVE_FILE);
+        csv = BaseActivity.reader;
 
         reader = UhfReader.getInstance();
         listEPC = new ArrayList<>();
@@ -195,13 +195,13 @@ public class ScanFragment extends Fragment {
             map.put("EPC", epc);
             listEPC.add(pos, epc);
             listMap.add(pos, map);
-            //Utils.play(1, 0);
+            Utils.play(1, 0);
             setListView();
         }
     }
 
     protected boolean hasEPC(String epc) {
-        return csv.hasData(epc);
+        return csv.hasEntry(epc);
     }
 
     protected void setListView() {

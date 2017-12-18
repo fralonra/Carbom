@@ -23,9 +23,9 @@ import java.util.Map;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected OnClickListener parentActivity;
-    protected CsvReader reader;
-    protected Map<CsvReader.INDEX, String> mapToWrite;
-    protected String data = "";
+    protected CsvReader reader = BaseActivity.reader;
+    protected Map<Entry.INDEX, String> mapToWrite;
+    protected Entry data = null;
     protected String epc = "";
     protected int index = 0;
 
@@ -54,8 +54,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        reader = new CsvReader(CsvReader.SAVE_FILE);
-        data = reader.getData(epc);
+        data = reader.getEntry(epc);
     }
 
     @Override
@@ -94,7 +93,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected void update() {
     }
 
-    protected void getInput(final CsvReader.INDEX index, EditText editText) {
+    protected void getInput(final Entry.INDEX index, EditText editText) {
         if (!Utils.isTextViewEmpty(editText)) {
             if (mapToWrite != null) {
                 mapToWrite.put(index, editText.getText().toString().trim());

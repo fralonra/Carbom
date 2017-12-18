@@ -10,6 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
+import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
+import static com.example.zoron.carbom.Entry.INDEX.NAME;
+import static com.example.zoron.carbom.Entry.INDEX.STAGE;
+import static com.example.zoron.carbom.Entry.INDEX.STATUS;
+import static com.example.zoron.carbom.Entry.INDEX.TIME;
+import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+
 /**
  * Created by zoron on 17-3-22.
  */
@@ -41,13 +49,13 @@ public class OutFragment extends BaseFragment {
         keeper = (EditText) view.findViewById(R.id.keeper);
 
         id.setText(epc);
-        type.setText(reader.getEntry(data, CsvReader.INDEX.TYPE));
-        name.setText(reader.getEntry(data, CsvReader.INDEX.NAME));
-        stage.setText(reader.getEntry(data, CsvReader.INDEX.STAGE));
-        status.setText(reader.getEntry(data, CsvReader.INDEX.STATUS));
-        time.setText(reader.getEntry(data, CsvReader.INDEX.TIME));
-        location.setText(reader.getEntry(data, CsvReader.INDEX.LOCATION));
-        keeper.setText(reader.getEntry(data, CsvReader.INDEX.KEEPER));
+        type.setText(data.get(TYPE));
+        name.setText(data.get(NAME));
+        stage.setText(data.get(STAGE));
+        status.setText(data.get(STATUS));
+        time.setText(data.get(TIME));
+        location.setText(data.get(LOCATION));
+        keeper.setText(data.get(KEEPER));
 
         Button left = (Button) view.findViewById(R.id.left);
         Button right = (Button) view.findViewById(R.id.right);

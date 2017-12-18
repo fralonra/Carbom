@@ -15,13 +15,15 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements UncaughtExceptionHandler, View.OnClickListener {
-    enum FG_ID {
+    public enum FG_ID {
         QUERY,
         IN,
         OUT,
         BORROWED,
         STOCK
     }
+
+    protected static CsvReader reader = new CsvReader(CsvReader.SAVE_FILE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

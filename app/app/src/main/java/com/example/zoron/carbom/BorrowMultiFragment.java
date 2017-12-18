@@ -11,6 +11,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.zoron.carbom.Entry.INDEX.EPC;
+import static com.example.zoron.carbom.Entry.INDEX.RETURN_DATE;
+import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
+import static com.example.zoron.carbom.Entry.INDEX.LOAN_DATE;
+import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
+import static com.example.zoron.carbom.Entry.INDEX.NAME;
+import static com.example.zoron.carbom.Entry.INDEX.NOTE;
+import static com.example.zoron.carbom.Entry.INDEX.STAGE;
+import static com.example.zoron.carbom.Entry.INDEX.STATUS;
+import static com.example.zoron.carbom.Entry.INDEX.TIME;
+import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+
 /**
  * Created by zoron on 17-5-11.
  */
@@ -27,34 +39,34 @@ public class BorrowMultiFragment extends BorrowFragment {
 
     @Override
     protected void setText() {
-        id.setText(reader.getEntryByList(list, CsvReader.INDEX.EPC));
-        type.setText(reader.getEntryByList(list, CsvReader.INDEX.TYPE));
-        name.setText(reader.getEntryByList(list, CsvReader.INDEX.NAME));
-        stage.setText(reader.getEntryByList(list, CsvReader.INDEX.STAGE));
-        status.setText(reader.getEntryByList(list, CsvReader.INDEX.STATUS));
-        time.setText(reader.getEntryByList(list, CsvReader.INDEX.TIME));
-        location.setText(reader.getEntryByList(list, CsvReader.INDEX.LOCATION));
-        keeper.setText(reader.getEntryByList(list, CsvReader.INDEX.KEEPER));
+        id.setText(reader.getValueByList(list, EPC));
+        type.setText(reader.getValueByList(list, TYPE));
+        name.setText(reader.getValueByList(list, NAME));
+        stage.setText(reader.getValueByList(list, STAGE));
+        status.setText(reader.getValueByList(list, STATUS));
+        time.setText(reader.getValueByList(list, TIME));
+        location.setText(reader.getValueByList(list, LOCATION));
+        keeper.setText(reader.getValueByList(list, KEEPER));
     }
 
     @Override
     protected void loan() {
         mapToWrite = new HashMap<>();
-        getInput(CsvReader.INDEX.KEEPER, loaner);
-        getInput(CsvReader.INDEX.LOAN_DATE, loan_date);
-        getInput(CsvReader.INDEX.EXPECTED_LOAN_BACK, expectedLoanBack);
-        getInput(CsvReader.INDEX.NOTE, note);
+        getInput(KEEPER, loaner);
+        getInput(LOAN_DATE, loan_date);
+        getInput(RETURN_DATE, expectedLoanBack);
+        getInput(NOTE, note);
         reader.modify(list, mapToWrite);
     }
 
     @Override
     protected void loanBack(String status, String note) {
         mapToWrite = new HashMap<>();
-        mapToWrite.put(CsvReader.INDEX.KEEPER, getResources().getString(R.string.stored));
-        mapToWrite.put(CsvReader.INDEX.LOAN_DATE, "");
-        mapToWrite.put(CsvReader.INDEX.EXPECTED_LOAN_BACK, "");
-        mapToWrite.put(CsvReader.INDEX.STATUS, status);
-        mapToWrite.put(CsvReader.INDEX.NOTE, note);
+        mapToWrite.put(KEEPER, getResources().getString(R.string.stored));
+        mapToWrite.put(LOAN_DATE, "");
+        mapToWrite.put(RETURN_DATE, "");
+        mapToWrite.put(STATUS, status);
+        mapToWrite.put(NOTE, note);
         reader.modify(list, mapToWrite);
     }
 
@@ -72,6 +84,6 @@ public class BorrowMultiFragment extends BorrowFragment {
             public void run() {
                 getActivity().finish();
             }
-        }, 2500);
+        }, 500);
     }
 }

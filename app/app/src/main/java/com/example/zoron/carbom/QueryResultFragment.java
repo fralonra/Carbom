@@ -30,6 +30,13 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
+import static com.example.zoron.carbom.Entry.INDEX.EPC;
+import static com.example.zoron.carbom.Entry.INDEX.RETURN_DATE;
+import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
+import static com.example.zoron.carbom.Entry.INDEX.LOAN_DATE;
+import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
+import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+
 /**
  * Created by zoron on 17-4-17.
  */
@@ -67,28 +74,28 @@ public class QueryResultFragment extends Fragment {
         return view;
     }
 
-    public void setResult(ArrayList<String> results, final int way) {
+    public void setResult(ArrayList<Entry> results, final int way) {
         resultList = new ArrayList<>();
         mWay = way;
         if (mWay == QueryFragment.NORMAL) {
-            for (String data : results) {
+            for (Entry e : results) {
                 Map<String, String> resultMap = new HashMap<>();
-                resultMap.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
-                resultMap.put("ID", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
-                resultMap.put("LOCATION", CsvReader.getEntry(data, CsvReader.INDEX.LOCATION));
-                resultMap.put("KEEPER", CsvReader.getEntry(data, CsvReader.INDEX.KEEPER));
+                resultMap.put(TYPE.toString(), e.get(TYPE));
+                resultMap.put(EPC.toString(), e.get(EPC));
+                resultMap.put(LOCATION.toString(), e.get(LOCATION));
+                resultMap.put(KEEPER.toString(), e.get(KEEPER));
                 resultList.add(resultMap);
             }
         } else if (mWay == QueryFragment.BYKEEPER) {
-            for (String data : results) {
+            for (Entry e : results) {
                 if (name == null) {
-                    name = CsvReader.getEntry(data, CsvReader.INDEX.KEEPER);
+                    name = e.get(KEEPER);
                 }
                 Map<String, String> resultMap = new HashMap<>();
-                resultMap.put("TYPE", CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
-                resultMap.put("ID", CsvReader.getEntry(data, CsvReader.INDEX.EPC));
-                resultMap.put("LOANDATE", CsvReader.getEntry(data, CsvReader.INDEX.LOAN_DATE));
-                resultMap.put("BACKDATE", CsvReader.getEntry(data, CsvReader.INDEX.EXPECTED_LOAN_BACK));
+                resultMap.put(TYPE.toString(), e.get(TYPE));
+                resultMap.put(EPC.toString(), e.get(EPC));
+                resultMap.put(LOAN_DATE.toString(), e.get(LOAN_DATE));
+                resultMap.put(RETURN_DATE.toString(), e.get(RETURN_DATE));
                 resultList.add(resultMap);
             }
         }
@@ -102,7 +109,7 @@ public class QueryResultFragment extends Fragment {
                 keeper.setText("");
                 SimpleAdapter adapter = new SimpleAdapter(getContext(),
                         resultList, R.layout.listview_query_result,
-                        new String[]{"TYPE", "ID", "LOCATION", "KEEPER"},
+                        new String[]{TYPE.toString(), EPC.toString(), LOCATION.toString(), KEEPER.toString()},
                         new int[]{R.id.textView_type, R.id.textView_epc, R.id.textView_location, R.id.textView_keeper});
                 listViewResult.setAdapter(adapter);
             }
@@ -113,7 +120,7 @@ public class QueryResultFragment extends Fragment {
                 keeper.setText(getString(R.string.keeper_name, name));
                 SimpleAdapter adapter = new SimpleAdapter(getContext(),
                         resultList, R.layout.listview_query_keeper,
-                        new String[]{"TYPE", "ID", "LOANDATE", "BACKDATE"},
+                        new String[]{TYPE.toString(), EPC.toString(), LOAN_DATE.toString(), RETURN_DATE.toString()},
                         new int[]{R.id.textView_type, R.id.textView_epc, R.id.textView_loan_date, R.id.textView_loan_back_date});
                 listViewResult.setAdapter(adapter);
             }
@@ -122,7 +129,7 @@ public class QueryResultFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), BorrowActivity.class);
-                intent.putExtra("epc", resultList.get(position).get("ID"));
+                intent.putExtra("epc", resultList.get(position).get(EPC.toString()));
                 startActivity(intent);
             }
         });

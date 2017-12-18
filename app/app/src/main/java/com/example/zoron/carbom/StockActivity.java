@@ -26,11 +26,13 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
+import static com.example.zoron.carbom.Entry.INDEX.INDEX_COUNT;
+
 public class StockActivity extends AppCompatActivity implements ScanFragment.OnScanFinishedListener,
         StockFragment.OnExport {
     private static final int SELECT_PATH = 0;
     private static final String FILE_NAME_PREFIX = "盘点";
-    private ArrayList<String> exportData;
+    private ArrayList<Entry> exportData;
     private String exportPath = "";
 
     @Override
@@ -73,7 +75,7 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
     public void scanFinish(ArrayList<Map<String, String>> list, final boolean multichoice) {
     }
 
-    public void export(ArrayList<String> data) {
+    public void export(ArrayList<Entry> data) {
         exportData = data;
         FolderChooserDialog directoryChooserDialog =
                 new FolderChooserDialog(this,
@@ -92,6 +94,7 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
         final String fileName = FILE_NAME_PREFIX + "_" +
                 new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINESE).format(new Date()) + ".xls";
         File file = new File(exportPath, fileName);
+        Log.d("ttxx", fileName);
         if (file.exists()) {
             file.delete();
         }
@@ -107,15 +110,14 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
             workbook = Workbook.createWorkbook(file, wbSettings);
             WritableSheet sheet = workbook.createSheet("carbom", 0);
             try {
-                for (CsvReader.INDEX key : CsvReader.INDEX.values()) {
+                for (Entry.INDEX key : Entry.INDEX.values()) {
                     sheet.addCell(new Label(key.ordinal(), 0, csvIndexToString(key)));
                 }
                 int row = 1;
-                for (String data : exportData) {
-                    for (CsvReader.INDEX key : CsvReader.INDEX.values()) {
-                        if (CsvReader.hasEntry(data, key)) {
-                            sheet.addCell(new Label(key.ordinal(), row, CsvReader.getEntry(data, key)));
-                        }
+                for (Entry e : exportData) {
+                    for (Entry.INDEX key : Entry.INDEX.values()) {
+                        if (key == INDEX_COUNT) break;//Ut
+                        sheet.addCell(new Label(key.ordinal(), row, e.get(key)));
                     }
                     ++row;
                 }
@@ -134,7 +136,7 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
         }
     }
 
-    private String csvIndexToString(CsvReader.INDEX key) {
+    private String csvIndexToString(Entry.INDEX key) {
         switch (key) {
             case EPC:
                 return getResources().getString(R.string.id);
@@ -154,7 +156,7 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
                 return getResources().getString(R.string.keeper);
             case NOTE:
                 return getResources().getString(R.string.note);
-            case EXPECTED_LOAN_BACK:
+            case RETURN_DATE:
                 return getResources().getString(R.string.expected_loan_back);
             default:
                 return "";
