@@ -87,7 +87,7 @@ public class ScanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_scan, container, false);
+        final View view = setView(inflater, container, R.layout.fragment_scan);
         listViewData = (ListView) view.findViewById(R.id.listView_data);
         msg = (TextView) view.findViewById(R.id.msg);
         setMsgText();
@@ -117,7 +117,7 @@ public class ScanFragment extends Fragment {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parentActivity.scanFinish(listMap, multiChoice);
+                okClick();
             }
         });
         return view;
@@ -159,6 +159,14 @@ public class ScanFragment extends Fragment {
         }
     }
 
+    protected View setView(final LayoutInflater inflater, final ViewGroup container, final int layout) {
+        return inflater.inflate(R.layout.fragment_scan, container, false);
+    }
+
+    protected void okClick() {
+        parentActivity.scanFinish(listMap, multiChoice);
+    }
+
     protected void setMsgText() {
         msg.setText(R.string.msg_not_in);
     }
@@ -187,7 +195,7 @@ public class ScanFragment extends Fragment {
             map.put("EPC", epc);
             listEPC.add(pos, epc);
             listMap.add(pos, map);
-            Utils.play(1, 0);
+            //Utils.play(1, 0);
             setListView();
         }
     }
@@ -203,12 +211,16 @@ public class ScanFragment extends Fragment {
             for (Map<String, String> m : listMap) {
                 m.put("ID", Integer.toString(listMap.indexOf(m) + 1));
             }
-            adapter = new SimpleAdapter(getContext(), listMap, R.layout.listview_item,
-                    new String[]{"ID", "EPC"},
-                    new int[]{R.id.textView_id, R.id.textView_epc});
+            setAdapter();
             listViewData.setAdapter(adapter);
             listViewData.setSelection(listViewData.getCount() - 1);
         }
+    }
+
+    protected void setAdapter() {
+        adapter = new SimpleAdapter(getContext(), listMap, R.layout.listview_item,
+                new String[]{"ID", "EPC"},
+                new int[]{R.id.textView_id, R.id.textView_epc});
     }
 
     protected void clearList() {

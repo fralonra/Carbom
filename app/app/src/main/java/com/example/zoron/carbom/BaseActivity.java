@@ -1,5 +1,6 @@
 package com.example.zoron.carbom;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -32,7 +34,20 @@ public abstract class BaseActivity extends AppCompatActivity implements ScanFrag
         }
 
         setContentView(R.layout.activity_base);
-        firstFragment();
+
+        Intent intent = getIntent();
+        String epc = intent.getStringExtra("epc");
+
+        if (listMap == null) listMap = new ArrayList<>();
+        if (epc != null) {
+            Map<String, String> map = new HashMap<>();
+            map.put("ID", "1");
+            map.put("EPC", epc);
+            listMap.add(map);
+            scanFinish(listMap, false);
+        } else {
+            firstFragment();
+        }
     }
 
     @Override

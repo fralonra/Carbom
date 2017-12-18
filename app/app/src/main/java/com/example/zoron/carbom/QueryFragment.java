@@ -30,6 +30,7 @@ public class QueryFragment extends Fragment {
 
     private CsvReader reader;
 
+    private SearchView idQuery;
     private SearchView typeQuery;
     private SearchView statusQuery;
     private SearchView locationQuery;
@@ -48,6 +49,7 @@ public class QueryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_query, container, false);
+        idQuery = (SearchView) view.findViewById(R.id.id_query);
         typeQuery = (SearchView) view.findViewById(R.id.type_query);
         statusQuery = (SearchView) view.findViewById(R.id.status_query);
         locationQuery = (SearchView) view.findViewById(R.id.location_query);
@@ -55,6 +57,18 @@ public class QueryFragment extends Fragment {
         Button query = (Button) view.findViewById(R.id.query);
         Button all = (Button) view.findViewById(R.id.all);
 
+        idQuery.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                search(CsvReader.INDEX.EPC, idQuery.getQuery().toString());
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         typeQuery.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -144,6 +158,9 @@ public class QueryFragment extends Fragment {
 
     private void multiSearch() {
         Map<CsvReader.INDEX, String> queries = new HashMap<>();
+        if (searchViewhasQuery(idQuery)) {
+            queries.put(CsvReader.INDEX.EPC, idQuery.getQuery().toString());
+        }
         if (searchViewhasQuery(typeQuery)) {
             queries.put(CsvReader.INDEX.TYPE, typeQuery.getQuery().toString());
         }

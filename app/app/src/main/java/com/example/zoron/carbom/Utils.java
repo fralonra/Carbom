@@ -117,7 +117,7 @@ public class Utils {
     public static String bytesToHexString(final byte[] src) {
         final StringBuilder builder = new StringBuilder();
         if (src == null) {
-            Log.d("hex", "null");
+            //Log.d("hex", "null");
         }
         for (byte b : src != null ? src : new byte[0]) {
             builder.append(String.format("%02x", b));

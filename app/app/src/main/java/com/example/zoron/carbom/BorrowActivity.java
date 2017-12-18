@@ -16,7 +16,7 @@ public class BorrowActivity extends BaseActivity {
     @Override
     public void scanFinish(final ArrayList<Map<String, String>> list, final boolean multichoice) {
         listMap = list;
-        Log.d("choice", Boolean.toString(multichoice));
+        //Log.d("choice", Boolean.toString(multichoice));
         if (!multichoice) {
             initFragment(index);
         } else {
@@ -57,7 +57,6 @@ public class BorrowActivity extends BaseActivity {
 
     private void initMultiFragment(final ArrayList<Map<String, String>> list) {
         BorrowMultiFragment fragment = new BorrowMultiFragment();
-        Log.d("size", Integer.toString(list.size()));
         fragment.init(list);
         MainActivity.replaceFragment(getSupportFragmentManager(),
                 R.id.container, fragment);

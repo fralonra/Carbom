@@ -26,58 +26,6 @@ public class BorrowMultiFragment extends BorrowFragment {
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.left:
-                if (stored.equals(getResources().getString(R.string.stored))) {
-                    mainView.setVisibility(View.GONE);
-                    loanView.setVisibility(View.VISIBLE);
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("确认归还吗？").setTitle("提示")
-                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    loanBack();
-                                    //parentActivity.leftClick(++index);
-                                    delayFinishActivity();
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    builder.create().show();
-                }
-                break;
-            case R.id.right:
-                parentActivity.leftClick(++index);
-                break;
-            case R.id.ok:
-                if (Utils.isTextViewEmpty(loaner)) {
-                    Toast.makeText(getContext(), "请填写借用人", Toast.LENGTH_SHORT).show();
-                } else {
-                    loan();
-                    //parentActivity.leftClick(++index);
-                    delayFinishActivity();
-                }
-                break;
-            case R.id.cancel:
-                //parentActivity.leftClick(++index);
-                delayFinishActivity();
-                break;
-            case R.id.expected_loan_back:
-                pickDate();
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
     protected void setText() {
         id.setText(reader.getEntryByList(list, CsvReader.INDEX.EPC));
         type.setText(reader.getEntryByList(list, CsvReader.INDEX.TYPE));
@@ -100,12 +48,19 @@ public class BorrowMultiFragment extends BorrowFragment {
     }
 
     @Override
-    protected void loanBack() {
+    protected void loanBack(String status, String note) {
         mapToWrite = new HashMap<>();
         mapToWrite.put(CsvReader.INDEX.KEEPER, getResources().getString(R.string.stored));
         mapToWrite.put(CsvReader.INDEX.LOAN_DATE, "");
         mapToWrite.put(CsvReader.INDEX.EXPECTED_LOAN_BACK, "");
+        mapToWrite.put(CsvReader.INDEX.STATUS, status);
+        mapToWrite.put(CsvReader.INDEX.NOTE, note);
         reader.modify(list, mapToWrite);
+    }
+
+    @Override
+    protected void closeFragment() {
+        delayFinishActivity();
     }
 
     private void delayFinishActivity() {

@@ -102,8 +102,7 @@ public class BorrowFragment extends BaseFragment {
         switch (v.getId()) {
             case R.id.left:
                 if (stored.equals(getResources().getString(R.string.stored))) {
-                    mainView.setVisibility(View.GONE);
-                    loanView.setVisibility(View.VISIBLE);
+                    showLoanView();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("确认归还吗？").setTitle("提示")
@@ -111,8 +110,15 @@ public class BorrowFragment extends BaseFragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    loanBack();
-                                    parentActivity.leftClick(++index);
+                                    setLoanBackState();
+                                }
+                            })
+                            .setNeutralButton("转借", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    showLoanView();
+
                                 }
                             })
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -125,18 +131,18 @@ public class BorrowFragment extends BaseFragment {
                 }
                 break;
             case R.id.right:
-                parentActivity.leftClick(++index);
+                closeFragment();
                 break;
             case R.id.ok:
                 if (Utils.isTextViewEmpty(loaner)) {
                     Toast.makeText(getContext(), "请填写借用人", Toast.LENGTH_SHORT).show();
                 } else {
                     loan();
-                    parentActivity.leftClick(++index);
+                    closeFragment();
                 }
                 break;
             case R.id.cancel:
-                parentActivity.leftClick(++index);
+                closeFragment();
                 break;
             case R.id.expected_loan_back:
                 pickDate();
@@ -148,13 +154,13 @@ public class BorrowFragment extends BaseFragment {
 
     protected void setText() {
         id.setText(epc);
-        type.setText(reader.getEntry(data, CsvReader.INDEX.TYPE));
-        name.setText(reader.getEntry(data, CsvReader.INDEX.NAME));
-        stage.setText(reader.getEntry(data, CsvReader.INDEX.STAGE));
-        status.setText(reader.getEntry(data, CsvReader.INDEX.STATUS));
-        time.setText(reader.getEntry(data, CsvReader.INDEX.TIME));
-        location.setText(reader.getEntry(data, CsvReader.INDEX.LOCATION));
-        keeper.setText(reader.getEntry(data, CsvReader.INDEX.KEEPER));
+        type.setText(CsvReader.getEntry(data, CsvReader.INDEX.TYPE));
+        name.setText(CsvReader.getEntry(data, CsvReader.INDEX.NAME));
+        stage.setText(CsvReader.getEntry(data, CsvReader.INDEX.STAGE));
+        status.setText(CsvReader.getEntry(data, CsvReader.INDEX.STATUS));
+        time.setText(CsvReader.getEntry(data, CsvReader.INDEX.TIME));
+        location.setText(CsvReader.getEntry(data, CsvReader.INDEX.LOCATION));
+        keeper.setText(CsvReader.getEntry(data, CsvReader.INDEX.KEEPER));
     }
 
     protected void loan() {
@@ -169,15 +175,49 @@ public class BorrowFragment extends BaseFragment {
         }
     }
 
-    protected void loanBack() {
+    protected void loanBack(String status, String note) {
         mapToWrite = new HashMap<>();
         mapToWrite.put(CsvReader.INDEX.EPC, epc);
         mapToWrite.put(CsvReader.INDEX.KEEPER, getResources().getString(R.string.stored));
         mapToWrite.put(CsvReader.INDEX.LOAN_DATE, "");
         mapToWrite.put(CsvReader.INDEX.EXPECTED_LOAN_BACK, "");
+        mapToWrite.put(CsvReader.INDEX.STATUS, status);
+        mapToWrite.put(CsvReader.INDEX.NOTE, note);
         if (reader.hasData(mapToWrite)) {
             reader.modify(mapToWrite);
         }
+    }
+
+    protected void closeFragment() {
+        parentActivity.leftClick(++index);
+    }
+
+    protected void showLoanView() {
+        mainView.setVisibility(View.GONE);
+        loanView.setVisibility(View.VISIBLE);
+    }
+
+    protected void setLoanBackState() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View layout = getActivity().getLayoutInflater().inflate(R.layout.dialog_loanback_state, null);
+        final EditText status = (EditText) layout.findViewById(R.id.loanback_status);
+        final EditText note = (EditText) layout.findViewById(R.id.loanback_note);
+        builder.setMessage("请填写设备状态").setView(layout)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        loanBack(status.getText().toString(), note.getText().toString());
+                        parentActivity.leftClick(++index);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
     }
 
     protected void pickDate() {
