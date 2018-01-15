@@ -84,7 +84,7 @@ public class Entry {
 
     // 设置数据
     public void set(INDEX key, String value) {
-        if (data.size() < INDEX_COUNT.ordinal() + 1) {
+        if (data.size() < INDEX_COUNT.ordinal()) {
             data.add(key.ordinal(), value);
         } else {
             data.set(key.ordinal(), value);
@@ -105,5 +105,10 @@ public class Entry {
         }
         sb.append(ENTRY_DIV);
         return sb.toString();
+    }
+
+    // 是否满足K-V
+    public Boolean is(INDEX key, String value) {
+        return data.get(key.ordinal()).toLowerCase().contains(value.toLowerCase());
     }
 }

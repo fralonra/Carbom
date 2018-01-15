@@ -60,14 +60,27 @@ public class InFragment extends BaseFragment {
         note = (EditText) view.findViewById(R.id.note);
 
         id.setText(epc);
-        keeper.setText(R.string.stored);
+        if (reader.hasEntry(epc)) {
+            type.setText(data.get(TYPE));
+            name.setText(data.get(NAME));
+            stage.setText(data.get(STAGE));
+            status.setText(data.get(STATUS));
+            time.setText(data.get(TIME));
+            location.setText(data.get(LOCATION));
+            keeper.setText(data.get(KEEPER));
+            note.setText(data.get(NOTE));
+        } else {
+            keeper.setText(R.string.stored);
+        }
 
         setCurrentDate(time);
 
         Button left = (Button) view.findViewById(R.id.left);
+        Button center = (Button) view.findViewById(R.id.center);
         Button right = (Button) view.findViewById(R.id.right);
 
         left.setOnClickListener(this);
+        center.setOnClickListener(this);
         right.setOnClickListener(this);
         return view;
     }
@@ -95,6 +108,9 @@ public class InFragment extends BaseFragment {
                         });
                 builder.create().show();
                 break;
+            case R.id.center:
+                parentActivity.backToFirstFragment(this);
+                break;
             case R.id.right:
                 parentActivity.leftClick(++index);
                 break;
@@ -116,6 +132,8 @@ public class InFragment extends BaseFragment {
         getInput(NOTE, note);
         if (!reader.hasEntry(mapToWrite)) {
             reader.append(mapToWrite);
+        } else {
+            reader.modify(mapToWrite);
         }
     }
 }

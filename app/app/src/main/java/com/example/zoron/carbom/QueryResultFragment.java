@@ -66,7 +66,7 @@ public class QueryResultFragment extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.replaceFragment(getActivity().getSupportFragmentManager(),
+                Utils.replaceFragment(getActivity().getSupportFragmentManager(),
                         R.id.container, new QueryFragment());
             }
         });

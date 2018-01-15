@@ -1,18 +1,23 @@
 package com.example.zoron.carbom;
 
+import android.support.v4.app.FragmentTransaction;
+
 public class InActivity extends BaseActivity {
 
     @Override
     protected void firstFragment() {
-        MainActivity.replaceFragment(getSupportFragmentManager(),
-                R.id.container, new ScanInFragment());
+        if (firstFragment == null) firstFragment = new ScanInFragment();
+        Utils.replaceFragment(fm, R.id.container, firstFragment, "FIRST");
     }
 
     @Override
     protected void newFragment(final int i) {
-        InFragment fragment = new InFragment();
-        fragment.init(listMap.get(i).get("EPC"), i);
-        MainActivity.replaceFragment(getSupportFragmentManager(),
-                R.id.container, fragment);
+        Utils.hideFragment(fm, firstFragment);
+        Utils.removeFragment(fm, dataFragment);
+
+        dataFragment = new InFragment();
+        dataFragment.init(listMap.get(i).get("EPC"), i);
+
+        Utils.showFragment(fm, R.id.container, dataFragment);
     }
 }

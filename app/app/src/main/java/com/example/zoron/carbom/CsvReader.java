@@ -90,12 +90,17 @@ public class CsvReader {
     public String getValueByList(final ArrayList<String> list, final Entry.INDEX key) {
         String value = "";
         for (String epc : list) {
-            String v = getValueByEpc(epc, key);
-            if (value.equals("")) {
-                value = v;
+            if (key == EPC) {
+                if (list.indexOf(epc) != list.size() - 1) value += epc + ", ";
+                else value += epc;
             } else {
-                if (!v.equals(value)) {
-                    return "多个值";
+                String v = getValueByEpc(epc, key);
+                if (value.equals("")) {
+                    value = v;
+                } else {
+                    if (!v.equals(value)) {
+                        return "多个值";
+                    }
                 }
             }
         }
@@ -181,7 +186,7 @@ public class CsvReader {
     public ArrayList<Entry> search(final Entry.INDEX key, final String value) {
         ArrayList<Entry> results = new ArrayList<>();
         for (Entry e : data) {
-            if (e.get(key).contains(value)) {
+            if (e.is(key, value)) {
                 results.add(e);
             }
         }
@@ -201,7 +206,7 @@ public class CsvReader {
                 results = search(key, value);
             } else {
                 for (Entry e : results) {
-                    if (e.get(key).contains(value)) {
+                    if (e.is(key, value)) {
                         break;
                     } else {
                         results.remove(results.indexOf(e));

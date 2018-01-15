@@ -53,11 +53,12 @@ public class BorrowFragment extends BaseFragment {
     protected EditText time;
     protected EditText location;
     protected EditText keeper;
+    protected EditText note;
 
     protected EditText loaner;
     protected EditText loan_date;
     protected EditText expectedLoanBack;
-    protected EditText note;
+    protected EditText note_loan;
 
     protected SimpleDateFormat dateFormatter;
 
@@ -78,17 +79,19 @@ public class BorrowFragment extends BaseFragment {
         time = (EditText) view.findViewById(R.id.time);
         location = (EditText) view.findViewById(R.id.location);
         keeper = (EditText) view.findViewById(R.id.keeper);
+        note = (EditText) view.findViewById(R.id.note);
 
         loaner = (EditText) view.findViewById(R.id.loaner);
         loan_date = (EditText) view.findViewById(R.id.loan_date);
         expectedLoanBack = (EditText) view.findViewById(R.id.expected_loan_back);
-        note = (EditText) view. findViewById(R.id.note);
+        note_loan = (EditText) view.findViewById(R.id.note_loan);
 
         setText();
         expectedLoanBack.setInputType(TYPE_NULL);
         setCurrentDate(loan_date);
 
         Button left = (Button) view.findViewById(R.id.left);
+        Button center = (Button) view.findViewById(R.id.center);
         Button right = (Button) view.findViewById(R.id.right);
         Button ok = (Button) view.findViewById(R.id.ok);
         Button cancel = (Button) view.findViewById(R.id.cancel);
@@ -101,6 +104,7 @@ public class BorrowFragment extends BaseFragment {
         }
 
         left.setOnClickListener(this);
+        center.setOnClickListener(this);
         right.setOnClickListener(this);
         ok.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -141,6 +145,9 @@ public class BorrowFragment extends BaseFragment {
                     builder.create().show();
                 }
                 break;
+            case R.id.center:
+                parentActivity.backToFirstFragment(this);
+                break;
             case R.id.right:
                 closeFragment();
                 break;
@@ -172,6 +179,7 @@ public class BorrowFragment extends BaseFragment {
         time.setText(reader.getValueByEpc(epc, TIME));
         location.setText(reader.getValueByEpc(epc, LOCATION));
         keeper.setText(reader.getValueByEpc(epc, KEEPER));
+        note.setText(reader.getValueByEpc(epc, NOTE));
     }
 
     protected void loan() {
@@ -180,7 +188,7 @@ public class BorrowFragment extends BaseFragment {
         getInput(KEEPER, loaner);
         getInput(LOAN_DATE, loan_date);
         getInput(RETURN_DATE, expectedLoanBack);
-        getInput(NOTE, note);
+        getInput(NOTE, note_loan);
         if (reader.hasEntry(mapToWrite)) {
             reader.modify(mapToWrite);
         }
@@ -213,15 +221,18 @@ public class BorrowFragment extends BaseFragment {
         View layout = getActivity().getLayoutInflater().inflate(R.layout.dialog_loanback_state, null);
         final EditText status = (EditText) layout.findViewById(R.id.loanback_status);
         final EditText note = (EditText) layout.findViewById(R.id.loanback_note);
-        status.setText(data.get(STATUS));
+        String statusText = data.get(STATUS);
+        if (!statusText.equals("")) status.setText(data.get(STATUS));
+        else status.setText((R.string.status_fine));
         note.setText(data.get(NOTE));
+
         builder.setMessage("请填写设备状态").setView(layout)
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         loanBack(status.getText().toString(), note.getText().toString());
-                        parentActivity.leftClick(++index);
+                        closeFragment();
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

@@ -22,7 +22,7 @@ public class QueryActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_query);
-        MainActivity.replaceFragment(getSupportFragmentManager(),
+        Utils.replaceFragment(getSupportFragmentManager(),
                 R.id.container, new QueryFragment());
     }
 

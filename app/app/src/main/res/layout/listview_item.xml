@@ -23,4 +23,15 @@
         android:text=""
         android:textSize="12sp" />
 
+    <TextView
+        android:id="@+id/textView_in"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text=""
+        android:textSize="12sp" />
+
+
 </LinearLayout>

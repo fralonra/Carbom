@@ -1,6 +1,7 @@
 package com.example.zoron.carbom;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -71,8 +73,8 @@ public class ScanFragment extends Fragment {
 
         if (thread == null) {
             thread = new InventoryThread();
+            thread.start();
         }
-        thread.start();
     }
 
     @Override
@@ -125,6 +127,7 @@ public class ScanFragment extends Fragment {
 
     public interface OnScanFinishedListener {
         public void scanFinish(final ArrayList<Map<String, String>> list, final boolean multiChoice);
+        public void scanFinish(final ArrayList<Map<String, String>> list, final int position);
     }
 
     public class InventoryThread extends Thread {
@@ -137,8 +140,6 @@ public class ScanFragment extends Fragment {
                 if (stocking) {
                     epcList = reader.inventoryRealTime(); //实时盘存
                     if (epcList != null && !epcList.isEmpty()) {
-                        //byte[] id = reader.readFrom6C(1, 0, 30, Tools.HexString2Bytes(keyword));
-                        //Log.d("epcid", Tools.Bytes2HexString(id, id.length));
                         for (byte[] epc : epcList) {
                             String epcStr = Tools.Bytes2HexString(epc, epc.length);
                             epcStr = Utils.hexToAscii(epcStr);
@@ -215,6 +216,12 @@ public class ScanFragment extends Fragment {
             listViewData.setAdapter(adapter);
             listViewData.setSelection(listViewData.getCount() - 1);
         }
+        listViewData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onListItemClick(position);
+            }
+        });
     }
 
     protected void setAdapter() {
@@ -235,5 +242,9 @@ public class ScanFragment extends Fragment {
         } else {
             button.setTextColor(Color.GRAY);
         }
+    }
+
+    protected void onListItemClick(final int position) {
+        parentActivity.scanFinish(listMap, position);
     }
 }

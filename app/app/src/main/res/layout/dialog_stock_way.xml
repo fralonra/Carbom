@@ -25,6 +25,16 @@
         android:text="@string/stock_by_location" />
 
     <Button
+        android:id="@+id/by_keeper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/stock_by_keeper" />
+
+    <Button
         android:id="@+id/cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

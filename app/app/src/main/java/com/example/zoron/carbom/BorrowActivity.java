@@ -16,7 +16,6 @@ public class BorrowActivity extends BaseActivity {
     @Override
     public void scanFinish(final ArrayList<Map<String, String>> list, final boolean multichoice) {
         listMap = list;
-        //Log.d("choice", Boolean.toString(multichoice));
         if (!multichoice) {
             initFragment(index);
         } else {
@@ -26,8 +25,9 @@ public class BorrowActivity extends BaseActivity {
 
     @Override
     protected void firstFragment() {
-        MainActivity.replaceFragment(getSupportFragmentManager(),
-                R.id.container, new ScanBorrowFragment());
+        if (firstFragment == null) firstFragment = new ScanBorrowFragment();
+        Utils.replaceFragment(getSupportFragmentManager(),
+                R.id.container, firstFragment, "FIRST");
     }
 
     @Override
@@ -49,16 +49,21 @@ public class BorrowActivity extends BaseActivity {
 
     @Override
     protected void newFragment(final int i) {
-        BorrowFragment fragment = new BorrowFragment();
-        fragment.init(listMap.get(i).get("EPC"), i);
-        MainActivity.replaceFragment(getSupportFragmentManager(),
-                R.id.container, fragment);
+        Utils.hideFragment(fm, firstFragment);
+        Utils.removeFragment(fm, dataFragment);
+
+        dataFragment = new BorrowFragment();
+        dataFragment.init(listMap.get(i).get("EPC"), i);
+
+        Utils.showFragment(fm, R.id.container, dataFragment);
     }
 
     private void initMultiFragment(final ArrayList<Map<String, String>> list) {
+        Utils.hideFragment(fm, firstFragment);
+
         BorrowMultiFragment fragment = new BorrowMultiFragment();
         fragment.init(list);
-        MainActivity.replaceFragment(getSupportFragmentManager(),
-                R.id.container, fragment);
+
+        Utils.showFragment(fm, R.id.container, fragment);
     }
 }

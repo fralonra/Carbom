@@ -3,6 +3,9 @@ package com.example.zoron.carbom;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,6 +26,11 @@ public abstract class BaseActivity extends AppCompatActivity implements ScanFrag
     protected ArrayList<Map<String, String>> listMap;
     protected int index = 0;
 
+    protected FragmentManager fm = null;
+    protected FragmentTransaction ft = null;
+    protected ScanFragment firstFragment = null;
+    protected BaseFragment dataFragment = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ScanFrag
         Intent intent = getIntent();
         String epc = intent.getStringExtra("epc");
 
+        if (fm == null) fm = getSupportFragmentManager();
         if (listMap == null) listMap = new ArrayList<>();
         if (epc != null) {
             Map<String, String> map = new HashMap<>();
@@ -67,17 +76,29 @@ public abstract class BaseActivity extends AppCompatActivity implements ScanFrag
         initFragment(index);
     }
 
+    public void scanFinish(final ArrayList<Map<String, String>> list, final int index) {
+        listMap = list;
+        initFragment(index);
+    }
+
     public void leftClick(final int index) {
         initFragment(index);
     }
 
-    public void rightClick(final int index) {
+    public void rightClick(final int index) {}
 
+    public void backToFirstFragment(Fragment old) {
+        if (firstFragment == null) return;
+        Utils.toggleFragment(fm, old, firstFragment);
+    }
+
+    public Fragment getFirstFragment() {
+        return firstFragment;
     }
 
     protected void firstFragment() {
-        MainActivity.replaceFragment(getSupportFragmentManager(),
-                R.id.container, new ScanFragment());
+        if (firstFragment == null) firstFragment = new ScanFragment();
+        Utils.showFragment(fm, R.id.container, firstFragment);
     }
 
     protected void initFragment(final int index) {

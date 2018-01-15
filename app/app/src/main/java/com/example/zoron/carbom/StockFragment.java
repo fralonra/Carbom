@@ -22,8 +22,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.zoron.carbom.Entry.INDEX.EPC;
+import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
 import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
 import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+import static com.example.zoron.carbom.Utils.binarySearch;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -35,6 +37,7 @@ public class StockFragment extends ScanFragment {
 
     private static final int BYTYPE = 0;
     private static final int BYLOCATION = 1;
+    private static final int BYKEEPER = 2;
     private static final int DEFAULTWAY = BYTYPE;
 
     private int way = DEFAULTWAY;
@@ -43,6 +46,7 @@ public class StockFragment extends ScanFragment {
     private Boolean stockDone = false;
 
     private TextView location;
+    private TextView keeper;
     private Button filter;
     private Button export;
     private AlertDialog stockWayDialog;
@@ -76,6 +80,7 @@ public class StockFragment extends ScanFragment {
         listViewData = (ListView) view.findViewById(R.id.listView_data);
         msg = (TextView) view.findViewById(R.id.msg);
         location = (TextView) view.findViewById(R.id.location);
+        keeper = (TextView) view.findViewById(R.id.keeper);
         setMsgText();
 
         final Button scan = (Button) view.findViewById(R.id.scan);
@@ -89,6 +94,7 @@ public class StockFragment extends ScanFragment {
         View layout = getActivity().getLayoutInflater().inflate(R.layout.dialog_stock_way, null);
         Button byType = (Button) layout.findViewById(R.id.by_type);
         Button byLocation = (Button) layout.findViewById(R.id.by_location);
+        Button byKeeper = (Button) layout.findViewById(R.id.by_keeper);
         Button cancel = (Button) layout.findViewById(R.id.cancel);
 
         builder.setCancelable(false);
@@ -105,6 +111,13 @@ public class StockFragment extends ScanFragment {
             @Override
             public void onClick(View v) {
                 stock(BYLOCATION);
+                stockWayDialog.dismiss();
+            }
+        });
+        byKeeper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stock(BYKEEPER);
                 stockWayDialog.dismiss();
             }
         });
@@ -160,6 +173,8 @@ public class StockFragment extends ScanFragment {
                         filterIndex = TYPE;
                     } else if (way == BYLOCATION) {
                         filterIndex = LOCATION;
+                    } else if (way == BYKEEPER) {
+                        filterIndex = KEEPER;
                     }
                     if (stockFilterResult.isEmpty()) {
                         stockFilterResult = csv.filter(filterIndex, unstockList);
@@ -180,6 +195,9 @@ public class StockFragment extends ScanFragment {
                     if (location.getVisibility() == View.VISIBLE) {
                         location.setVisibility(View.GONE);
                     }
+                    if (keeper.getVisibility() == View.VISIBLE) {
+                        keeper.setVisibility(View.GONE);
+                    }
                     if (stockDone) {
                         stockDone = false;
                         clearList();
@@ -189,6 +207,21 @@ public class StockFragment extends ScanFragment {
                         setButtonClickable(filter, false);
                         setButtonClickable(export, false);
                     }
+                    /*
+                    Log.d("xxcc", "start");
+                    for (Integer i = 0; i < BaseActivity.reader.data.size(); ++i) {
+                        Log.d("xxcc", i.toString());
+                        Entry e = BaseActivity.reader.data.get(i);
+                        if (listEPC.isEmpty()) {
+                            addData(0, e.get(Entry.INDEX.EPC));
+                        } else {
+                            int pos = binarySearch(listEPC, e.get(Entry.INDEX.EPC));
+                            if (pos != -1) {
+                                addData(pos, e.get(Entry.INDEX.EPC));
+                            }
+                        }
+                    }
+                    */
                 } else {
                     if (!listMap.isEmpty()) {
                         stockWayDialog.show();
@@ -220,6 +253,17 @@ public class StockFragment extends ScanFragment {
     }
 
     @Override
+    protected void addToList(final ArrayList<String> list, final String epc) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!listEPC.contains(epc))
+                    addData(listEPC.size(), epc);
+            }
+        });
+    }
+
+    @Override
     protected void addData(final int pos, final String epc) {
         if (hasEPC(epc)) {
             Map<String, String> map = new HashMap<>();
@@ -228,6 +272,7 @@ public class StockFragment extends ScanFragment {
             map.put("STATUS", getResources().getText(R.string.stocked).toString());
             listEPC.add(pos, epc);
             listMap.add(pos, map);
+            //Log.d("xxcc", String.valueOf(listMap.size()));
             Utils.play(1, 0);
             setListView();
         }
@@ -239,6 +284,7 @@ public class StockFragment extends ScanFragment {
             msg.setVisibility(View.GONE);
             listViewData.setVisibility(View.VISIBLE);
             location.setVisibility(View.GONE);
+            keeper.setVisibility(View.GONE);
             adapter = new SimpleAdapter(getContext(), listMap, R.layout.listview_stock,
                     new String[]{"EPC", "TYPE", "STATUS"},
                     new int[]{R.id.textView_epc, R.id.textView_type, R.id.textView_status});
@@ -273,6 +319,9 @@ public class StockFragment extends ScanFragment {
             if (way == BYLOCATION) {
                 map.put("LOCATION", e.get(LOCATION));
             }
+            if (way == BYKEEPER) {
+                map.put("KEEPER", e.get(KEEPER));
+            }
             map.put("TYPE", e.get(TYPE));
             map.put("STATUS", getResources().getString(R.string.unstored));
             listMap.add(map);
@@ -287,15 +336,24 @@ public class StockFragment extends ScanFragment {
             if (way == BYTYPE) {
                 Collections.sort(listMap, new MapComparator("TYPE"));
                 location.setVisibility(View.GONE);
+                keeper.setVisibility(View.GONE);
                 adapter = new SimpleAdapter(getContext(), listMap, R.layout.listview_stock,
                         new String[]{"EPC", "TYPE", "STATUS"},
                         new int[]{R.id.textView_epc, R.id.textView_type, R.id.textView_status});
             } else if (way == BYLOCATION) {
                 Collections.sort(listMap, new MapComparator("LOCATION"));
                 location.setVisibility(View.VISIBLE);
+                keeper.setVisibility(View.GONE);
                 adapter = new SimpleAdapter(getContext(), listMap, R.layout.listview_stock_location,
                         new String[]{"EPC", "LOCATION", "TYPE", "STATUS"},
                         new int[]{R.id.textView_epc, R.id.textView_location, R.id.textView_type, R.id.textView_status});
+            } else if (way == BYKEEPER) {
+                Collections.sort(listMap, new MapComparator("KEEPER"));
+                location.setVisibility(View.GONE);
+                keeper.setVisibility(View.VISIBLE);
+                adapter = new SimpleAdapter(getContext(), listMap, R.layout.listview_stock_keeper,
+                        new String[]{"EPC", "KEEPER", "TYPE", "STATUS"},
+                        new int[]{R.id.textView_epc, R.id.textView_keeper, R.id.textView_type, R.id.textView_status});
             }
             listViewData.setAdapter(adapter);
             listViewData.setSelection(listViewData.getCount() - 1);

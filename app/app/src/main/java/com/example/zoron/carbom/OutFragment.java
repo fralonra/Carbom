@@ -13,6 +13,7 @@ import android.widget.EditText;
 import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
 import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
 import static com.example.zoron.carbom.Entry.INDEX.NAME;
+import static com.example.zoron.carbom.Entry.INDEX.NOTE;
 import static com.example.zoron.carbom.Entry.INDEX.STAGE;
 import static com.example.zoron.carbom.Entry.INDEX.STATUS;
 import static com.example.zoron.carbom.Entry.INDEX.TIME;
@@ -31,6 +32,7 @@ public class OutFragment extends BaseFragment {
     private EditText time;
     private EditText location;
     private EditText keeper;
+    private EditText note;
 
     public OutFragment() {
     }
@@ -47,6 +49,7 @@ public class OutFragment extends BaseFragment {
         time = (EditText) view.findViewById(R.id.time);
         location = (EditText) view.findViewById(R.id.location);
         keeper = (EditText) view.findViewById(R.id.keeper);
+        note = (EditText) view.findViewById(R.id.note);
 
         id.setText(epc);
         type.setText(data.get(TYPE));
@@ -56,11 +59,14 @@ public class OutFragment extends BaseFragment {
         time.setText(data.get(TIME));
         location.setText(data.get(LOCATION));
         keeper.setText(data.get(KEEPER));
+        note.setText(data.get(NOTE));
 
         Button left = (Button) view.findViewById(R.id.left);
+        Button center = (Button) view.findViewById(R.id.center);
         Button right = (Button) view.findViewById(R.id.right);
 
         left.setOnClickListener(this);
+        center.setOnClickListener(this);
         right.setOnClickListener(this);
         return view;
     }
@@ -88,6 +94,9 @@ public class OutFragment extends BaseFragment {
                             }
                         });
                 builder.create().show();
+                break;
+            case R.id.center:
+                parentActivity.backToFirstFragment(this);
                 break;
             case R.id.right:
                 parentActivity.leftClick(++index);

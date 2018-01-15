@@ -80,6 +80,16 @@
                 android:visibility="gone" />
 
             <TextView
+                android:id="@+id/keeper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/keeper"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

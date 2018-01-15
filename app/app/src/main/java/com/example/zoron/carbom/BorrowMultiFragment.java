@@ -1,10 +1,7 @@
 package com.example.zoron.carbom;
 
-import android.content.DialogInterface;
+import android.support.v4.app.FragmentManager;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -72,7 +69,8 @@ public class BorrowMultiFragment extends BorrowFragment {
 
     @Override
     protected void closeFragment() {
-        delayFinishActivity();
+        parentActivity.backToFirstFragment(this);
+        // delayFinishActivity();
     }
 
     private void delayFinishActivity() {

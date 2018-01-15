@@ -97,6 +97,13 @@
                         android:gravity="center"
                         android:text="@string/keeper" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/note" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -163,6 +170,14 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:enabled="false" />
+
+                    <EditText
+                        android:id="@+id/note"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:enabled="false" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -177,6 +192,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/ok" />
+
+                <Button
+                    android:id="@+id/center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/back" />
 
                 <Button
                     android:id="@+id/right"

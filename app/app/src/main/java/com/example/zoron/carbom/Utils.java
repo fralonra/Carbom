@@ -3,6 +3,9 @@ package com.example.zoron.carbom;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -141,5 +144,49 @@ public class Utils {
 
     public static boolean isTextViewEmpty(final TextView textView) {
         return textView.getText().toString().trim().length() <= 0;
+    }
+
+    public static void showFragment(FragmentManager fm, int old, Fragment fg) {
+        if (fg == null) return;
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(old, fg);
+        transaction.show(fg);
+        transaction.commit();
+    }
+
+    public static void toggleFragment(FragmentManager fm, Fragment old, Fragment fg) {
+        if (old == null | fg == null) return;
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.hide(old);
+        transaction.show(fg);
+        transaction.commit();
+    }
+
+    public static void replaceFragment(FragmentManager fm, int old, Fragment fg) {
+        if (fg == null) return;
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(old, fg);
+        transaction.commit();
+    }
+
+    public static void replaceFragment(FragmentManager fm, int old, Fragment fg, String tag) {
+        if (fg == null) return;
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(old, fg, tag);
+        transaction.commit();
+    }
+
+    public static void hideFragment(FragmentManager fm, Fragment fg) {
+        if (fg == null) return;
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.hide(fg);
+        transaction.commit();
+    }
+
+    public static void removeFragment(FragmentManager fm, Fragment fg) {
+        if (fg == null) return;
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.remove(fg);
+        transaction.commit();
     }
 }

@@ -1,5 +1,7 @@
 package com.example.zoron.carbom;
 
+import android.widget.SimpleAdapter;
+
 import com.android.hdhe.uhf.entity.EPC;
 
 import java.util.ArrayList;
@@ -21,14 +23,21 @@ public class ScanInFragment extends ScanFragment {
 
     @Override
     protected void addData(final int pos, final String epc) {
-        if (!hasEPC(epc)) {
-            Map<String, String> map = new HashMap<>();
-            map.put("ID", "");
-            map.put("EPC", epc);
-            listEPC.add(pos, epc);
-            listMap.add(pos, map);
-            Utils.play(1, 0);
-            setListView();
-        }
+        Map<String, String> map = new HashMap<>();
+        map.put("ID", "");
+        map.put("EPC", epc);
+        if (hasEPC(epc)) map.put("IN", getResources().getString(R.string.in_stock));
+        else map.put("IN", getResources().getString(R.string.out_stock));
+        listEPC.add(pos, epc);
+        listMap.add(pos, map);
+        Utils.play(1, 0);
+        setListView();
+    }
+
+    @Override
+    protected void setAdapter() {
+        adapter = new SimpleAdapter(getContext(), listMap, R.layout.listview_item,
+                new String[]{"ID", "EPC", "IN"},
+                new int[]{R.id.textView_id, R.id.textView_epc, R.id.textView_in});
     }
 }

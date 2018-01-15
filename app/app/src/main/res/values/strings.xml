@@ -22,7 +22,7 @@
     <string name="stock">盘点</string>
     <string name="filter">过滤</string>
 
-    <string name="id">设备编号</string>
+    <string name="id">编号</string>
     <string name="type">样机型号</string>
     <string name="name">产品名称</string>
     <string name="stage">样机阶段</string>
@@ -35,6 +35,7 @@
     <string name="loaner">借用人</string>
     <string name="loan_date">借用日期</string>
     <string name="expected_loan_back">预计归还日期</string>
+    <string name="in_stock_state">入库状态</string>
 
     <string name="please_scan">请扫描</string>
     <string name="msg_no_update">无更新记录</string>
@@ -46,8 +47,12 @@
     <string name="unstored">未盘到</string>
     <string name="stock_by_type">按样机型号统计盘点结果</string>
     <string name="stock_by_location">按存放位置统计盘点结果</string>
+    <string name="stock_by_keeper">按当前保管人统计盘点结果</string>
     <string name="keeper_name">借用人： %1$s</string>
     <string name="multi_value">多个值</string>
+    <string name="status_fine">良品</string>
+    <string name="in_stock">已入库</string>
+    <string name="out_stock">未入库</string>
 
     <string name="save">保存</string>
     <string name="skip">跳过</string>
@@ -58,6 +63,7 @@
     <string name="loan_back">归还</string>
     <string name="start_scan">开始扫描</string>
     <string name="stop_scan">停止扫描</string>
+    <string name="select_all">全选</string>
     <string name="export">导出</string>
     <string name="new_folder">新建文件夹</string>
     <string name="to_parent">返回上一级</string>

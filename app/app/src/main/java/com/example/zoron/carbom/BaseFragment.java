@@ -64,6 +64,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                 update();
                 parentActivity.leftClick(++index);
                 break;
+            case R.id.center:
+                parentActivity.backToFirstFragment(this);
+                break;
             case R.id.right:
                 parentActivity.leftClick(++index);
                 break;
@@ -75,6 +78,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public interface OnClickListener {
         public void leftClick(final int index);
         public void rightClick(final int index);
+        public void backToFirstFragment(Fragment fg);
     }
 
     public void init(final String epc, final int index) {

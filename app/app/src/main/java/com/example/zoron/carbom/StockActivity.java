@@ -47,7 +47,7 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
         }
 
         setContentView(R.layout.activity_stock);
-        MainActivity.replaceFragment(getSupportFragmentManager(),
+        Utils.replaceFragment(getSupportFragmentManager(),
                 R.id.container, new StockFragment());
     }
 
@@ -75,6 +75,10 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
     public void scanFinish(ArrayList<Map<String, String>> list, final boolean multichoice) {
     }
 
+    @Override
+    public void scanFinish(ArrayList<Map<String, String>> list, final int position) {
+    }
+
     public void export(ArrayList<Entry> data) {
         exportData = data;
         FolderChooserDialog directoryChooserDialog =
@@ -94,7 +98,6 @@ public class StockActivity extends AppCompatActivity implements ScanFragment.OnS
         final String fileName = FILE_NAME_PREFIX + "_" +
                 new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINESE).format(new Date()) + ".xls";
         File file = new File(exportPath, fileName);
-        Log.d("ttxx", fileName);
         if (file.exists()) {
             file.delete();
         }

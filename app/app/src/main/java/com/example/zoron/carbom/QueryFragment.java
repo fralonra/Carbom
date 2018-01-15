@@ -149,7 +149,7 @@ public class QueryFragment extends Fragment {
                 } else {
                     queryResultFragment.setResult(results, NORMAL);
                 }
-                MainActivity.replaceFragment(getActivity().getSupportFragmentManager(),
+                Utils.replaceFragment(getActivity().getSupportFragmentManager(),
                         R.id.container, queryResultFragment);
             }
         }
@@ -195,7 +195,7 @@ public class QueryFragment extends Fragment {
             Toast.makeText(getContext(), "读取成功", Toast.LENGTH_LONG).show();
             QueryResultFragment queryResultFragment = new QueryResultFragment();
             queryResultFragment.setResult(results, NORMAL);
-            MainActivity.replaceFragment(getActivity().getSupportFragmentManager(),
+            Utils.replaceFragment(getActivity().getSupportFragmentManager(),
                     R.id.container, queryResultFragment);
         }
     }

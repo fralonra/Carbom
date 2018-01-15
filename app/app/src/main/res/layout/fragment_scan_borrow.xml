@@ -34,17 +34,27 @@
                 android:id="@+id/scan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/start_scan" />
+
+            <Button
+                android:id="@+id/select_all"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:text="@string/select_all" />
 
             <Button
                 android:id="@+id/ok"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:clickable="false"
                 android:text="@string/ok" />
@@ -68,7 +78,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/id"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -76,7 +86,15 @@
                 android:layout_weight="4"
                 android:gravity="center"
                 android:text="@string/type"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:text="@string/keeper"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
