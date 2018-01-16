@@ -207,21 +207,6 @@ public class StockFragment extends ScanFragment {
                         setButtonClickable(filter, false);
                         setButtonClickable(export, false);
                     }
-                    /*
-                    Log.d("xxcc", "start");
-                    for (Integer i = 0; i < BaseActivity.reader.data.size(); ++i) {
-                        Log.d("xxcc", i.toString());
-                        Entry e = BaseActivity.reader.data.get(i);
-                        if (listEPC.isEmpty()) {
-                            addData(0, e.get(Entry.INDEX.EPC));
-                        } else {
-                            int pos = binarySearch(listEPC, e.get(Entry.INDEX.EPC));
-                            if (pos != -1) {
-                                addData(pos, e.get(Entry.INDEX.EPC));
-                            }
-                        }
-                    }
-                    */
                 } else {
                     if (!listMap.isEmpty()) {
                         stockWayDialog.show();
@@ -234,8 +219,13 @@ public class StockFragment extends ScanFragment {
             @Override
             public void onClick(View v) {
                 if (export.isClickable()) {
-                    if (!unstockList.isEmpty()) {
-                        parentActivity.export(unstockList);
+                    if (!listMap.isEmpty()) {
+                        ArrayList<Entry> exportData = new ArrayList<>();
+                        for (Map m : listMap) {
+                            String epc = m.get("EPC").toString();
+                            exportData.add(csv.getEntry(epc));
+                        }
+                        parentActivity.export(exportData);
                     }
                 }
             }
