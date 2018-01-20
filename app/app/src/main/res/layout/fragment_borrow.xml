@@ -97,14 +97,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="@string/keeper" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/note" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -167,13 +159,6 @@
 
                     <EditText
                         android:id="@+id/keeper"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:enabled="false" />
-
-                    <EditText
-                        android:id="@+id/note"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -269,13 +254,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="@string/expected_loan_back" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/note" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -306,7 +284,7 @@
                         android:enabled="true" />
 
                     <EditText
-                        android:id="@+id/note_loan"
+                        android:id="@+id/loan_note"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"

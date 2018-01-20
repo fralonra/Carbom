@@ -52,7 +52,7 @@ public class BorrowMultiFragment extends BorrowFragment {
         getInput(KEEPER, loaner);
         getInput(LOAN_DATE, loan_date);
         getInput(RETURN_DATE, expectedLoanBack);
-        getInput(NOTE, note);
+        getInput(NOTE, loan_note);
         reader.modify(list, mapToWrite);
     }
 

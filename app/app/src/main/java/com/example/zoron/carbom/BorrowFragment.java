@@ -3,12 +3,7 @@ package com.example.zoron.carbom;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSpinner;
-import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +12,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -53,12 +47,11 @@ public class BorrowFragment extends BaseFragment {
     protected EditText time;
     protected EditText location;
     protected EditText keeper;
-    protected EditText note;
 
     protected EditText loaner;
     protected EditText loan_date;
     protected EditText expectedLoanBack;
-    protected EditText note_loan;
+    protected EditText loan_note;
 
     protected SimpleDateFormat dateFormatter;
 
@@ -79,12 +72,11 @@ public class BorrowFragment extends BaseFragment {
         time = (EditText) view.findViewById(R.id.time);
         location = (EditText) view.findViewById(R.id.location);
         keeper = (EditText) view.findViewById(R.id.keeper);
-        note = (EditText) view.findViewById(R.id.note);
 
         loaner = (EditText) view.findViewById(R.id.loaner);
         loan_date = (EditText) view.findViewById(R.id.loan_date);
         expectedLoanBack = (EditText) view.findViewById(R.id.expected_loan_back);
-        note_loan = (EditText) view.findViewById(R.id.note_loan);
+        loan_note = (EditText) view.findViewById(R.id.loan_note);
 
         setText();
         expectedLoanBack.setInputType(TYPE_NULL);
@@ -179,7 +171,6 @@ public class BorrowFragment extends BaseFragment {
         time.setText(reader.getValueByEpc(epc, TIME));
         location.setText(reader.getValueByEpc(epc, LOCATION));
         keeper.setText(reader.getValueByEpc(epc, KEEPER));
-        note.setText(reader.getValueByEpc(epc, NOTE));
     }
 
     protected void loan() {
@@ -188,7 +179,7 @@ public class BorrowFragment extends BaseFragment {
         getInput(KEEPER, loaner);
         getInput(LOAN_DATE, loan_date);
         getInput(RETURN_DATE, expectedLoanBack);
-        getInput(NOTE, note_loan);
+        getInput(NOTE, loan_note);
         if (reader.hasEntry(mapToWrite)) {
             reader.modify(mapToWrite);
         }
