@@ -1,4 +1,4 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.misc;
 
 
 import java.io.File;
@@ -28,6 +28,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.zoron.carbom.R;
 
 import static android.R.attr.id;
 import static android.support.design.R.attr.actionModeCopyDrawable;

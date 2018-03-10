@@ -1,4 +1,4 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.misc;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.example.zoron.carbom.R;
 
 import java.util.HashMap;
 import java.util.List;

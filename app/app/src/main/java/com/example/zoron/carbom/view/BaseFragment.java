@@ -1,19 +1,19 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.data.*;
+import com.example.zoron.carbom.misc.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -100,7 +100,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected void getInput(final Entry.INDEX index, EditText editText) {
         if (!Utils.isTextViewEmpty(editText)) {
             if (mapToWrite != null) {
-                mapToWrite.put(index, editText.getText().toString().trim());
+                mapToWrite.put(index, editText.getText().toString().trim().replaceAll("\\n", "n"));
             } else {
                 Log.d("mapToWrite", "mapToWrite is null");
             }

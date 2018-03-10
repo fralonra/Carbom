@@ -1,8 +1,10 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.widget.SimpleAdapter;
 
 import com.android.hdhe.uhf.entity.EPC;
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.misc.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

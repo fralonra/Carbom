@@ -1,24 +1,21 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.nio.charset.IllegalCharsetNameException;
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.data.*;
+import com.example.zoron.carbom.misc.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by zoron on 17-3-22.

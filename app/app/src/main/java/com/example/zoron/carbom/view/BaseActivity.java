@@ -1,4 +1,4 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
+
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.data.*;
+import com.example.zoron.carbom.misc.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

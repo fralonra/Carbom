@@ -1,29 +1,31 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
-import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
-import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
-import static com.example.zoron.carbom.Entry.INDEX.NAME;
-import static com.example.zoron.carbom.Entry.INDEX.NOTE;
-import static com.example.zoron.carbom.Entry.INDEX.STAGE;
-import static com.example.zoron.carbom.Entry.INDEX.STATUS;
-import static com.example.zoron.carbom.Entry.INDEX.TIME;
-import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+import com.example.zoron.carbom.R;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import static com.example.zoron.carbom.data.Entry.INDEX.*;
 
 /**
- * Created by zoron on 17-3-22.
+ * Created by zoron on 17-3-21.
  */
 
-public class OutFragment extends BaseFragment {
+public class InFragment extends BaseFragment {
     private EditText id;
     private EditText type;
     private EditText name;
@@ -34,13 +36,13 @@ public class OutFragment extends BaseFragment {
     private EditText keeper;
     private EditText note;
 
-    public OutFragment() {
+    public InFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_out, container, false);
+        View view = inflater.inflate(R.layout.fragment_in, container, false);
         id = (EditText) view.findViewById(R.id.id);
         type = (EditText) view.findViewById(R.id.type);
         name = (EditText) view.findViewById(R.id.name);
@@ -52,14 +54,20 @@ public class OutFragment extends BaseFragment {
         note = (EditText) view.findViewById(R.id.note);
 
         id.setText(epc);
-        type.setText(data.get(TYPE));
-        name.setText(data.get(NAME));
-        stage.setText(data.get(STAGE));
-        status.setText(data.get(STATUS));
-        time.setText(data.get(TIME));
-        location.setText(data.get(LOCATION));
-        keeper.setText(data.get(KEEPER));
-        note.setText(data.get(NOTE));
+        if (reader.hasEntry(epc)) {
+            type.setText(data.get(TYPE));
+            name.setText(data.get(NAME));
+            stage.setText(data.get(STAGE));
+            status.setText(data.get(STATUS));
+            time.setText(data.get(TIME));
+            location.setText(data.get(LOCATION));
+            keeper.setText(data.get(KEEPER));
+            note.setText(data.get(NOTE));
+        } else {
+            keeper.setText(R.string.stored);
+        }
+
+        setCurrentDate(time);
 
         Button left = (Button) view.findViewById(R.id.left);
         Button center = (Button) view.findViewById(R.id.center);
@@ -77,13 +85,12 @@ public class OutFragment extends BaseFragment {
             case R.id.left:
                 update();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                EditText editText = new EditText(getContext());
-                builder.setMessage("请填写出库理由").setTitle("出库").setView(editText)
+                builder.setMessage("确认入库？").setTitle("请确认")
                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                reader.remove(epc);
+                                updateData();
                                 parentActivity.leftClick(++index);
                             }
                         })
@@ -105,5 +112,22 @@ public class OutFragment extends BaseFragment {
                 break;
         }
     }
-}
 
+    private void updateData() {
+        mapToWrite = new HashMap<>();
+        getInput(EPC, id);
+        getInput(TYPE, type);
+        getInput(NAME, name);
+        getInput(STAGE, stage);
+        getInput(STATUS, status);
+        getInput(TIME, time);
+        getInput(LOCATION, location);
+        getInput(KEEPER, keeper);
+        getInput(NOTE, note);
+        if (!reader.hasEntry(mapToWrite)) {
+            reader.append(mapToWrite);
+        } else {
+            reader.modify(mapToWrite);
+        }
+    }
+}

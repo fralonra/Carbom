@@ -1,4 +1,4 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.data;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -6,17 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import android.os.Environment;
-import android.util.Log;
 
-import static com.example.zoron.carbom.Entry.INDEX.EPC;
-import static com.example.zoron.carbom.Entry.INDEX.LOAN_DATE;
-import static com.example.zoron.carbom.Entry.INDEX.NOTE;
-import static com.example.zoron.carbom.Utils.binarySearch;
+import static com.example.zoron.carbom.data.Entry.INDEX.EPC;
+import static com.example.zoron.carbom.misc.Utils.binarySearch;
 
 /**
  * Created by zoron on 17-4-14.
@@ -78,6 +74,11 @@ public class CsvReader {
             if (e.get(EPC).equals(epc)) return e;
         }
         return new Entry();
+    }
+
+    // 获取 entry by index
+    public Entry getEntry(final Integer index) {
+        return data.get(index);
     }
 
     // 获取单条 block

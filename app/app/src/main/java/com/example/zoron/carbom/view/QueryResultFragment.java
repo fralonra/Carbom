@@ -1,11 +1,8 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,27 +12,15 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.data.*;
+import com.example.zoron.carbom.misc.*;
 
-import static com.example.zoron.carbom.Entry.INDEX.EPC;
-import static com.example.zoron.carbom.Entry.INDEX.RETURN_DATE;
-import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
-import static com.example.zoron.carbom.Entry.INDEX.LOAN_DATE;
-import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
-import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+import static com.example.zoron.carbom.data.Entry.INDEX.*;
 
 /**
  * Created by zoron on 17-4-17.

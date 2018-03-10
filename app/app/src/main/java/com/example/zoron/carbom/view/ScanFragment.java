@@ -1,11 +1,9 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +16,16 @@ import android.widget.TextView;
 import com.android.hdhe.uhf.reader.Tools;
 import com.android.hdhe.uhf.reader.UhfReader;
 
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.data.*;
+import com.example.zoron.carbom.misc.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.zoron.carbom.Utils.binarySearch;
+import static com.example.zoron.carbom.misc.Utils.binarySearch;
 
 /**
  * Created by zoron on 17-4-12.
@@ -66,14 +68,14 @@ public class ScanFragment extends Fragment {
         super.onCreate(savedInstanceState);
         csv = BaseActivity.reader;
 
-        reader = UhfReader.getInstance();
+        // DEBUG0306 reader = UhfReader.getInstance();
         listEPC = new ArrayList<>();
         listMap = new ArrayList<>();
         Utils.initSoundPool(getContext());
 
         if (thread == null) {
-            thread = new InventoryThread();
-            thread.start();
+            // DEBUG0306 thread = new InventoryThread();
+            // DEBUG0306 thread.start();
         }
     }
 
@@ -101,7 +103,15 @@ public class ScanFragment extends Fragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stocking = !stocking;
+                for (Integer i = 0; i < 3; i++) {
+                    String epc = csv.getEntry(i).get(Entry.INDEX.EPC);
+                    Map<String, String> map = new HashMap<>();
+                    map.put("ID", "");
+                    map.put("EPC", epc);
+                    listEPC.add(epc);
+                    listMap.add(map);
+                }
+                /* DEBUG0306 stocking = !stocking;
                 if (stocking) {
                     scan.setText(R.string.stop_scan);
                     if (ok.isClickable()) {
@@ -112,7 +122,7 @@ public class ScanFragment extends Fragment {
                     if (!listMap.isEmpty()) {
                         setButtonClickable(ok, true);
                     }
-                }
+                } */
             }
         });
 

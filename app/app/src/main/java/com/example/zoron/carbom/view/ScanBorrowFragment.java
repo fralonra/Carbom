@@ -1,4 +1,4 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +10,10 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.data.*;
+import com.example.zoron.carbom.misc.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +48,15 @@ public class ScanBorrowFragment extends ScanFragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stocking = !stocking;
+                for (Integer i = 0; i < 3; i++) {
+                    String epc = csv.getEntry(i).get(Entry.INDEX.EPC);
+                    Map<String, String> map = new HashMap<>();
+                    map.put("ID", "");
+                    map.put("EPC", epc);
+                    listEPC.add(epc);
+                    listMap.add(map);
+                }
+                /* DEBUG0306 stocking = !stocking;
                 if (stocking) {
                     scan.setText(R.string.stop_scan);
                     if (ok.isClickable()) {
@@ -55,7 +67,7 @@ public class ScanBorrowFragment extends ScanFragment {
                     if (!listMap.isEmpty()) {
                         setButtonClickable(ok, true);
                     }
-                }
+                } */
             }
         });
         select_all.setOnClickListener(new View.OnClickListener() {

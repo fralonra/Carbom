@@ -1,9 +1,8 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +14,17 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.data.*;
+import com.example.zoron.carbom.misc.Utils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.zoron.carbom.Entry.INDEX.EPC;
-import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
-import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
-import static com.example.zoron.carbom.Entry.INDEX.TYPE;
-import static com.example.zoron.carbom.Utils.binarySearch;
+import static com.example.zoron.carbom.data.Entry.INDEX.*;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -190,7 +189,15 @@ public class StockFragment extends ScanFragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stocking = !stocking;
+                for (Integer i = 0; i < 3; i++) {
+                    String epc = csv.getEntry(i).get(Entry.INDEX.EPC);
+                    Map<String, String> map = new HashMap<>();
+                    map.put("ID", "");
+                    map.put("EPC", epc);
+                    listEPC.add(epc);
+                    listMap.add(map);
+                }
+                /* DEBUG0306 stocking = !stocking;
                 if (stocking) {
                     if (location.getVisibility() == View.VISIBLE) {
                         location.setVisibility(View.GONE);
@@ -212,7 +219,7 @@ public class StockFragment extends ScanFragment {
                         stockWayDialog.show();
                     }
                     scan.setText(R.string.start_scan);
-                }
+                } */
             }
         });
         export.setOnClickListener(new View.OnClickListener() {
@@ -262,7 +269,6 @@ public class StockFragment extends ScanFragment {
             map.put("STATUS", getResources().getText(R.string.stocked).toString());
             listEPC.add(pos, epc);
             listMap.add(pos, map);
-            //Log.d("xxcc", String.valueOf(listMap.size()));
             Utils.play(1, 0);
             setListView();
         }

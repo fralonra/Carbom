@@ -1,4 +1,4 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -12,23 +12,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.misc.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
 import static android.text.InputType.TYPE_NULL;
-import static com.example.zoron.carbom.Entry.INDEX.EPC;
-import static com.example.zoron.carbom.Entry.INDEX.RETURN_DATE;
-import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
-import static com.example.zoron.carbom.Entry.INDEX.LOAN_DATE;
-import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
-import static com.example.zoron.carbom.Entry.INDEX.NAME;
-import static com.example.zoron.carbom.Entry.INDEX.NOTE;
-import static com.example.zoron.carbom.Entry.INDEX.STAGE;
-import static com.example.zoron.carbom.Entry.INDEX.STATUS;
-import static com.example.zoron.carbom.Entry.INDEX.TIME;
-import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+import static com.example.zoron.carbom.data.Entry.INDEX.*;
 
 /**
  * Created by zoron on 17-3-22.
@@ -47,6 +40,7 @@ public class BorrowFragment extends BaseFragment {
     protected EditText time;
     protected EditText location;
     protected EditText keeper;
+    protected EditText note;
 
     protected EditText loaner;
     protected EditText loan_date;
@@ -72,6 +66,7 @@ public class BorrowFragment extends BaseFragment {
         time = (EditText) view.findViewById(R.id.time);
         location = (EditText) view.findViewById(R.id.location);
         keeper = (EditText) view.findViewById(R.id.keeper);
+        note = (EditText) view.findViewById(R.id.note);
 
         loaner = (EditText) view.findViewById(R.id.loaner);
         loan_date = (EditText) view.findViewById(R.id.loan_date);
@@ -171,6 +166,8 @@ public class BorrowFragment extends BaseFragment {
         time.setText(reader.getValueByEpc(epc, TIME));
         location.setText(reader.getValueByEpc(epc, LOCATION));
         keeper.setText(reader.getValueByEpc(epc, KEEPER));
+        note.setText(reader.getValueByEpc(epc, NOTE));
+        loan_note.setText(reader.getValueByEpc(epc, NOTE));
     }
 
     protected void loan() {
@@ -222,7 +219,7 @@ public class BorrowFragment extends BaseFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        loanBack(status.getText().toString(), note.getText().toString());
+                        loanBack(status.getText().toString(), note.getText().toString().replaceAll("\\n", "n"));
                         closeFragment();
                     }
                 })

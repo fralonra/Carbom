@@ -1,6 +1,7 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
-import android.support.v4.app.FragmentTransaction;
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.misc.*;
 
 public class InActivity extends BaseActivity {
 

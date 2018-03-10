@@ -1,15 +1,9 @@
-package com.example.zoron.carbom;
-
-import android.util.Log;
+package com.example.zoron.carbom.data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.zoron.carbom.Entry.INDEX.EPC;
-import static com.example.zoron.carbom.Entry.INDEX.INDEX_COUNT;
-import static com.example.zoron.carbom.Entry.INDEX.LOAN_DATE;
+import static com.example.zoron.carbom.data.Entry.INDEX.*;
 
 /**
  * Created by zoron on 17-12-18.
@@ -35,7 +29,7 @@ public class Entry {
 
     private static final String KEY_VALUE_DIV = ":";
     private static final String BLOCK_DIV = "&";
-    public static final String ENTRY_DIV = "\n";
+    private static final String ENTRY_DIV = "\n";
 
     public Entry(String src) {
         for (INDEX key : INDEX.values()) {

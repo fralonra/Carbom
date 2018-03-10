@@ -1,4 +1,4 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.content.Intent;
 import android.os.Environment;
@@ -8,6 +8,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
+
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.data.*;
+import com.example.zoron.carbom.misc.*;
+import com.example.zoron.carbom.view.ScanFragment;
+import com.example.zoron.carbom.view.StockFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,9 +30,8 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
 
-import static com.example.zoron.carbom.Entry.INDEX.INDEX_COUNT;
+import static com.example.zoron.carbom.data.Entry.INDEX.INDEX_COUNT;
 
 public class StockActivity extends AppCompatActivity implements ScanFragment.OnScanFinishedListener,
         StockFragment.OnExport {

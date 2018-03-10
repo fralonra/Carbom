@@ -1,24 +1,16 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.support.v4.app.FragmentManager;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.example.zoron.carbom.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.zoron.carbom.Entry.INDEX.EPC;
-import static com.example.zoron.carbom.Entry.INDEX.RETURN_DATE;
-import static com.example.zoron.carbom.Entry.INDEX.KEEPER;
-import static com.example.zoron.carbom.Entry.INDEX.LOAN_DATE;
-import static com.example.zoron.carbom.Entry.INDEX.LOCATION;
-import static com.example.zoron.carbom.Entry.INDEX.NAME;
-import static com.example.zoron.carbom.Entry.INDEX.NOTE;
-import static com.example.zoron.carbom.Entry.INDEX.STAGE;
-import static com.example.zoron.carbom.Entry.INDEX.STATUS;
-import static com.example.zoron.carbom.Entry.INDEX.TIME;
-import static com.example.zoron.carbom.Entry.INDEX.TYPE;
+import static com.example.zoron.carbom.data.Entry.INDEX.*;
 
 /**
  * Created by zoron on 17-5-11.

@@ -1,11 +1,8 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.zoron.carbom.R;
+import com.example.zoron.carbom.data.*;
 
 public class MainActivity extends AppCompatActivity implements UncaughtExceptionHandler, View.OnClickListener {
     public enum FG_ID {

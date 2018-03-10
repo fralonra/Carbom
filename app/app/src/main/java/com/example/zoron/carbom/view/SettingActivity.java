@@ -1,4 +1,4 @@
-package com.example.zoron.carbom;
+package com.example.zoron.carbom.view;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,8 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.zoron.carbom.R;
 
 /**
  * Created by zoron on 17-3-23.
