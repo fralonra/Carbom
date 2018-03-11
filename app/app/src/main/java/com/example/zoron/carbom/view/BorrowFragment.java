@@ -219,7 +219,7 @@ public class BorrowFragment extends BaseFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        loanBack(status.getText().toString(), note.getText().toString().replaceAll("\\n", "n"));
+                        loanBack(status.getText().toString(), note.getText().toString().replaceAll("\\n", "。"));
                         closeFragment();
                     }
                 })

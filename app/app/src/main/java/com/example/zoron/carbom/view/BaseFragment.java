@@ -100,7 +100,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected void getInput(final Entry.INDEX index, EditText editText) {
         if (!Utils.isTextViewEmpty(editText)) {
             if (mapToWrite != null) {
-                mapToWrite.put(index, editText.getText().toString().trim().replaceAll("\\n", "n"));
+                mapToWrite.put(index, editText.getText().toString().trim().replaceAll("\\n", "。"));
             } else {
                 Log.d("mapToWrite", "mapToWrite is null");
             }

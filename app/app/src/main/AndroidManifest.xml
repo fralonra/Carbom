@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,23 +20,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingActivity"
+            android:name=".view.SettingActivity"
             android:label="@string/title_activity_setting" />
         <activity
-            android:name=".QueryActivity"
+            android:name=".view.QueryActivity"
             android:label="@string/title_activity_query" />
         <activity
-            android:name=".InActivity"
+            android:name=".view.InActivity"
             android:label="@string/title_activity_in" />
         <activity
-            android:name=".OutActivity"
+            android:name=".view.OutActivity"
             android:label="@string/title_activity_out" />
         <activity
-            android:name=".BorrowActivity"
+            android:name=".view.BorrowActivity"
             android:label="@string/title_activity_borrow" />
         <activity
-            android:name=".StockActivity"
+            android:name=".view.StockActivity"
             android:label="@string/title_activity_stock" />
+        <receiver android:name=".service.BackupService" />
     </application>
 
 </manifest>

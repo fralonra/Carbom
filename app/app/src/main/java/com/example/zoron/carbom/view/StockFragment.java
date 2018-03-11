@@ -189,15 +189,7 @@ public class StockFragment extends ScanFragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Integer i = 0; i < 3; i++) {
-                    String epc = csv.getEntry(i).get(Entry.INDEX.EPC);
-                    Map<String, String> map = new HashMap<>();
-                    map.put("ID", "");
-                    map.put("EPC", epc);
-                    listEPC.add(epc);
-                    listMap.add(map);
-                }
-                /* DEBUG0306 stocking = !stocking;
+                stocking = !stocking;
                 if (stocking) {
                     if (location.getVisibility() == View.VISIBLE) {
                         location.setVisibility(View.GONE);
@@ -219,7 +211,7 @@ public class StockFragment extends ScanFragment {
                         stockWayDialog.show();
                     }
                     scan.setText(R.string.start_scan);
-                } */
+                }
             }
         });
         export.setOnClickListener(new View.OnClickListener() {

@@ -1,7 +1,11 @@
 package com.example.zoron.carbom.view;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Calendar;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.widget.Button;
 
 import com.example.zoron.carbom.R;
 import com.example.zoron.carbom.data.*;
+import com.example.zoron.carbom.service.BackupService;
 
 public class MainActivity extends AppCompatActivity implements UncaughtExceptionHandler, View.OnClickListener {
     public enum FG_ID {
@@ -29,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements UncaughtException
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(this);
+
+        initTask();
 
         setContentView(R.layout.activity_main);
 
@@ -100,6 +107,18 @@ public class MainActivity extends AppCompatActivity implements UncaughtException
                 break;
             default:
                 break;
+        }
+    }
+
+    private void initTask() {
+        Intent taskIntent = new Intent(this, BackupService.class);
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, taskIntent, 0);
+
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+
+        if (am != null) {
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
         }
     }
 }

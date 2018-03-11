@@ -68,14 +68,14 @@ public class ScanFragment extends Fragment {
         super.onCreate(savedInstanceState);
         csv = BaseActivity.reader;
 
-        // DEBUG0306 reader = UhfReader.getInstance();
+        reader = UhfReader.getInstance();
         listEPC = new ArrayList<>();
         listMap = new ArrayList<>();
         Utils.initSoundPool(getContext());
 
         if (thread == null) {
-            // DEBUG0306 thread = new InventoryThread();
-            // DEBUG0306 thread.start();
+            thread = new InventoryThread();
+            thread.start();
         }
     }
 
@@ -103,15 +103,7 @@ public class ScanFragment extends Fragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Integer i = 0; i < 3; i++) {
-                    String epc = csv.getEntry(i).get(Entry.INDEX.EPC);
-                    Map<String, String> map = new HashMap<>();
-                    map.put("ID", "");
-                    map.put("EPC", epc);
-                    listEPC.add(epc);
-                    listMap.add(map);
-                }
-                /* DEBUG0306 stocking = !stocking;
+                stocking = !stocking;
                 if (stocking) {
                     scan.setText(R.string.stop_scan);
                     if (ok.isClickable()) {
@@ -122,7 +114,7 @@ public class ScanFragment extends Fragment {
                     if (!listMap.isEmpty()) {
                         setButtonClickable(ok, true);
                     }
-                } */
+                }
             }
         });
 

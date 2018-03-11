@@ -260,6 +260,10 @@ public class CsvReader {
     }
 
     // 写入文件
+    public void writeToFile(File file) {
+        writeThread.writeToFile(dataToText(), file);
+    }
+
     private void write() {
         writeThread.write(dataToText(), false);
     }
@@ -278,15 +282,23 @@ public class CsvReader {
 
     private class WriteThread extends Thread {
 
-        private void write(String content, boolean append) {
+        private void write(String content, boolean append, File file) {
             FileOutputStream os;
             try {
-                os = new FileOutputStream(csv, append);
+                os = new FileOutputStream(file, append);
                 os.write(content.getBytes());
                 os.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        private void write(String content, boolean append) {
+            write(content, append, csv);
+        }
+
+        private void writeToFile(String content, File file) {
+            write(content, false, file);
         }
     }
 }
